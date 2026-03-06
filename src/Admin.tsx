@@ -193,7 +193,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
         { id: 'history', label: 'A Nossa História', icon: History },
         { id: 'menu', label: 'Menu & Destaques', icon: Utensils },
         { id: 'gallery', label: 'Galeria', icon: ImageIcon },
-        { id: 'contact', label: 'Contacto', icon: MapPin },
+        { id: 'contact', label: 'Contato', icon: MapPin },
         { id: 'reservations', label: 'Reservas', icon: Calendar },
     ];
 
@@ -859,7 +859,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                     <div className="space-y-6">
                                         <div className="space-y-4">
                                             <h4 className="text-sm font-bold text-gold flex items-center gap-2">
-                                                <MapPin className="w-4 h-4" /> Localização & Contacto
+                                                <MapPin className="w-4 h-4" /> Localização & Contato
                                             </h4>
                                             <div className="space-y-4">
                                                 <div>

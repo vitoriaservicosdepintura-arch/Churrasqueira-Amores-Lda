@@ -197,7 +197,7 @@ const NAV_LINKS = [
   { label: 'Menu', href: '#menu' },
   { label: 'Galeria', href: '#gallery' },
   { label: 'Críticas', href: '#reviews' },
-  { label: 'Contacto', href: '#contact' },
+  { label: 'Contato', href: '#contact' },
 ];
 
 /* ═══════════════════════════════════════════
@@ -1037,7 +1037,7 @@ function Contact({ config }: { config: any }) {
     },
     {
       icon: '📞',
-      title: 'Contacto',
+      title: 'Contato',
       gradient: 'from-flame to-ember',
       shadowColor: 'shadow-ember/20',
       content: (
