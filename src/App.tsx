@@ -1186,7 +1186,7 @@ function Footer({ config }: { config: any }) {
 
           {/* Links */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200">Navegação</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">🧭</span> Navegação</h4>
             <div className="space-y-2.5">
               {NAV_LINKS.map((link) => (
                 <a
@@ -1202,7 +1202,7 @@ function Footer({ config }: { config: any }) {
 
           {/* Info */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200">Informações</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">ℹ️</span> Informações</h4>
             <div className="space-y-2.5 text-sm text-gray-400">
               {config.footer?.info?.map((info: string) => (
                 <p key={info}>{info}</p>
@@ -1212,7 +1212,7 @@ function Footer({ config }: { config: any }) {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200">Serviços</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">⭐</span> Serviços</h4>
             <div className="space-y-2.5 text-sm text-gray-400">
               {config.footer?.services?.map((svc: string) => (
                 <p key={svc}>{svc}</p>
