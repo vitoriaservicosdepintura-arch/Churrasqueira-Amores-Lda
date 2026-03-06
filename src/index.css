@@ -17,11 +17,41 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  overscroll-behavior-y: none;
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: #030825;
   color: #ffffff;
   overflow-x: hidden;
+  /* Fix touch-action and click delay on mobile */
+  touch-action: manipulation;
+  /* Disable highlight color on iOS/Android */
+  -webkit-tap-highlight-color: transparent;
+  /* Apple Safe Area support */
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Base button optimization for touch */
+button,
+a {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  outline: none;
+}
+
+/* iOS sticky hover fix - ensures hover only works on devices that support it */
+@media (hover: hover) {
+  .hover-effect:hover {
+    /* transition properties already defined in components */
+  }
 }
 
 /* Ember fire particles */
@@ -30,12 +60,15 @@ body {
     transform: translateY(0) translateX(0) scale(1);
     opacity: 0;
   }
+
   10% {
     opacity: 1;
   }
+
   90% {
     opacity: 0.5;
   }
+
   100% {
     transform: translateY(-100vh) translateX(40px) scale(0);
     opacity: 0;
@@ -43,18 +76,37 @@ body {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
 }
 
 @keyframes shimmer-slide {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes float-gentle {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(2deg); }
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
 }
 
 .ember-particle {
@@ -98,23 +150,52 @@ body {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #030825;
 }
+
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #831df6, #f97316);
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #b146fe, #f59e0b);
 }
 
-/* Glass effect */
+/* Prevent iOS Zoom on focus for inputs with font-size < 16px */
+@media screen and (max-width: 768px) {
+
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Button active states for touch feedback */
+button:active,
+.btn:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+/* Scrollbar refinement for Firefox and IE */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #831df6 #030825;
+}
+
+/* Glass effect refinements for older WebKit browsers */
 .glass {
   background: rgba(11, 18, 53, 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  /* Fix for older Safari and hardware acceleration */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* Fire glow behind elements */
@@ -137,6 +218,7 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
