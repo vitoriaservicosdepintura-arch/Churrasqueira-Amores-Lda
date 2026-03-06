@@ -142,6 +142,38 @@ const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange,
     </div>
 );
 
+const LogoPreview = ({ config, getTextStyle }: { config: any, getTextStyle: any }) => {
+    const siteTitleParts = config.hero?.title?.split(' ') || ['Churrasqueira', 'Amores'];
+    const firstPart = siteTitleParts[0];
+    const lastPart = siteTitleParts.slice(1).join(' ');
+
+    return (
+        <div className="flex flex-col items-center justify-center p-6 mb-6 bg-deep/30 rounded-3xl border border-white/5 shadow-inner">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 mb-4 overflow-hidden border-2 border-white/10">
+                {config.logoIsImage ? (
+                    <img src={config.logo} alt="Logo Preview" className="w-full h-full object-cover" />
+                ) : (
+                    <span className="text-4xl">{config.logo || '🔥'}</span>
+                )}
+            </div>
+            <div className="text-center">
+                <div className="text-sm font-black flex flex-wrap justify-center gap-1 leading-tight">
+                    <span style={getTextStyle(config.hero?.titleColor)} className="whitespace-nowrap">
+                        {firstPart}
+                    </span>
+                    <span
+                        className={!config.hero?.titleColor ? "text-gold" : "whitespace-nowrap"}
+                        style={!config.hero?.titleColor ? {} : getTextStyle(config.hero?.titleColor)}
+                    >
+                        {lastPart}
+                    </span>
+                </div>
+                <p className="text-[9px] text-gray-500 uppercase tracking-widest mt-1 font-bold">Pré-visualização Intro</p>
+            </div>
+        </div>
+    );
+};
+
 export default function Admin({ onClose, config, onUpdate }: AdminProps) {
     const [activeTab, setActiveTab] = useState('general');
     const [localConfig, setLocalConfig] = useState(config);
@@ -425,6 +457,8 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                         </div>
                         <h2 className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Painel Adm</h2>
                     </div>
+
+                    <LogoPreview config={localConfig} getTextStyle={getTextStyle} />
 
                     <nav className="flex md:flex-col gap-1.5 flex-1 overflow-x-auto md:overflow-y-auto no-scrollbar pb-2 md:pb-0">
                         {tabs.map(tab => (
