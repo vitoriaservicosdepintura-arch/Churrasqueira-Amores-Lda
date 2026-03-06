@@ -125,13 +125,17 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
 
         setIsSaving(true);
         try {
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random()}.${fileExt}`;
-            const filePath = `uploads/${fileName}`;
+            // Gerar um nome de ficheiro limpo (apenas letras, números e extensão)
+            const fileExt = file.name.split('.').pop()?.toLowerCase() || 'png';
+            const cleanFileName = `${Date.now()}-${Math.floor(Math.random() * 1000)}.${fileExt}`;
+            const filePath = `uploads/${cleanFileName}`;
 
             const { error: uploadError } = await supabase.storage
                 .from('site-assets')
-                .upload(filePath, file);
+                .upload(filePath, file, {
+                    cacheControl: '3600',
+                    upsert: false
+                });
 
             if (uploadError) throw uploadError;
 
@@ -139,7 +143,8 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                 .from('site-assets')
                 .getPublicUrl(filePath);
 
-            const newUrl = data.publicUrl;
+            // Adicionar um timestamp para evitar problemas de cache no navegador
+            const newUrl = `${data.publicUrl}?t=${Date.now()}`;
 
             setLocalConfig(prev => {
                 const updated = JSON.parse(JSON.stringify(prev));
@@ -156,12 +161,14 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                 return updated;
             });
 
-            setMessage({ type: 'success', text: 'Imagem enviada!' });
+            setMessage({ type: 'success', text: 'Imagem enviada com sucesso!' });
         } catch (err: any) {
             console.error(err);
             setMessage({ type: 'error', text: 'Erro no upload: ' + err.message });
         } finally {
             setIsSaving(false);
+            // Limpar o input para permitir subir o mesmo ficheiro novamente se necessário
+            e.target.value = '';
         }
     };
 
@@ -374,7 +381,17 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             <div className="flex items-center gap-4">
                                                 <div className="w-16 h-16 bg-deep border border-white/10 rounded-xl flex items-center justify-center text-2xl overflow-hidden shadow-inner">
                                                     {localConfig.logoIsImage ? (
-                                                        <img src={localConfig.logo} alt="Logo Preview" className="w-full h-full object-cover" />
+                                                        <img
+                                                            src={localConfig.logo}
+                                                            alt="Logo Preview"
+                                                            className="w-full h-full object-cover"
+                                                            onError={() => {
+                                                                // Se a imagem falhar o carregamento, volta ao emoji para não deixar o campo vazio
+                                                                updateField(['logo'], '🔥');
+                                                                updateField(['logoIsImage'], false);
+                                                                setMessage({ type: 'error', text: 'Erro ao carregar imagem do Logo. Revertendo para ícone padrão.' });
+                                                            }}
+                                                        />
                                                     ) : (
                                                         <span>{localConfig.logo || '🔥'}</span>
                                                     )}
