@@ -1571,14 +1571,22 @@ export default function App() {
                 <span className="text-5xl">{config.logo || '🔥'}</span>
               )}
             </motion.div>
-            <motion.p
-              className="text-lg font-bold text-gradient-fire"
+            <motion.div
+              className="text-2xl font-black flex items-center gap-2"
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity }}
               aria-live="polite"
             >
-              {config.hero?.title}
-            </motion.p>
+              <span style={getTextStyle(config.hero?.titleColor)}>
+                {(config.hero?.title?.split(' ') || ['Churrasqueira', 'Amores'])[0]}
+              </span>
+              <span
+                className={!config.hero?.titleColor ? "text-gold" : ""}
+                style={!config.hero?.titleColor ? {} : getTextStyle(config.hero?.titleColor)}
+              >
+                {(config.hero?.title?.split(' ') || ['Churrasqueira', 'Amores']).slice(1).join(' ')}
+              </span>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
