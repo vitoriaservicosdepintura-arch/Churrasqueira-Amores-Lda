@@ -112,7 +112,8 @@ const DEFAULT_CONFIG = {
       { day: 'Domingo', time: '12:00 – 21:00' }
     ],
     phone: '282 798 417',
-    facebook: 'https://facebook.com'
+    facebook: 'https://facebook.com',
+    email: ''
   },
   footer: {
     info: [
