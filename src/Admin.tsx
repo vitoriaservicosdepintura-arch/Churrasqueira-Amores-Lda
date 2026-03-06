@@ -463,7 +463,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
             <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={onClose} />
 
             {/* Container */}
-            <div className="relative bg-surface w-full max-w-5xl h-[85vh] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 flex flex-col md:flex-row">
+            <div className="relative bg-surface w-full max-w-7xl h-[92vh] rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.6)] border border-white/10 flex flex-col md:flex-row">
 
                 {/* Sidebar */}
                 <div className="w-full md:w-64 bg-deep/50 border-b md:border-b-0 md:border-r border-white/5 p-4 md:p-6 flex flex-col shrink-0">
