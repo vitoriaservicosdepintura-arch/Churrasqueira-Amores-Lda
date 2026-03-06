@@ -3,16 +3,144 @@ import { supabase } from './supabase';
 import type { Session } from '@supabase/supabase-js';
 import {
     X, Save, Upload, Trash2, Edit3, Image as ImageIcon,
-    Settings, History, Utensils, Layout, MapPin,
+    Settings, History, Utensils, MapPin,
     AlertCircle, Loader2, Plus, Globe, Sparkles,
-    Calendar, CheckCircle, Clock, Users, Phone, Mail, MessageCircle, ChevronLeft, ChevronRight, LogOut, Lock
+    Calendar, CheckCircle, Clock, Users, Phone, Mail, MessageCircle, ChevronLeft, LogOut, Lock,
+    Palette, Droplets, Paintbrush, RotateCcw
 } from 'lucide-react';
+
+const ADMIN_COLORS = {
+    vivid: ['#f59e0b', '#f97316', '#ef4444', '#831df6', '#2563eb', '#10b981', '#f43f5e', '#d946ef'],
+    matte: ['#94a3b8', '#64748b', '#cbd5e1', '#e2e8f0', '#9ca3af', '#4b5563', '#a5f3fc', '#fef08a'],
+    gradients: [
+        'linear-gradient(135deg, #f59e0b, #f97316)',
+        'linear-gradient(135deg, #ef4444, #f97316)',
+        'linear-gradient(135deg, #831df6, #b146fe)',
+        'linear-gradient(135deg, #030825, #111841)',
+        'linear-gradient(135deg, #2563eb, #10b981)',
+        'linear-gradient(135deg, #ec4899, #8b5cf6)',
+        'linear-gradient(135deg, #f0abfc, #f9a8d4)',
+        'linear-gradient(135deg, #fbbf24, #f59e0b)'
+    ]
+};
 
 interface AdminProps {
     onClose: () => void;
     config: any;
     onUpdate: (newConfig: any) => void;
 }
+
+const ColorMixer = ({ current, onChange }: { current: string, onChange: (color: string) => void }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <div className="relative">
+            <button
+                onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}
+                className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl border-2 transition-all shadow-[0_8px_20px_-8px_rgba(0,0,0,0.3)] group ${isOpen ? 'bg-gold border-gold text-deep scale-105' : 'bg-deep/80 border-white/10 text-gold hover:border-gold/40 hover:scale-[1.03]'
+                    }`}
+                style={{ background: !isOpen && current.includes('gradient') ? current : '' }}
+                title="Personalizar Cores e Degradês"
+            >
+                <div className="relative">
+                    <Palette className={`w-5 h-5 ${!isOpen && current.includes('gradient') ? 'text-white' : ''}`} />
+                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-flame rounded-full animate-pulse border border-deep" />
+                </div>
+                <div className="flex flex-col items-start leading-none">
+                    <span className="text-[10px] font-black uppercase tracking-widest mb-0.5">Estúdio de</span>
+                    <span className={`text-[11px] font-extrabold ${isOpen ? 'text-deep' : 'text-white'}`}>Cores Vivas</span>
+                </div>
+            </button>
+
+            {isOpen && (
+                <>
+                    <div className="fixed inset-0 z-[300]" onClick={() => setIsOpen(false)} />
+                    <div className="absolute top-full right-0 mt-2 z-[301] w-64 glass rounded-2xl p-4 shadow-2xl border border-white/10 animate-in fade-in zoom-in duration-200">
+                        <div className="space-y-4">
+                            <div>
+                                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                    <Sparkles className="w-3 h-3 text-gold" /> Cores Vivas
+                                </h4>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {ADMIN_COLORS.vivid.map(c => (
+                                        <button key={c} onClick={() => { onChange(c); setIsOpen(false); }} className="w-8 h-8 rounded-lg shadow-inner hover:scale-110 transition-transform" style={{ backgroundColor: c }} />
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                    <Paintbrush className="w-3 h-3 text-gray-400" /> Tons Mate / Foscas
+                                </h4>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {ADMIN_COLORS.matte.map(c => (
+                                        <button key={c} onClick={() => { onChange(c); setIsOpen(false); }} className="w-8 h-8 rounded-lg shadow-inner hover:scale-110 transition-transform" style={{ backgroundColor: c }} />
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                    <Droplets className="w-3 h-3 text-royal" /> Degradês de Luxo
+                                </h4>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {ADMIN_COLORS.gradients.map(c => (
+                                        <button key={c} onClick={() => { onChange(c); setIsOpen(false); }} className="h-10 rounded-lg shadow-md hover:scale-[1.03] transition-transform border border-white/5" style={{ background: c }} />
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="pt-2 border-t border-white/10 space-y-4">
+                                <div>
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Misturador Manual</label>
+                                    <input
+                                        type="color"
+                                        className="w-full h-10 rounded-lg bg-deep border-none cursor-pointer"
+                                        onChange={(e) => onChange(e.target.value)}
+                                        value={current.startsWith('#') ? current : '#f59e0b'}
+                                    />
+                                </div>
+
+                                <button
+                                    onClick={(e) => { e.preventDefault(); onChange(''); setIsOpen(false); }}
+                                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
+                                >
+                                    <RotateCcw className="w-3.5 h-3.5 text-gray-400 group-hover:text-gold transition-colors" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">Voltar Cor Padrão</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+        </div>
+    );
+};
+
+const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange, rows = 1 }: any) => (
+    <div className="space-y-2">
+        <div className="flex items-center justify-between px-1">
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">{label}</label>
+            <ColorMixer current={color || '#ffffff'} onChange={onColorChange} />
+        </div>
+        {rows > 1 ? (
+            <textarea
+                value={value}
+                onChange={(e) => onTextChange(e.target.value)}
+                rows={rows}
+                className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none min-h-[100px]"
+                style={{ color: !color?.includes('gradient') ? color : 'white' }}
+            />
+        ) : (
+            <input
+                type="text"
+                value={value}
+                onChange={(e) => onTextChange(e.target.value)}
+                className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none"
+                style={{ color: !color?.includes('gradient') ? color : 'white' }}
+            />
+        )}
+    </div>
+);
 
 export default function Admin({ onClose, config, onUpdate }: AdminProps) {
     const [activeTab, setActiveTab] = useState('general');
@@ -298,27 +426,23 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                         <h2 className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Painel Adm</h2>
                     </div>
 
-                    <nav className="space-y-1.5 flex-1 overflow-y-auto">
+                    <nav className="flex md:flex-col gap-1.5 flex-1 overflow-x-auto md:overflow-y-auto no-scrollbar pb-2 md:pb-0">
                         {tabs.map(tab => (
                             <button
                                 key={tab.id}
-                                onClick={() => {
-                                    setActiveTab(tab.id);
-                                    if (tab.id === 'reservations' && unreadCount > 0) {
-                                        // Optional: mark all as read when opening tab
-                                    }
-                                }}
-                                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${activeTab === tab.id
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 min-w-fit md:min-w-0 ${activeTab === tab.id
                                     ? 'bg-gold/10 text-gold shadow-[inset_0_0_20px_rgba(245,158,11,0.05)] border border-gold/20'
                                     : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
                                     }`}
+                                aria-label={`Abrir aba ${tab.label}`}
                             >
                                 <div className="flex items-center gap-3">
                                     <tab.icon className="w-4 h-4" />
-                                    {tab.label}
+                                    <span className="whitespace-nowrap">{tab.label}</span>
                                 </div>
                                 {tab.id === 'reservations' && unreadCount > 0 && (
-                                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-bold text-white shadow-lg animate-pulse">
+                                    <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-bold text-white shadow-lg animate-pulse">
                                         {unreadCount}
                                     </span>
                                 )}
@@ -434,13 +558,13 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Nome Principal (Site)</label>
-                                        <input
-                                            type="text"
+                                    <div className="space-y-4">
+                                        <TextEditorWithColor
+                                            label="Nome Principal (Site)"
                                             value={localConfig.hero?.title || ''}
-                                            onChange={(e) => updateField(['hero', 'title'], e.target.value)}
-                                            className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none"
+                                            color={localConfig.hero?.titleColor}
+                                            onTextChange={(val: string) => updateField(['hero', 'title'], val)}
+                                            onColorChange={(col: string) => updateField(['hero', 'titleColor'], col)}
                                         />
                                     </div>
                                 </div>
@@ -449,24 +573,21 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
 
                         {activeTab === 'hero' && (
                             <div className="space-y-6">
-                                <div className="space-y-4">
-                                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Texto Principal (Hero)</label>
-                                    <input
-                                        type="text"
-                                        value={localConfig.hero?.title || ''}
-                                        onChange={(e) => updateField(['hero', 'title'], e.target.value)}
-                                        className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none"
-                                        placeholder="Churrasqueira Amores"
-                                    />
-                                </div>
-                                <div className="space-y-4">
-                                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Subtítulo</label>
-                                    <textarea
-                                        value={localConfig.hero?.subtitle || ''}
-                                        onChange={(e) => updateField(['hero', 'subtitle'], e.target.value)}
-                                        className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none min-h-[100px]"
-                                    />
-                                </div>
+                                <TextEditorWithColor
+                                    label="Texto Principal (Hero)"
+                                    value={localConfig.hero?.title || ''}
+                                    color={localConfig.hero?.titleColor}
+                                    onTextChange={(val: string) => updateField(['hero', 'title'], val)}
+                                    onColorChange={(col: string) => updateField(['hero', 'titleColor'], col)}
+                                />
+                                <TextEditorWithColor
+                                    label="Subtítulo"
+                                    value={localConfig.hero?.subtitle || ''}
+                                    color={localConfig.hero?.subtitleColor}
+                                    rows={3}
+                                    onTextChange={(val: string) => updateField(['hero', 'subtitle'], val)}
+                                    onColorChange={(col: string) => updateField(['hero', 'subtitleColor'], col)}
+                                />
                                 <div className="space-y-4">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Imagem de Fundo</label>
                                     <div className="relative group rounded-2xl overflow-hidden aspect-video bg-deep border border-white/5 flex items-center justify-center">
@@ -500,41 +621,37 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                         {activeTab === 'history' && (
                             <div className="space-y-6">
                                 <div className="grid md:grid-cols-2 gap-6">
-                                    <div className="space-y-4">
-                                        <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Título (Badge)</label>
-                                        <input
-                                            type="text"
-                                            value={localConfig.about?.badge || 'A Nossa História'}
-                                            onChange={(e) => updateField(['about', 'badge'], e.target.value)}
-                                            className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none"
-                                        />
-                                    </div>
-                                    <div className="space-y-4">
-                                        <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Título Principal</label>
-                                        <input
-                                            type="text"
-                                            value={localConfig.about?.title || ''}
-                                            onChange={(e) => updateField(['about', 'title'], e.target.value)}
-                                            className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="space-y-4">
-                                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Texto 1</label>
-                                    <textarea
-                                        value={localConfig.about?.text1 || ''}
-                                        onChange={(e) => updateField(['about', 'text1'], e.target.value)}
-                                        className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none min-h-[100px]"
+                                    <TextEditorWithColor
+                                        label="Título (Badge)"
+                                        value={localConfig.about?.badge || 'A Nossa História'}
+                                        color={localConfig.about?.badgeColor}
+                                        onTextChange={(val: string) => updateField(['about', 'badge'], val)}
+                                        onColorChange={(col: string) => updateField(['about', 'badgeColor'], col)}
+                                    />
+                                    <TextEditorWithColor
+                                        label="Título Principal"
+                                        value={localConfig.about?.title || ''}
+                                        color={localConfig.about?.titleColor}
+                                        onTextChange={(val: string) => updateField(['about', 'title'], val)}
+                                        onColorChange={(col: string) => updateField(['about', 'titleColor'], col)}
                                     />
                                 </div>
-                                <div className="space-y-4">
-                                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Texto 2</label>
-                                    <textarea
-                                        value={localConfig.about?.text2 || ''}
-                                        onChange={(e) => updateField(['about', 'text2'], e.target.value)}
-                                        className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none min-h-[100px]"
-                                    />
-                                </div>
+                                <TextEditorWithColor
+                                    label="Texto 1"
+                                    value={localConfig.about?.text1 || ''}
+                                    color={localConfig.about?.text1Color}
+                                    rows={4}
+                                    onTextChange={(val: string) => updateField(['about', 'text1'], val)}
+                                    onColorChange={(col: string) => updateField(['about', 'text1Color'], col)}
+                                />
+                                <TextEditorWithColor
+                                    label="Texto 2"
+                                    value={localConfig.about?.text2 || ''}
+                                    color={localConfig.about?.text2Color}
+                                    rows={4}
+                                    onTextChange={(val: string) => updateField(['about', 'text2'], val)}
+                                    onColorChange={(col: string) => updateField(['about', 'text2Color'], col)}
+                                />
                                 <div className="space-y-4">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Imagem da História</label>
                                     <div className="relative group rounded-2xl overflow-hidden h-64 bg-deep border border-white/5 flex items-center justify-center">
@@ -608,18 +725,21 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             </div>
                                             <div className="p-5 space-y-4 bg-deep/40 flex-1">
                                                 <div className="grid grid-cols-2 gap-4">
-                                                    <div className="space-y-1">
-                                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Nome</label>
-                                                        <input
-                                                            value={item.name}
-                                                            onChange={(e) => {
-                                                                const items = [...localConfig.menuItems];
-                                                                items[idx].name = e.target.value;
-                                                                updateField(['menuItems'], items);
-                                                            }}
-                                                            className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 text-sm font-bold outline-none focus:border-gold"
-                                                        />
-                                                    </div>
+                                                    <TextEditorWithColor
+                                                        label="Nome"
+                                                        value={item.name}
+                                                        color={item.nameColor}
+                                                        onTextChange={(val: string) => {
+                                                            const items = [...localConfig.menuItems];
+                                                            items[idx].name = val;
+                                                            updateField(['menuItems'], items);
+                                                        }}
+                                                        onColorChange={(col: string) => {
+                                                            const items = [...localConfig.menuItems];
+                                                            items[idx].nameColor = col;
+                                                            updateField(['menuItems'], items);
+                                                        }}
+                                                    />
                                                     <div className="space-y-1">
                                                         <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Preço (€)</label>
                                                         <div className="relative">
@@ -638,18 +758,22 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="space-y-1">
-                                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Descrição</label>
-                                                    <textarea
-                                                        value={item.description}
-                                                        onChange={(e) => {
-                                                            const items = [...localConfig.menuItems];
-                                                            items[idx].description = e.target.value;
-                                                            updateField(['menuItems'], items);
-                                                        }}
-                                                        className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 text-xs text-gray-300 min-h-[60px] outline-none focus:border-gold"
-                                                    />
-                                                </div>
+                                                <TextEditorWithColor
+                                                    label="Descrição"
+                                                    value={item.description}
+                                                    color={item.descColor}
+                                                    rows={2}
+                                                    onTextChange={(val: string) => {
+                                                        const items = [...localConfig.menuItems];
+                                                        items[idx].description = val;
+                                                        updateField(['menuItems'], items);
+                                                    }}
+                                                    onColorChange={(col: string) => {
+                                                        const items = [...localConfig.menuItems];
+                                                        items[idx].descColor = col;
+                                                        updateField(['menuItems'], items);
+                                                    }}
+                                                />
                                                 <div className="grid grid-cols-2 gap-4">
                                                     <div className="space-y-1">
                                                         <div className="flex justify-between items-center pl-1">
@@ -868,24 +992,20 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                 {/* Top Content */}
                                 <div className="space-y-6">
                                     <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="space-y-4">
-                                            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Título da Seção (Venha Conhecer-nos)</label>
-                                            <input
-                                                type="text"
-                                                value={localConfig.contact?.title || ''}
-                                                onChange={(e) => updateField(['contact', 'title'], e.target.value)}
-                                                className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none"
-                                            />
-                                        </div>
-                                        <div className="space-y-4">
-                                            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Texto Auxiliar</label>
-                                            <input
-                                                type="text"
-                                                value={localConfig.contact?.text || ''}
-                                                onChange={(e) => updateField(['contact', 'text'], e.target.value)}
-                                                className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none"
-                                            />
-                                        </div>
+                                        <TextEditorWithColor
+                                            label="Título da Seção (Venha Conhecer-nos)"
+                                            value={localConfig.contact?.title || ''}
+                                            color={localConfig.contact?.titleColor}
+                                            onTextChange={(val: string) => updateField(['contact', 'title'], val)}
+                                            onColorChange={(col: string) => updateField(['contact', 'titleColor'], col)}
+                                        />
+                                        <TextEditorWithColor
+                                            label="Texto Auxiliar"
+                                            value={localConfig.contact?.text || ''}
+                                            color={localConfig.contact?.textColor}
+                                            onTextChange={(val: string) => updateField(['contact', 'text'], val)}
+                                            onColorChange={(col: string) => updateField(['contact', 'textColor'], col)}
+                                        />
                                     </div>
                                 </div>
 

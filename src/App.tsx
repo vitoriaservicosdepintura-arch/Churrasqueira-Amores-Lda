@@ -17,6 +17,23 @@ import {
    DATA
    ═══════════════════════════════════════════ */
 
+
+
+const getTextStyle = (color: string) => {
+  if (!color) return {};
+  if (color.includes('gradient')) {
+    return {
+      background: color,
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
+      color: 'transparent',
+      display: 'inline-block'
+    };
+  }
+  return { color };
+};
+
 /* ═══════════════════════════════════════════
    DEFAULT CONFIG
    ═══════════════════════════════════════════ */
@@ -28,7 +45,8 @@ const DEFAULT_CONFIG = {
     title: 'Churrasqueira Amores',
     badge: 'Desde 2009 • Odiáxere, Algarve',
     subtitle: 'O autêntico sabor do frango na brasa. Uma joia escondida no coração do Algarve, onde a tradição e o sabor se encontram.',
-    bgImage: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&h=1080&fit=crop&q=80'
+    bgImage: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&h=1080&fit=crop&q=80',
+    ctaText: 'Reservar Mesa'
   },
   about: {
     badge: 'A Nossa História',
@@ -262,17 +280,26 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 }
 
 function EmberParticles() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const embers = useMemo(
     () =>
-      Array.from({ length: 35 }, (_, i) => ({
+      Array.from({ length: isMobile ? 12 : 35 }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
-        size: Math.random() * 4 + 1.5,
+        size: Math.random() * (isMobile ? 3 : 4) + 1.5,
         duration: Math.random() * 8 + 5,
         delay: Math.random() * 6,
         color: ['#f59e0b', '#f97316', '#ef4444', '#fbbf24', '#fb923c'][Math.floor(Math.random() * 5)],
       })),
-    []
+    [isMobile]
   );
 
   return (
@@ -329,14 +356,14 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
           <motion.a href="#hero" className="flex items-center gap-2.5 group" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/30 group-hover:shadow-flame/50 transition-shadow duration-300 overflow-hidden">
               {config.logoIsImage ? (
-                <img src={config.logo} alt="Logo" className="w-full h-full object-cover" />
+                <img src={config.logo} alt={`Logótipo ${config.hero?.title}`} className="w-full h-full object-cover" />
               ) : (
-                <span className="text-lg">{config.logo || '🔥'}</span>
+                <span className="text-lg" aria-hidden="true">{config.logo || '🔥'}</span>
               )}
             </div>
             <div className="hidden sm:block">
-              <span className="text-base font-bold tracking-tight">{firstPart}</span>
-              <span className="text-gold font-extrabold ml-1">{lastPart}</span>
+              <span className="text-base font-bold tracking-tight" style={getTextStyle(config.hero?.titleColor)}>{firstPart}</span>
+              <span className="text-gold font-extrabold ml-1" style={!config.hero?.titleColor ? {} : getTextStyle(config.hero?.titleColor)}>{lastPart}</span>
             </div>
           </motion.a>
 
@@ -369,13 +396,14 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
               className="ml-2 px-5 py-2.5 bg-gradient-to-r from-gold via-flame to-ember rounded-full text-sm font-bold text-white shadow-lg shadow-flame/25 hover:shadow-flame/50 transition-all duration-300 cursor-pointer"
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.95 }}
+              aria-label="Reservar uma mesa"
             >
               📞 Reservar
             </motion.button>
           </div>
 
           {/* Mobile hamburger */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 text-white relative z-50" aria-label="Menu">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-3 -mr-2 text-white relative z-50 rounded-xl hover:bg-white/5 transition-colors" aria-label="Abrir menu de navegação">
             <div className="w-6 h-5 flex flex-col justify-between">
               <span className={`block w-full h-0.5 bg-white rounded transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-[9px]' : ''}`} />
               <span className={`block w-full h-0.5 bg-white rounded transition-all duration-300 ${menuOpen ? 'opacity-0 scale-0' : ''}`} />
@@ -414,7 +442,8 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
                   setMenuOpen(false);
                   (window as any).openReservationModal();
                 }}
-                className="block w-full text-center px-6 py-3.5 bg-gradient-to-r from-gold to-flame rounded-full text-base font-bold text-white shadow-lg mt-4 cursor-pointer"
+                className="block w-full text-center px-6 py-4 bg-gradient-to-r from-gold to-flame rounded-full text-base font-bold text-white shadow-lg mt-4 cursor-pointer active:scale-95 transition-transform"
+                aria-label="Fazer uma reserva rápida"
               >
                 📞 Reservar Agora
               </button>
@@ -472,24 +501,24 @@ function Hero({ config }: { config: any }) {
       <motion.div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4" style={{ opacity: contentOpacity, y: contentY }}>
         {/* Badge */}
         <motion.div initial={{ opacity: 0, scale: 0.7, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="mb-8">
-          <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold/10 border border-gold/25 rounded-full text-gold text-sm font-semibold backdrop-blur-sm shadow-lg shadow-gold/5">
+          <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold/10 border border-gold/25 rounded-full text-gold text-sm font-semibold backdrop-blur-sm shadow-lg shadow-gold/5" style={getTextStyle(config.hero?.badgeColor)}>
             <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
             {config.hero?.badge}
           </span>
         </motion.div>
 
         {/* Title */}
-        <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} className="mb-6">
-          <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tight text-white">
+        <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} className="mb-6 px-2">
+          <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tight text-white" style={getTextStyle(config.hero?.titleColor)}>
             {firstPart}
           </span>
-          <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tight text-gradient-fire mt-2">
+          <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tight text-gradient-fire mt-2" style={!config.hero?.titleColor ? {} : getTextStyle(config.hero?.titleColor)}>
             {lastPart}
           </span>
         </motion.h1>
 
         {/* Subtitle */}
-        <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }} className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mb-6 leading-relaxed">
+        <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }} className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mb-6 leading-relaxed" style={getTextStyle(config.hero?.subtitleColor)}>
           {config.hero?.subtitle}
         </motion.p>
 
@@ -511,8 +540,8 @@ function Hero({ config }: { config: any }) {
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              <span>📞</span> Reservar Mesa
+            <span className="relative z-10 flex items-center justify-center gap-2" style={getTextStyle(config.hero?.ctaColor)}>
+              <span>📞</span> {config.hero?.ctaText || 'Reservar Mesa'}
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-ember via-flame to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </motion.button>
@@ -590,18 +619,17 @@ function About({ config }: { config: any }) {
         {/* About content */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <AnimatedSection>
-            <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6">
-              A Nossa História
+            <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6" style={getTextStyle(config.about?.badgeColor)}>
+              {config.about?.badge || 'A Nossa História'}
             </span>
-            <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6">
-              Tradição e Sabor
-              <span className="block text-gradient-fire mt-1">Desde Sempre</span>
+            <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6" style={getTextStyle(config.about?.titleColor)}>
+              {config.about?.title || 'Tradição e Sabor'}
             </h2>
-            <p className="text-gray-300 leading-relaxed mb-4 text-base md:text-lg">
-              Na <strong className="text-white font-semibold">Churrasqueira Amores</strong>, cada frango é uma obra de arte. Marinado com temperos tradicionais portugueses e assado lentamente sobre carvão, o nosso frango tem conquistado corações há mais de 15 anos.
+            <p className="text-gray-300 leading-relaxed mb-4 text-base md:text-lg" style={getTextStyle(config.about?.text1Color)}>
+              {config.about?.text1 || 'Na Churrasqueira Amores, cada frango é uma obra de arte.'}
             </p>
-            <p className="text-gray-400 leading-relaxed mb-8">
-              Localizada na pacata vila de Odiáxere, no coração do Algarve, somos um restaurante familiar onde a simplicidade encontra a excelência. Os nossos clientes voltam sempre — pelo frango crocante, pelas batatas fritas caseiras e pelo ambiente acolhedor.
+            <p className="text-gray-400 leading-relaxed mb-8" style={getTextStyle(config.about?.text2Color)}>
+              {config.about?.text2}
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -775,8 +803,8 @@ function Menu({ config }: { config: any }) {
 
                   {/* Content */}
                   <div className="p-5 md:p-6 flex-1 flex flex-col">
-                    <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-gold transition-colors duration-300">{item.name}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed flex-1">{item.description}</p>
+                    <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-gold transition-colors duration-300" style={getTextStyle(item.nameColor)}>{item.name}</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed flex-1" style={getTextStyle(item.descColor)}>{item.description}</p>
                     <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
                       <motion.span className="text-gold text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300" whileHover={{ x: 3 }}>
@@ -1074,14 +1102,13 @@ function Contact({ config }: { config: any }) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <AnimatedSection className="text-center mb-14">
-          <span className="inline-block px-4 py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-xs font-bold tracking-wider uppercase mb-6">
-            Visite-nos
+          <span className="inline-block px-4 py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-xs font-bold tracking-wider uppercase mb-6" style={getTextStyle(config.contact?.badgeColor)}>
+            {config.contact?.badge || 'Visite-nos'}
           </span>
-          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-4">
-            {config.contact?.title?.split(' ').slice(0, -1).join(' ')}{' '}
-            <span className="text-gradient-fire">{config.contact?.title?.split(' ').pop()}</span>
+          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-4" style={getTextStyle(config.contact?.titleColor)}>
+            {config.contact?.title || 'Venha Conhecer-nos'}
           </h2>
-          <p className="text-gray-400 max-w-lg mx-auto">
+          <p className="text-gray-400 max-w-lg mx-auto" style={getTextStyle(config.contact?.textColor)}>
             {config.contact?.text}
           </p>
         </AnimatedSection>
@@ -1176,9 +1203,9 @@ function Footer({ config }: { config: any }) {
             <div className="flex items-center gap-2.5 mb-4">
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 overflow-hidden">
                 {config.logoIsImage ? (
-                  <img src={config.logo} alt="Logo" className="w-full h-full object-cover" />
+                  <img src={config.logo} alt={`Logótipo ${config.hero?.title}`} className="w-full h-full object-cover" loading="lazy" />
                 ) : (
-                  <span className="text-base">{config.logo || '🔥'}</span>
+                  <span className="text-base" aria-hidden="true">{config.logo || '🔥'}</span>
                 )}
               </div>
               <div>
@@ -1232,14 +1259,15 @@ function Footer({ config }: { config: any }) {
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-gray-500">© {new Date().getFullYear()} Churrasqueira Amores Lda. Todos os direitos reservados.</p>
           <div className="flex gap-5">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gold transition-colors text-xs font-medium">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gold transition-colors text-xs font-medium p-2" aria-label="Visite o nosso Facebook">
               Facebook
             </a>
             <a
               href="https://maps.google.com/?q=Churrasqueira+Amores+Odiaxere"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gold transition-colors text-xs font-medium"
+              className="text-gray-500 hover:text-gold transition-colors text-xs font-medium p-2"
+              aria-label="Ver localização no Google Maps"
             >
               Google Maps
             </a>
@@ -1316,7 +1344,7 @@ function ReservationModal({ config, onClose }: { config: any, onClose: () => voi
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        className="relative bg-deep border border-gold/20 w-full max-w-md rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(245,158,11,0.12)]"
+        className="relative bg-deep border border-gold/20 w-full max-w-md rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(245,158,11,0.12)] max-h-[90vh] overflow-y-auto"
       >
         {success ? (
           <div className="p-10 text-center space-y-4">
@@ -1498,6 +1526,30 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    // Dynamic SEO & Meta tags
+    const siteTitle = config.hero?.title || 'Churrasqueira Amores';
+    document.title = siteTitle;
+
+    // Update Meta Description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.setAttribute('name', 'description');
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', config.hero?.subtitle || 'O autêntico sabor do frango na brasa no Algarve.');
+
+    // Set Theme Color for Mobile
+    let themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (!themeMeta) {
+      themeMeta = document.createElement('meta');
+      themeMeta.setAttribute('name', 'theme-color');
+      document.head.appendChild(themeMeta);
+    }
+    themeMeta.setAttribute('content', '#030825'); // deep color
+  }, [config.hero]);
+
   return (
     <>
       <AnimatePresence>
@@ -1523,6 +1575,7 @@ export default function App() {
               className="text-lg font-bold text-gradient-fire"
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity }}
+              aria-live="polite"
             >
               {config.hero?.title}
             </motion.p>
@@ -1530,7 +1583,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <div className="bg-deep min-h-screen text-white font-display noise-overlay">
+      <div className="bg-deep min-h-screen text-white font-display noise-overlay selection:bg-gold/30">
         <Navbar config={config} onOpenAdmin={() => setShowAdmin(true)} />
         <Hero config={config} />
         <About config={config} />
