@@ -494,7 +494,7 @@ function Hero({ config }: { config: any }) {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-flame/8 rounded-full blur-[120px] glow-pulse" />
         <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-ember/8 rounded-full blur-[100px] glow-pulse" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-royal/6 rounded-full blur-[80px] glow-pulse" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-gold/6 rounded-full blur-[80px] glow-pulse" style={{ animationDelay: '3s' }} />
       </div>
 
       {/* Content */}
@@ -589,7 +589,7 @@ function About({ config }: { config: any }) {
     <section id="about" className="relative py-20 md:py-32 overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-flame/3 to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-tr from-royal/3 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-tr from-gold/3 to-transparent pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Stats */}
@@ -723,7 +723,7 @@ function Menu({ config }: { config: any }) {
     <section id="menu" className="relative py-20 md:py-32">
       {/* Subtle bg */}
       <div className="absolute inset-0 bg-gradient-to-b from-deep via-surface/20 to-deep pointer-events-none" />
-      <div className="absolute top-1/4 -left-40 w-80 h-80 bg-royal/4 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 -left-40 w-80 h-80 bg-gold/4 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-40 w-80 h-80 bg-flame/4 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -833,11 +833,11 @@ function Gallery({ config }: { config: any }) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <AnimatedSection className="text-center mb-14">
-          <span className="inline-block px-4 py-1.5 bg-royal/10 border border-royal/20 rounded-full text-royal-light text-xs font-bold tracking-wider uppercase mb-6">
+          <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6">
             Galeria
           </span>
           <h2 className="text-3xl md:text-5xl font-black leading-tight mb-4">
-            Momentos <span className="text-gradient-royal">Deliciosos</span>
+            Momentos <span className="text-gradient-fire">Deliciosos</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
             Fotografias dos nossos pratos e do ambiente acolhedor da Churrasqueira Amores
@@ -892,7 +892,7 @@ function Reviews() {
   return (
     <section id="reviews" className="relative py-20 md:py-32 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-royal/4 rounded-full blur-[140px]" />
+        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-flame/4 rounded-full blur-[140px]" />
         <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] bg-gold/4 rounded-full blur-[120px]" />
       </div>
 
@@ -1045,8 +1045,8 @@ function Contact({ config }: { config: any }) {
     {
       icon: '🕐',
       title: 'Horário',
-      gradient: 'from-royal to-royal-light',
-      shadowColor: 'shadow-royal/20',
+      gradient: 'from-gold to-gold/60',
+      shadowColor: 'shadow-gold/20',
       content: (
         <>
           <div className="space-y-2.5 mb-4">

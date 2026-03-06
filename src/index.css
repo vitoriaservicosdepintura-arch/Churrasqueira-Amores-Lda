@@ -8,8 +8,6 @@
   --color-gold: #f59e0b;
   --color-flame: #f97316;
   --color-ember: #ef4444;
-  --color-royal: #831df6;
-  --color-royal-light: #b146fe;
   --font-display: 'Montserrat', sans-serif;
 }
 
@@ -132,13 +130,6 @@ a {
   background-clip: text;
 }
 
-.text-gradient-royal {
-  background: linear-gradient(135deg, #831df6, #b146fe, #d946ef);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .text-gradient-gold {
   background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
   -webkit-background-clip: text;
@@ -156,12 +147,12 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #831df6, #f97316);
+  background: linear-gradient(180deg, #f97316, #ef4444);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #b146fe, #f59e0b);
+  background: linear-gradient(180deg, #f59e0b, #f97316);
 }
 
 /* Prevent iOS Zoom on focus for inputs with font-size < 16px */
@@ -184,7 +175,7 @@ button:active,
 /* Scrollbar refinement for Firefox and IE */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #831df6 #030825;
+  scrollbar-color: #f97316 #030825;
 }
 
 /* Glass effect refinements for older WebKit browsers */

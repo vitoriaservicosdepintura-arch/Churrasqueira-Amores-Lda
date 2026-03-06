@@ -163,27 +163,27 @@ const LogoPreview = ({ config, getTextStyle }: { config: any, getTextStyle: any 
     const lastPart = siteTitleParts.slice(1).join(' ');
 
     return (
-        <div className="flex flex-col items-center justify-center p-6 mb-6 bg-deep/30 rounded-3xl border border-white/5 shadow-inner">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 mb-4 overflow-hidden border-2 border-white/10">
+        <div className="flex items-center gap-3 p-3 mb-4 bg-deep/30 rounded-2xl border border-white/5 shadow-inner">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 overflow-hidden border-2 border-white/10 shrink-0">
                 {config.logoIsImage ? (
                     <img src={config.logo} alt="Logo Preview" className="w-full h-full object-cover" />
                 ) : (
-                    <span className="text-4xl">{config.logo || '🔥'}</span>
+                    <span className="text-2xl">{config.logo || '🔥'}</span>
                 )}
             </div>
-            <div className="text-center">
-                <div className="text-sm font-black flex flex-wrap justify-center gap-1 leading-tight">
-                    <span style={getTextStyle(config.hero?.titleColor)} className="whitespace-nowrap">
+            <div className="text-left min-w-0">
+                <div className="text-xs font-black flex flex-wrap gap-1 leading-tight">
+                    <span style={getTextStyle(config.hero?.titleColor)} className="whitespace-nowrap overflow-hidden text-ellipsis">
                         {firstPart}
                     </span>
                     <span
-                        className={!config.hero?.titleColor ? "text-gold" : "whitespace-nowrap"}
+                        className={!config.hero?.titleColor ? "text-gold" : "whitespace-nowrap overflow-hidden text-ellipsis"}
                         style={!config.hero?.titleColor ? {} : getTextStyle(config.hero?.titleColor)}
                     >
                         {lastPart}
                     </span>
                 </div>
-                <p className="text-[9px] text-gray-500 uppercase tracking-widest mt-1 font-bold">Pré-visualização Intro</p>
+                <p className="text-[8px] text-gray-500 uppercase tracking-widest mt-0.5 font-bold truncate">Pré-visualização Intro</p>
             </div>
         </div>
     );
@@ -466,22 +466,22 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
             <div className="relative bg-surface w-full max-w-5xl h-[85vh] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 flex flex-col md:flex-row">
 
                 {/* Sidebar */}
-                <div className="w-full md:w-64 bg-deep/50 border-b md:border-b-0 md:border-r border-white/5 p-6 flex flex-col shrink-0">
-                    <div className="flex items-center gap-3 mb-8 px-2">
-                        <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center">
-                            <Settings className="w-5 h-5 text-gold" />
+                <div className="w-full md:w-64 bg-deep/50 border-b md:border-b-0 md:border-r border-white/5 p-4 md:p-6 flex flex-col shrink-0">
+                    <div className="flex items-center gap-3 mb-4 px-2">
+                        <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center shrink-0">
+                            <Settings className="w-4 h-4 text-gold" />
                         </div>
-                        <h2 className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Painel Adm</h2>
+                        <h2 className="text-lg font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent truncate">Painel Adm</h2>
                     </div>
 
                     <LogoPreview config={localConfig} getTextStyle={getTextStyle} />
 
-                    <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-4 mb-2 flex items-center justify-between">
+                    <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest px-2 mb-2 flex items-center justify-between">
                         <span>Seções do Site</span>
                         <div className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
                     </div>
 
-                    <nav className="grid grid-cols-2 md:flex md:flex-col gap-2 flex-1 overflow-y-auto no-scrollbar pb-6 pr-1">
+                    <nav className="flex flex-col gap-1.5 flex-1 overflow-y-auto no-scrollbar pb-6 pr-1">
                         {tabs.map(tab => (
                             <button
                                 key={tab.id}
@@ -492,9 +492,9 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                     }`}
                                 aria-label={`Abrir aba ${tab.label}`}
                             >
-                                <div className="flex flex-col md:flex-row items-center gap-2 md:gap-3">
-                                    <tab.icon className="w-4 h-4" />
-                                    <span className="whitespace-nowrap text-[10px] md:text-sm">{tab.label}</span>
+                                <div className="flex items-center gap-3">
+                                    <tab.icon className="w-4 h-4 shrink-0" />
+                                    <span className="whitespace-nowrap text-xs md:text-sm">{tab.label}</span>
                                 </div>
                                 {tab.id === 'reservations' && unreadCount > 0 && (
                                     <span className="absolute -top-1 -right-1 md:relative md:top-0 md:right-0 flex h-4 w-4 md:h-5 md:w-5 items-center justify-center rounded-full bg-red-600 text-[9px] md:text-[10px] font-bold text-white shadow-lg animate-pulse">
@@ -1174,7 +1174,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                 {/* Footer Lists */}
                                 <div className="grid md:grid-cols-2 gap-10">
                                     <div className="space-y-4">
-                                        <h4 className="text-sm font-bold text-royal flex items-center gap-2">
+                                        <h4 className="text-sm font-bold text-gold flex items-center gap-2">
                                             <Globe className="w-4 h-4" /> Informações (Rodapé)
                                         </h4>
                                         <div className="space-y-2">
@@ -1187,7 +1187,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                             list[idx] = e.target.value;
                                                             updateField(['footer', 'info'], list);
                                                         }}
-                                                        className="flex-1 bg-deep border border-white/5 rounded-lg px-3 py-2 text-xs outline-none focus:border-royal"
+                                                        className="flex-1 bg-deep border border-white/5 rounded-lg px-3 py-2 text-xs outline-none focus:border-gold"
                                                     />
                                                     <button onClick={() => {
                                                         const list = localConfig.footer.info.filter((_: any, i: number) => i !== idx);
@@ -1199,7 +1199,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             ))}
                                             <button
                                                 onClick={() => updateField(['footer', 'info'], [...localConfig.footer.info, '📍 Nova Informação'])}
-                                                className="w-full py-2 border border-dashed border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-royal hover:border-royal/30 transition-all"
+                                                className="w-full py-2 border border-dashed border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-gold hover:border-gold/30 transition-all"
                                             >
                                                 + Adicionar Informação
                                             </button>
@@ -1207,7 +1207,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <h4 className="text-sm font-bold text-royal flex items-center gap-2">
+                                        <h4 className="text-sm font-bold text-gold flex items-center gap-2">
                                             <Settings className="w-4 h-4" /> Serviços (Rodapé)
                                         </h4>
                                         <div className="space-y-2">
@@ -1220,7 +1220,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                             list[idx] = e.target.value;
                                                             updateField(['footer', 'services'], list);
                                                         }}
-                                                        className="flex-1 bg-deep border border-white/5 rounded-lg px-3 py-2 text-xs outline-none focus:border-royal"
+                                                        className="flex-1 bg-deep border border-white/5 rounded-lg px-3 py-2 text-xs outline-none focus:border-gold"
                                                     />
                                                     <button onClick={() => {
                                                         const list = localConfig.footer.services.filter((_: any, i: number) => i !== idx);
@@ -1232,7 +1232,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             ))}
                                             <button
                                                 onClick={() => updateField(['footer', 'services'], [...localConfig.footer.services, '🍽️ Novo Serviço'])}
-                                                className="w-full py-2 border border-dashed border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-royal hover:border-royal/30 transition-all"
+                                                className="w-full py-2 border border-dashed border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-gold hover:border-gold/30 transition-all"
                                             >
                                                 + Adicionar Serviço
                                             </button>
