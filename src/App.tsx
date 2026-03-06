@@ -1051,6 +1051,12 @@ function Contact({ config }: { config: any }) {
               <span className="text-lg">📘</span>
               <span className="font-semibold group-hover:underline">Facebook</span>
             </a>
+            {config.contact?.email && (
+              <a href={`mailto:${config.contact.email}`} className="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors group">
+                <span className="text-lg">📧</span>
+                <span className="font-semibold group-hover:underline">{config.contact.email}</span>
+              </a>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             {config.footer?.services?.map((s: string) => (
