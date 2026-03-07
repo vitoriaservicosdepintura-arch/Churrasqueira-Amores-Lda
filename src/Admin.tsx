@@ -213,13 +213,18 @@ const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange,
         setCurrentFont(fontValue);
     };
 
-    // Apply color to SELECTED text via foreColor. Also calls onColorChange for global preview.
+    // Apply color ONLY to selected text  — never changes the whole field
     const applyColorToSelection = (hexColor: string) => {
+        // Only act when something is actually selected (range is not collapsed)
+        const saved = savedSelectionRef.current;
+        if (!saved || saved.collapsed) {
+            // Nothing selected — do nothing, don't touch global color
+            return;
+        }
         restoreSelection();
         document.execCommand('styleWithCSS', false, 'true');
         document.execCommand('foreColor', false, hexColor);
         handleInput();
-        onColorChange(hexColor); // keep global preview in sync
     };
 
     // Sync from parent value to editor DOM
@@ -283,7 +288,6 @@ const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange,
                 onKeyUp={detectCurrentFont}
                 onMouseDown={saveSelection}
                 className={`w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-gold outline-none custom-scrollbar overflow-y-auto ${rows > 1 ? 'min-h-[120px] max-h-[350px]' : 'min-h-[48px]'}`}
-                style={{ color: !color?.includes('gradient') ? (color || '#fff') : 'white' }}
             />
         </div>
     );
