@@ -1546,9 +1546,21 @@ function ReservationModal({ config, onClose }: { config: any, onClose: () => voi
    APP
    ═══════════════════════════════════════════ */
 
+const getInitialConfig = () => {
+  try {
+    const cached = localStorage.getItem('siteConfig');
+    if (cached) {
+      return { ...DEFAULT_CONFIG, ...JSON.parse(cached) };
+    }
+  } catch (e) {
+    console.error('Error parsing cached config:', e);
+  }
+  return DEFAULT_CONFIG;
+};
+
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [config, setConfig] = useState<any>(DEFAULT_CONFIG);
+  const [config, setConfig] = useState<any>(getInitialConfig);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showReservation, setShowReservation] = useState(false);
 
@@ -1569,7 +1581,9 @@ export default function App() {
 
         if (error) throw error;
         if (data?.config) {
-          setConfig({ ...DEFAULT_CONFIG, ...data.config });
+          const newConfig = { ...DEFAULT_CONFIG, ...data.config };
+          setConfig(newConfig);
+          localStorage.setItem('siteConfig', JSON.stringify(newConfig));
         }
       } catch (err) {
         console.error('Error loading config:', err);
@@ -1667,7 +1681,10 @@ export default function App() {
           <Admin
             config={config}
             onClose={() => setShowAdmin(false)}
-            onUpdate={(newConfig) => setConfig(newConfig)}
+            onUpdate={(newConfig) => {
+              setConfig(newConfig);
+              localStorage.setItem('siteConfig', JSON.stringify(newConfig));
+            }}
           />
         )}
       </AnimatePresence>
