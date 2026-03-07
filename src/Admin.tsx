@@ -116,7 +116,7 @@ const ColorMixer = ({ current, onChange, onOpen }: { current: string, onChange: 
                                 </div>
 
                                 <button
-                                    onClick={(e) => { e.preventDefault(); onChange(''); setIsOpen(false); }}
+                                    onMouseDown={(e) => { e.preventDefault(); onChange(''); setIsOpen(false); }}
                                     className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
                                 >
                                     <RotateCcw className="w-3.5 h-3.5 text-gray-400 group-hover:text-gold transition-colors" />
@@ -213,17 +213,27 @@ const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange,
         setCurrentFont(fontValue);
     };
 
-    // Apply color ONLY to selected text  — never changes the whole field
+    // Apply color to selection OR reset global field color if no selection
     const applyColorToSelection = (hexColor: string) => {
-        // Only act when something is actually selected (range is not collapsed)
         const saved = savedSelectionRef.current;
+
+        // CASE: No text is selected
         if (!saved || saved.collapsed) {
-            // Nothing selected — do nothing, don't touch global color
+            // If the user clicked "Voltar Cor Padrão" with zero selection, reset the whole field color
+            if (hexColor === '') {
+                onColorChange('');
+            }
             return;
         }
+
+        // CASE: Text IS selected
         restoreSelection();
         document.execCommand('styleWithCSS', false, 'true');
-        document.execCommand('foreColor', false, hexColor);
+
+        // If hexColor is empty (Reset button), we apply the site's default text color (usually white)
+        // or attempt to remove format if we wanted to be more complex, but white is safest here.
+        const colorToApply = hexColor === '' ? '#ffffff' : hexColor;
+        document.execCommand('foreColor', false, colorToApply);
         handleInput();
     };
 
