@@ -887,7 +887,7 @@ function Menu({ config }: { config: any }) {
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
                       <motion.button
                         onClick={() => (window as any).openReservationModal(item.name, item.price)}
-                        className="text-gold text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center"
+                        className="text-gold text-xs font-semibold lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center"
                         whileHover={{ x: 3 }}
                       >
                         Pedir →
