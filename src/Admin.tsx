@@ -1666,31 +1666,40 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                         )}
                                                     </div>
 
-                                                    <button
-                                                        onClick={() => {
-                                                            const siteName = stripHTML(localConfig.hero?.title || 'Churrasqueira Amores');
-                                                            const logoEmoji = localConfig.logoIsImage ? '📸' : (localConfig.logo || '🔥');
-                                                            const dateStr = new Date(selectedReservation.date).toLocaleDateString('pt-PT');
-                                                            const timeStr = selectedReservation.time.slice(0, 5);
-                                                            const dishStr = selectedReservation.menu_item || 'Menu Geral';
-                                                            const peopleStr = selectedReservation.people;
+                                                    {(() => {
+                                                        const siteName = stripHTML(localConfig.hero?.title || 'Churrasqueira Amores');
+                                                        const logoEmoji = localConfig.logoIsImage ? '🔥' : (localConfig.logo || '🔥');
+                                                        const dateStr = new Date(selectedReservation.date).toLocaleDateString('pt-PT');
+                                                        const timeStr = selectedReservation.time.slice(0, 5);
+                                                        const dishStr = selectedReservation.menu_item || 'Menu Geral';
+                                                        const peopleStr = selectedReservation.people;
 
-                                                            const msg = `*${logoEmoji} ${siteName.toUpperCase()}*%0A%0A` +
-                                                                `Olá *${selectedReservation.name}*! 👋%0A%0A` +
-                                                                `*⚠️ POR FAVOR, CONFIRME SEUS DADOS:*%0A%0A` +
-                                                                `🗓️ *Data:* ${dateStr}%0A` +
-                                                                `⏰ *Hora:* ${timeStr}h%0A` +
-                                                                `👥 *Pessoas:* ${peopleStr}%0A` +
-                                                                `🍽️ *Pedido:* ${dishStr}%0A` +
-                                                                `📱 *Telemóvel:* ${selectedReservation.phone}%0A` +
-                                                                `${selectedReservation.email ? `📧 *Email:* ${selectedReservation.email}%0A` : ''}` +
-                                                                `%0A*Podemos confirmar a sua reserva?*`;
-                                                            window.open(`https://wa.me/351${selectedReservation.phone.replace(/\D/g, '')}?text=${msg}`, '_blank');
-                                                        }}
-                                                        className="w-full py-3.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-green-500/20 flex items-center justify-center gap-2"
-                                                    >
-                                                        <MessageCircle className="w-5 h-5" /> Conversar no WhatsApp
-                                                    </button>
+                                                        const rawMsg = `*${logoEmoji} ${siteName.toUpperCase()}*\n\n` +
+                                                            `Olá *${selectedReservation.name}*! 👋\n\n` +
+                                                            `*⚠️ POR FAVOR, CONFIRME SEUS DADOS:*\n\n` +
+                                                            `🗓️ *Data:* ${dateStr}\n` +
+                                                            `⏰ *Hora:* ${timeStr}h\n` +
+                                                            `👥 *Pessoas:* ${peopleStr}\n` +
+                                                            `🍽️ *Pedido:* ${dishStr}\n` +
+                                                            `📱 *Telemóvel:* ${selectedReservation.phone}\n` +
+                                                            `${selectedReservation.email ? `📧 *Email:* ${selectedReservation.email}\n` : ''}\n` +
+                                                            `*Podemos confirmar a sua reserva?*`;
+
+                                                        const cleanPhone = selectedReservation.phone.replace(/\D/g, '').replace(/^00/, '');
+                                                        const finalPhone = cleanPhone.startsWith('351') ? cleanPhone : `351${cleanPhone}`;
+                                                        const waUrl = `https://wa.me/${finalPhone}?text=${encodeURIComponent(rawMsg)}`;
+
+                                                        return (
+                                                            <a
+                                                                href={waUrl}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="w-full py-3.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-green-500/20 flex items-center justify-center gap-2"
+                                                            >
+                                                                <MessageCircle className="w-5 h-5" /> Conversar no WhatsApp
+                                                            </a>
+                                                        );
+                                                    })()}
                                                 </div>
 
                                                 {/* Reservation Details Section */}

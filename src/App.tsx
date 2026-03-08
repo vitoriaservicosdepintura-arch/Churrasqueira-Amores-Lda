@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, type ReactNode } from 'react';
+﻿import { useState, useEffect, useRef, useMemo, type ReactNode } from 'react';
 import { supabase } from './supabase';
 import Admin from './Admin';
 import {
@@ -13,9 +13,9 @@ import {
   AnimatePresence,
 } from 'framer-motion';
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DATA
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 
 
@@ -39,26 +39,26 @@ const getTextStyle = (color: string) => {
   return { color };
 };
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DEFAULT CONFIG
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 const DEFAULT_CONFIG = {
-  logo: '🔥',
+  logo: 'ðŸ”¥',
   logoIsImage: false,
   hero: {
     title: 'Churrasqueira Amores',
-    badge: 'Desde 2009 • Odiáxere, Algarve',
-    subtitle: 'O autêntico sabor do frango na brasa. Uma joia escondida no coração do Algarve, onde a tradição e o sabor se encontram.',
+    badge: 'Desde 2009 â€¢ OdiÃ¡xere, Algarve',
+    subtitle: 'O autÃªntico sabor do frango na brasa. Uma joia escondida no coraÃ§Ã£o do Algarve, onde a tradiÃ§Ã£o e o sabor se encontram.',
     bgImage: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&h=1080&fit=crop&q=80',
     ctaText: 'Reservar Mesa'
   },
   about: {
-    badge: 'A Nossa História',
-    title: 'Tradição e Sabor',
+    badge: 'A Nossa HistÃ³ria',
+    title: 'TradiÃ§Ã£o e Sabor',
     subtitle: 'Desde Sempre',
-    text1: 'Na Churrasqueira Amores, cada frango é uma obra de arte. Marinado com temperos tradicionais portugueses e assado lentamente sobre carvão, o nosso frango tem conquistado corações há mais de 15 anos.',
-    text2: 'Localizada na pacata vila de Odiáxere, no coração do Algarve, somos um restaurante familiar onde a simplicidade encontra a excelência. Os nossos clientes voltam sempre — pelo frango crocante, pelas batatas fritas caseiras e pelo ambiente acolhedor.',
+    text1: 'Na Churrasqueira Amores, cada frango Ã© uma obra de arte. Marinado com temperos tradicionais portugueses e assado lentamente sobre carvÃ£o, o nosso frango tem conquistado coraÃ§Ãµes hÃ¡ mais de 15 anos.',
+    text2: 'Localizada na pacata vila de OdiÃ¡xere, no coraÃ§Ã£o do Algarve, somos um restaurante familiar onde a simplicidade encontra a excelÃªncia. Os nossos clientes voltam sempre â€” pelo frango crocante, pelas batatas fritas caseiras e pelo ambiente acolhedor.',
     image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&h=600&fit=crop&q=80'
   },
   menuItems: [
@@ -66,54 +66,54 @@ const DEFAULT_CONFIG = {
       id: 1,
       name: 'Frango Churrasco',
       description: 'O nosso frango assado na brasa, marinado com temperos tradicionais portugueses. Pele crocante e carne suculenta.',
-      price: '8,50€',
+      price: '8,50â‚¬',
       image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&q=80',
-      tag: '⭐ Especialidade',
+      tag: 'â­ Especialidade',
       category: 'Pratos',
     },
     {
       id: 2,
       name: 'Batatas Fritas Caseiras',
-      description: 'Cortadas à mão e fritas na hora. Simplesmente soberbas, como dizem os nossos clientes.',
-      price: '3,50€',
+      description: 'Cortadas Ã  mÃ£o e fritas na hora. Simplesmente soberbas, como dizem os nossos clientes.',
+      price: '3,50â‚¬',
       image: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=600&h=400&fit=crop&q=80',
-      tag: '❤️ Favorito',
+      tag: 'â¤ï¸ Favorito',
       category: 'Acompanhamentos',
     },
     {
       id: 3,
       name: 'Salada Especial da Casa',
       description: 'Salada fresca com o nosso molho fabuloso que tem conquistado todos os visitantes.',
-      price: '4,00€',
+      price: '4,00â‚¬',
       image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&q=80',
-      tag: '🥗 Saudável',
+      tag: 'ðŸ¥— SaudÃ¡vel',
       category: 'Acompanhamentos',
     },
     {
       id: 4,
       name: 'Frango Piri-Piri',
-      description: 'Para os amantes de picante. Grelhado com o nosso molho piri-piri artesanal e irresistível.',
-      price: '9,50€',
+      description: 'Para os amantes de picante. Grelhado com o nosso molho piri-piri artesanal e irresistÃ­vel.',
+      price: '9,50â‚¬',
       image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600&h=400&fit=crop&q=80',
-      tag: '🌶️ Picante',
+      tag: 'ðŸŒ¶ï¸ Picante',
       category: 'Pratos',
     },
     {
       id: 5,
       name: 'Espetada Mista',
-      description: 'Espetada de carnes mistas grelhadas na perfeição sobre carvão ardente.',
-      price: '12,00€',
+      description: 'Espetada de carnes mistas grelhadas na perfeiÃ§Ã£o sobre carvÃ£o ardente.',
+      price: '12,00â‚¬',
       image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&h=400&fit=crop&q=80',
-      tag: '🔥 Premium',
+      tag: 'ðŸ”¥ Premium',
       category: 'Pratos',
     },
     {
       id: 6,
       name: 'Sangria da Casa',
-      description: 'Sangria artesanal com frutas frescas da época e vinho tinto alentejano selecionado.',
-      price: '6,00€',
+      description: 'Sangria artesanal com frutas frescas da Ã©poca e vinho tinto alentejano selecionado.',
+      price: '6,00â‚¬',
       image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&h=400&fit=crop&q=80',
-      tag: '🍷 Bebida',
+      tag: 'ðŸ· Bebida',
       category: 'Bebidas',
     },
   ],
@@ -127,12 +127,12 @@ const DEFAULT_CONFIG = {
   ],
   contact: {
     title: 'Venha Conhecer-nos',
-    text: 'Estamos à sua espera para lhe oferecer o melhor frango do Algarve',
-    address: '250, N125 n°66c\n8600-250 Odiáxere\nAlgarve, Portugal',
+    text: 'Estamos Ã  sua espera para lhe oferecer o melhor frango do Algarve',
+    address: '250, N125 nÂ°66c\n8600-250 OdiÃ¡xere\nAlgarve, Portugal',
     googleMapsUrl: 'https://maps.google.com/?q=Churrasqueira+Amores+Odiaxere',
     hours: [
-      { day: 'Segunda – Sábado', time: '12:00 – 22:00' },
-      { day: 'Domingo', time: '12:00 – 21:00' }
+      { day: 'Segunda â€“ SÃ¡bado', time: '12:00 â€“ 22:00' },
+      { day: 'Domingo', time: '12:00 â€“ 21:00' }
     ],
     phone: '282 798 417',
     facebook: 'https://facebook.com',
@@ -140,16 +140,16 @@ const DEFAULT_CONFIG = {
   },
   footer: {
     info: [
-      '📍 N125 n°66c, Odiáxere',
-      '📞 282 798 417',
-      '💰 10 – 15€ por pessoa',
-      '⭐ 4.5 / 5 (329 avaliações)'
+      'ðŸ“ N125 nÂ°66c, OdiÃ¡xere',
+      'ðŸ“ž 282 798 417',
+      'ðŸ’° 10 â€“ 15â‚¬ por pessoa',
+      'â­ 4.5 / 5 (329 avaliaÃ§Ãµes)'
     ],
     services: [
-      '🍽️ Comer no local',
-      '🥡 Take away',
-      '🛵 Entrega ao domicílio',
-      '📞 Reservas por telefone'
+      'ðŸ½ï¸ Comer no local',
+      'ðŸ¥¡ Take away',
+      'ðŸ›µ Entrega ao domicÃ­lio',
+      'ðŸ“ž Reservas por telefone'
     ]
   }
 };
@@ -159,73 +159,73 @@ const REVIEWS = [
     id: 1,
     name: 'jjc',
     avatar: 'J',
-    text: 'Uma joia escondida do frango assado. A uma curta distância de carro das multidões de turistas, este restaurante familiar especializado em frango assado é um verdadeiro tesouro. O frango? Perfeito — pele crocante, carne suculenta e cheio de sabor.',
+    text: 'Uma joia escondida do frango assado. A uma curta distÃ¢ncia de carro das multidÃµes de turistas, este restaurante familiar especializado em frango assado Ã© um verdadeiro tesouro. O frango? Perfeito â€” pele crocante, carne suculenta e cheio de sabor.',
     rating: 5,
-    date: 'há 7 meses',
-    reviewCount: '11 críticas',
+    date: 'hÃ¡ 7 meses',
+    reviewCount: '11 crÃ­ticas',
     color: '#f59e0b',
   },
   {
     id: 2,
     name: 'Herve Garand',
     avatar: 'H',
-    text: 'Nós adoramos, esse pequeno restaurante nos foi recomendado, nos divertimos muito, é simples, é simpático e é super bom e por 30 euros para dois. Voltaremos com certeza!',
+    text: 'NÃ³s adoramos, esse pequeno restaurante nos foi recomendado, nos divertimos muito, Ã© simples, Ã© simpÃ¡tico e Ã© super bom e por 30 euros para dois. Voltaremos com certeza!',
     rating: 5,
-    date: 'há 5 meses',
-    reviewCount: '186 críticas',
+    date: 'hÃ¡ 5 meses',
+    reviewCount: '186 crÃ­ticas',
     color: '#831df6',
   },
   {
     id: 3,
     name: 'Victoria Hallam',
     avatar: 'V',
-    text: 'Não sei como Odiáxere tem duas das melhores churrasqueiras do Algarve, mas tem. A única coisa melhor que o frango é a salada com o seu molho fabuloso.',
+    text: 'NÃ£o sei como OdiÃ¡xere tem duas das melhores churrasqueiras do Algarve, mas tem. A Ãºnica coisa melhor que o frango Ã© a salada com o seu molho fabuloso.',
     rating: 5,
-    date: 'há 10 meses',
-    reviewCount: '52 críticas',
+    date: 'hÃ¡ 10 meses',
+    reviewCount: '52 crÃ­ticas',
     color: '#f97316',
   },
   {
     id: 4,
     name: 'Marco Silva',
     avatar: 'M',
-    text: 'Muito bons pratos de comida... graças ao dono/a da churrasqueira. Preços honestos e qualidade excepcional. O melhor frango assado que já comi!',
+    text: 'Muito bons pratos de comida... graÃ§as ao dono/a da churrasqueira. PreÃ§os honestos e qualidade excepcional. O melhor frango assado que jÃ¡ comi!',
     rating: 5,
-    date: 'há 3 meses',
-    reviewCount: '8 críticas',
+    date: 'hÃ¡ 3 meses',
+    reviewCount: '8 crÃ­ticas',
     color: '#ef4444',
   },
   {
     id: 5,
     name: 'Ana Costa',
     avatar: 'A',
-    text: 'Muito bom, só é pena ter poucas mesas, mas tudo 5 estrelas. O frango é incrível e as batatas fritas caseiras são as melhores que já comi no Algarve.',
+    text: 'Muito bom, sÃ³ Ã© pena ter poucas mesas, mas tudo 5 estrelas. O frango Ã© incrÃ­vel e as batatas fritas caseiras sÃ£o as melhores que jÃ¡ comi no Algarve.',
     rating: 4,
-    date: 'há 2 meses',
-    reviewCount: '24 críticas',
+    date: 'hÃ¡ 2 meses',
+    reviewCount: '24 crÃ­ticas',
     color: '#b146fe',
   },
 ];
 
 const STATS = [
-  { value: 329, suffix: '+', label: 'Avaliações', decimal: false },
-  { value: 4.5, suffix: '★', label: 'Classificação', decimal: true },
-  { value: 15, suffix: '+', label: 'Anos de Tradição', decimal: false },
+  { value: 329, suffix: '+', label: 'AvaliaÃ§Ãµes', decimal: false },
+  { value: 4.5, suffix: 'â˜…', label: 'ClassificaÃ§Ã£o', decimal: true },
+  { value: 15, suffix: '+', label: 'Anos de TradiÃ§Ã£o', decimal: false },
   { value: 10000, suffix: '+', label: 'Clientes Felizes', decimal: false },
 ];
 
 const NAV_LINKS = [
-  { label: 'Início', href: '#hero' },
+  { label: 'InÃ­cio', href: '#hero' },
   { label: 'Sobre', href: '#about' },
   { label: 'Menu', href: '#menu' },
   { label: 'Galeria', href: '#gallery' },
-  { label: 'Críticas', href: '#reviews' },
+  { label: 'CrÃ­ticas', href: '#reviews' },
   { label: 'Contato', href: '#contact' },
 ];
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    UTILITY COMPONENTS
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function StarRating({ rating, size = 'w-5 h-5' }: { rating: number; size?: string }) {
   return (
@@ -329,9 +329,9 @@ function EmberParticles() {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NAVBAR
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void }) {
   const [scrolled, setScrolled] = useState(false);
@@ -364,9 +364,9 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
           <motion.a href="#hero" className="flex items-center gap-3 group" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/30 group-hover:shadow-flame/50 transition-shadow duration-300 overflow-hidden">
               {config.logoIsImage ? (
-                <img src={config.logo} alt={`Logótipo ${siteTitlePlain}`} className="w-full h-full object-cover" />
+                <img src={config.logo} alt={`LogÃ³tipo ${siteTitlePlain}`} className="w-full h-full object-cover" />
               ) : (
-                <span className="text-2xl" aria-hidden="true">{config.logo || '🔥'}</span>
+                <span className="text-2xl" aria-hidden="true">{config.logo || 'ðŸ”¥'}</span>
               )}
             </div>
             <div className="hidden sm:block">
@@ -412,12 +412,12 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
               whileTap={{ scale: 0.95 }}
               aria-label="Reservar uma mesa"
             >
-              📞 Reservar
+              ðŸ“ž Reservar
             </motion.button>
           </div>
 
           {/* Mobile hamburger */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-3 -mr-2 text-white relative z-50 rounded-xl hover:bg-white/5 transition-colors" aria-label="Abrir menu de navegação">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-3 -mr-2 text-white relative z-50 rounded-xl hover:bg-white/5 transition-colors" aria-label="Abrir menu de navegaÃ§Ã£o">
             <div className="w-6 h-5 flex flex-col justify-between">
               <span className={`block w-full h-0.5 bg-white rounded transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-[9px]' : ''}`} />
               <span className={`block w-full h-0.5 bg-white rounded transition-all duration-300 ${menuOpen ? 'opacity-0 scale-0' : ''}`} />
@@ -462,7 +462,7 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
                 transition={{ delay: NAV_LINKS.length * 0.06 }}
               >
                 <SettingsIcon className="w-4 h-4" />
-                Área Administrativa
+                Ãrea Administrativa
               </motion.button>
               <button
                 onClick={() => {
@@ -470,9 +470,9 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
                   (window as any).openReservationModal();
                 }}
                 className="block w-full text-center px-6 py-4 bg-gradient-to-r from-gold to-flame rounded-full text-base font-bold text-white shadow-lg mt-4 cursor-pointer active:scale-95 transition-transform"
-                aria-label="Fazer uma reserva rápida"
+                aria-label="Fazer uma reserva rÃ¡pida"
               >
-                📞 Reservar Agora
+                ðŸ“ž Reservar Agora
               </button>
             </div>
           </motion.div>
@@ -482,20 +482,20 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    MOBILE BOTTOM NAV
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] pb-[env(safe-area-inset-bottom,20px)] pt-2 bg-gradient-to-t from-deep via-deep/95 to-transparent">
       <div className="mx-4 mb-2 bg-surface/90 backdrop-blur-3xl border border-white/10 rounded-3xl py-3 px-6 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] flex items-center justify-between gap-1">
         <a href="#hero" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
-          <div className="text-xl">🏠</div>
-          <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
+          <div className="text-xl">ðŸ </div>
+          <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">InÃ­cio</span>
         </a>
         <a href="#menu" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
-          <div className="text-xl">🍴</div>
+          <div className="text-xl">ðŸ´</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Menu</span>
         </a>
 
@@ -505,13 +505,13 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
             onClick={() => (window as any).openReservationModal()}
             className="w-16 h-16 bg-gradient-to-br from-gold via-flame to-ember rounded-full flex flex-col items-center justify-center shadow-[0_10px_30px_rgba(249,115,22,0.4)] border-4 border-deep active:scale-90 transition-transform"
           >
-            <div className="text-2xl mt-1">🔥</div>
+            <div className="text-2xl mt-1">ðŸ”¥</div>
             <div className="bg-gold text-deep text-[8px] font-black px-1.5 py-0.5 rounded-full -mt-1 shadow-sm uppercase">Reserva</div>
           </button>
         </div>
 
         <a href="#contact" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
-          <div className="text-xl">📍</div>
+          <div className="text-xl">ðŸ“</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Local</span>
         </a>
 
@@ -520,7 +520,7 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
           onClick={onOpenAdmin}
           className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1"
         >
-          <div className="text-xl">⚙️</div>
+          <div className="text-xl">âš™ï¸</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Admin</span>
         </button>
       </div>
@@ -528,9 +528,9 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HERO
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Hero({ config }: { config: any }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -608,10 +608,10 @@ function Hero({ config }: { config: any }) {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9 }} className="flex flex-wrap items-center justify-center gap-3 mb-10">
           <StarRating rating={5} size="w-5 h-5" />
           <span className="text-gold font-extrabold text-lg">4.5</span>
-          <span className="text-gray-500">•</span>
-          <span className="text-gray-400 text-sm font-medium">329 avaliações</span>
-          <span className="text-gray-500">•</span>
-          <span className="text-gray-400 text-sm font-medium">10 – 15€ por pessoa</span>
+          <span className="text-gray-500">â€¢</span>
+          <span className="text-gray-400 text-sm font-medium">329 avaliaÃ§Ãµes</span>
+          <span className="text-gray-500">â€¢</span>
+          <span className="text-gray-400 text-sm font-medium">10 â€“ 15â‚¬ por pessoa</span>
         </motion.div>
 
         {/* CTA */}
@@ -623,7 +623,7 @@ function Hero({ config }: { config: any }) {
             whileTap={{ scale: 0.95 }}
           >
             <span className="relative z-10 flex items-center justify-center gap-2" style={getTextStyle(config.hero?.ctaColor)}>
-              <span>📞</span> {config.hero?.ctaText || 'Reservar Mesa'}
+              <span>ðŸ“ž</span> {config.hero?.ctaText || 'Reservar Mesa'}
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-ember via-flame to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </motion.button>
@@ -635,7 +635,7 @@ function Hero({ config }: { config: any }) {
             whileTap={{ scale: 0.95 }}
           >
             Ver Menu
-            <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+            <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">â†’</span>
           </motion.a>
         </motion.div>
       </motion.div>
@@ -662,9 +662,9 @@ function Hero({ config }: { config: any }) {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ABOUT
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function About({ config }: { config: any }) {
   return (
@@ -702,13 +702,13 @@ function About({ config }: { config: any }) {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <AnimatedSection>
             <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6" style={getTextStyle(config.about?.badgeColor)}>
-              {config.about?.badge || 'A Nossa História'}
+              {config.about?.badge || 'A Nossa HistÃ³ria'}
             </span>
             <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6" style={getTextStyle(config.about?.titleColor)}>
-              {config.about?.title || 'Tradição e Sabor'}
+              {config.about?.title || 'TradiÃ§Ã£o e Sabor'}
             </h2>
             <p className="text-gray-300 leading-relaxed mb-4 text-base md:text-lg" style={getTextStyle(config.about?.text1Color)}>
-              {config.about?.text1 || 'Na Churrasqueira Amores, cada frango é uma obra de arte.'}
+              {config.about?.text1 || 'Na Churrasqueira Amores, cada frango Ã© uma obra de arte.'}
             </p>
             <p className="text-gray-400 leading-relaxed mb-8" style={getTextStyle(config.about?.text2Color)}>
               {config.about?.text2}
@@ -716,10 +716,10 @@ function About({ config }: { config: any }) {
 
             <div className="flex flex-wrap gap-3">
               {[
-                { icon: '🍗', text: 'Frango na Brasa' },
-                { icon: '🥔', text: 'Batatas Caseiras' },
-                { icon: '🔥', text: 'Carvão Vegetal' },
-                { icon: '👨‍👩‍👧‍👦', text: 'Ambiente Familiar' },
+                { icon: 'ðŸ—', text: 'Frango na Brasa' },
+                { icon: 'ðŸ¥”', text: 'Batatas Caseiras' },
+                { icon: 'ðŸ”¥', text: 'CarvÃ£o Vegetal' },
+                { icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', text: 'Ambiente Familiar' },
               ].map((tag) => (
                 <motion.div
                   key={tag.text}
@@ -754,7 +754,7 @@ function About({ config }: { config: any }) {
               transition={{ duration: 0.8, delay: 0.6, type: 'spring', bounce: 0.3 }}
               whileHover={{ rotate: 0, scale: 1.1 }}
             >
-              <div className="text-3xl md:text-4xl font-black text-white">4.5★</div>
+              <div className="text-3xl md:text-4xl font-black text-white">4.5â˜…</div>
               <div className="text-xs md:text-sm font-semibold text-white/80">Google Reviews</div>
             </motion.div>
 
@@ -767,7 +767,7 @@ function About({ config }: { config: any }) {
               transition={{ duration: 0.6, delay: 0.8 }}
               whileHover={{ rotate: 0, scale: 1.05 }}
             >
-              <div className="text-sm font-bold flex items-center gap-1">💰 10 – 15€</div>
+              <div className="text-sm font-bold flex items-center gap-1">ðŸ’° 10 â€“ 15â‚¬</div>
               <div className="text-xs text-gray-400 mt-0.5">por pessoa</div>
             </motion.div>
 
@@ -779,7 +779,7 @@ function About({ config }: { config: any }) {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 1 }}
             >
-              {['🍽️ Local', '🥡 Takeaway', '🛵 Entrega'].map((s) => (
+              {['ðŸ½ï¸ Local', 'ðŸ¥¡ Takeaway', 'ðŸ›µ Entrega'].map((s) => (
                 <span key={s} className="px-2.5 py-1.5 bg-deep/80 backdrop-blur-sm rounded-full text-[10px] md:text-xs font-semibold border border-white/10">
                   {s}
                 </span>
@@ -792,9 +792,9 @@ function About({ config }: { config: any }) {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    MENU
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Menu({ config }: { config: any }) {
   const [activeCategory, setActiveCategory] = useState('Todos');
@@ -818,7 +818,7 @@ function Menu({ config }: { config: any }) {
             <span className="text-gradient-fire">Pratos Estrela</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
-            Cada prato é preparado com ingredientes frescos e o amor de uma tradição familiar
+            Cada prato Ã© preparado com ingredientes frescos e o amor de uma tradiÃ§Ã£o familiar
           </p>
         </AnimatedSection>
 
@@ -894,7 +894,7 @@ function Menu({ config }: { config: any }) {
                         className="text-gold text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center"
                         whileHover={{ x: 3 }}
                       >
-                        Pedir →
+                        Pedir â†’
                       </motion.button>
                     </div>
                   </div>
@@ -908,9 +908,9 @@ function Menu({ config }: { config: any }) {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    GALLERY
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Gallery({ config }: { config: any }) {
   return (
@@ -968,9 +968,9 @@ function Gallery({ config }: { config: any }) {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    REVIEWS
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Reviews() {
   const ratingDistribution: Record<number, number> = { 5: 75, 4: 18, 3: 4, 2: 2, 1: 1 };
@@ -985,10 +985,10 @@ function Reviews() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <AnimatedSection className="text-center mb-16">
           <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6">
-            Críticas dos Clientes
+            CrÃ­ticas dos Clientes
           </span>
           <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6">
-            O Que <span className="text-gradient-fire">Dizem de Nós</span>
+            O Que <span className="text-gradient-fire">Dizem de NÃ³s</span>
           </h2>
 
           {/* Avatar group */}
@@ -1010,7 +1010,7 @@ function Reviews() {
                 <StarRating rating={5} size="w-3.5 h-3.5" />
                 <span className="text-gold font-extrabold">4.5</span>
               </div>
-              <p className="text-xs text-gray-500">329 avaliações no Google</p>
+              <p className="text-xs text-gray-500">329 avaliaÃ§Ãµes no Google</p>
             </div>
           </div>
         </AnimatedSection>
@@ -1058,7 +1058,7 @@ function Reviews() {
                 <div>
                   <h4 className="font-semibold text-sm">{review.name}</h4>
                   <p className="text-[11px] text-gray-500">
-                    {review.reviewCount} • {review.date}
+                    {review.reviewCount} â€¢ {review.date}
                   </p>
                 </div>
               </div>
@@ -1075,7 +1075,7 @@ function Reviews() {
                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                 </svg>
                 <span>Google Reviews</span>
-                <span className="text-gold font-semibold">✓ Verificado</span>
+                <span className="text-gold font-semibold">âœ“ Verificado</span>
               </div>
             </motion.div>
           ))}
@@ -1091,8 +1091,8 @@ function Reviews() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Ver todas as 329 críticas
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            Ver todas as 329 crÃ­ticas
+            <span className="transition-transform duration-300 group-hover:translate-x-1">â†’</span>
           </motion.a>
         </AnimatedSection>
       </div>
@@ -1100,15 +1100,15 @@ function Reviews() {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CONTACT
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Contact({ config }: { config: any }) {
   const infoCards = [
     {
-      icon: '📍',
-      title: 'Localização',
+      icon: 'ðŸ“',
+      title: 'LocalizaÃ§Ã£o',
       gradient: 'from-gold via-flame to-ember',
       shadowColor: 'shadow-flame/20',
       content: (
@@ -1123,14 +1123,14 @@ function Contact({ config }: { config: any }) {
             className="text-gold text-sm font-semibold hover:underline inline-flex items-center gap-1 group"
           >
             Ver no Google Maps
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">â†’</span>
           </a>
         </>
       ),
     },
     {
-      icon: '🕐',
-      title: 'Horário',
+      icon: 'ðŸ•',
+      title: 'HorÃ¡rio',
       gradient: 'from-gold to-gold/60',
       shadowColor: 'shadow-gold/20',
       content: (
@@ -1144,13 +1144,13 @@ function Contact({ config }: { config: any }) {
             ))}
           </div>
           <div className="px-3 py-2.5 bg-ember/10 border border-ember/20 rounded-xl">
-            <p className="text-ember text-xs font-semibold">⚠️ Verificar horário atualizado</p>
+            <p className="text-ember text-xs font-semibold">âš ï¸ Verificar horÃ¡rio atualizado</p>
           </div>
         </>
       ),
     },
     {
-      icon: '📞',
+      icon: 'ðŸ“ž',
       title: 'Contato',
       gradient: 'from-flame to-ember',
       shadowColor: 'shadow-ember/20',
@@ -1158,16 +1158,16 @@ function Contact({ config }: { config: any }) {
         <>
           <div className="space-y-3 mb-5">
             <a href={`tel:${config.contact?.phone?.replace(/\s/g, '')}`} className="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors group">
-              <span className="text-lg">📱</span>
+              <span className="text-lg">ðŸ“±</span>
               <span className="font-semibold group-hover:underline">{config.contact?.phone}</span>
             </a>
             <a href={config.contact?.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors group">
-              <span className="text-lg">📘</span>
+              <span className="text-lg">ðŸ“˜</span>
               <span className="font-semibold group-hover:underline">Facebook</span>
             </a>
             {config.contact?.email && (
               <a href={`mailto:${config.contact.email}`} className="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors group">
-                <span className="text-lg">📧</span>
+                <span className="text-lg">ðŸ“§</span>
                 <span className="font-semibold group-hover:underline">{config.contact.email}</span>
               </a>
             )}
@@ -1253,7 +1253,7 @@ function Contact({ config }: { config: any }) {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span className="relative z-10">📞 Reservar Agora</span>
+                  <span className="relative z-10">ðŸ“ž Reservar Agora</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-ember via-flame to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </motion.button>
                 <motion.a
@@ -1264,7 +1264,7 @@ function Contact({ config }: { config: any }) {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  📍 Como Chegar
+                  ðŸ“ Como Chegar
                 </motion.a>
               </div>
             </div>
@@ -1275,9 +1275,9 @@ function Contact({ config }: { config: any }) {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FOOTER
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Footer({ config }: { config: any }) {
   const siteTitlePlain = stripHTML(config.hero?.title || 'Churrasqueira Amores');
@@ -1290,11 +1290,11 @@ function Footer({ config }: { config: any }) {
             <div className="flex items-center gap-3 mb-4">
               {config.logoIsImage ? (
                 <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 mb-4 overflow-hidden">
-                  <img src={config.logo} alt={`Logótipo ${siteTitlePlain}`} className="w-full h-full object-cover" loading="lazy" />
+                  <img src={config.logo} alt={`LogÃ³tipo ${siteTitlePlain}`} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               ) : (
                 <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 mb-4 overflow-hidden">
-                  <span className="text-xl" aria-hidden="true">{config.logo || '🔥'}</span>
+                  <span className="text-xl" aria-hidden="true">{config.logo || 'ðŸ”¥'}</span>
                 </div>
               )}
               <div>
@@ -1303,13 +1303,13 @@ function Footer({ config }: { config: any }) {
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
-              O autêntico sabor do frango na brasa no coração do Algarve. Uma tradição familiar desde 2009.
+              O autÃªntico sabor do frango na brasa no coraÃ§Ã£o do Algarve. Uma tradiÃ§Ã£o familiar desde 2009.
             </p>
           </div>
 
           {/* Links */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">🧭</span> Navegação</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">ðŸ§­</span> NavegaÃ§Ã£o</h4>
             <div className="space-y-2.5">
               {NAV_LINKS.map((link) => (
                 <a
@@ -1325,7 +1325,7 @@ function Footer({ config }: { config: any }) {
 
           {/* Info */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">ℹ️</span> Informações</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">â„¹ï¸</span> InformaÃ§Ãµes</h4>
             <div className="space-y-2.5 text-sm text-gray-400">
               {config.footer?.info?.map((info: string) => (
                 <p key={info}>{info}</p>
@@ -1335,7 +1335,7 @@ function Footer({ config }: { config: any }) {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">⭐</span> Serviços</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">â­</span> ServiÃ§os</h4>
             <div className="space-y-2.5 text-sm text-gray-400">
               {config.footer?.services?.map((svc: string) => (
                 <p key={svc}>{svc}</p>
@@ -1346,7 +1346,7 @@ function Footer({ config }: { config: any }) {
 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500">© {new Date().getFullYear()} {siteTitlePlain}. Todos os direitos reservados.</p>
+          <p className="text-xs text-gray-500">Â© {new Date().getFullYear()} {siteTitlePlain}. Todos os direitos reservados.</p>
           <div className="flex gap-5">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gold transition-colors text-xs font-medium p-2" aria-label="Visite o nosso Facebook">
               Facebook
@@ -1356,7 +1356,7 @@ function Footer({ config }: { config: any }) {
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gold transition-colors text-xs font-medium p-2"
-              aria-label="Ver localização no Google Maps"
+              aria-label="Ver localizaÃ§Ã£o no Google Maps"
             >
               Google Maps
             </a>
@@ -1367,13 +1367,14 @@ function Footer({ config }: { config: any }) {
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RESERVATION MODAL
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function ReservationModal({ config, onClose, initialProduct }: { config: any, onClose: () => void, initialProduct?: string | null }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [generatedUrl, setGeneratedUrl] = useState('');
   const siteTitlePlain = stripHTML(config.hero?.title || 'Churrasqueira Amores');
 
   const [formData, setFormData] = useState({
@@ -1406,26 +1407,24 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
       const typeLabel = isQuickOrder ? 'Pedido' : 'Reserva';
 
       const logoEmoji = config.logoIsImage ? '📸' : (config.logo || '🔥');
-      const orderMsg = `*${logoEmoji} ${siteTitlePlain.toUpperCase()}* %0A%0A` +
-        `Olá! Gostaria de fazer um *${typeLabel.toUpperCase()}* através do site.%0A%0A` +
-        `*� DADOS DO CLIENTE:*%0A` +
-        `�👤 *Nome:* ${formData.name}%0A` +
-        `📱 *Telemóvel:* ${formData.phone}%0A` +
-        `${formData.email ? `📧 *Email:* ${formData.email}%0A` : ''}` +
-        `%0A*🍽️ DETALHES DA SOLICITAÇÃO:*%0A` +
-        `🗓️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}%0A` +
-        `⏰ *Hora:* ${formData.time}h%0A` +
-        `👥 *Pessoas:* ${formData.people}%0A` +
-        `� *Prato:* ${formData.menu_item || 'Menu Geral'}%0A%0A` +
+      const orderMsg = `*${logoEmoji} ${siteTitlePlain.toUpperCase()}*\n\n` +
+        `Olá! Gostaria de fazer um *${typeLabel.toUpperCase()}* através do site.\n\n` +
+        `*📍 DADOS DO CLIENTE:*\n` +
+        `👤 *Nome:* ${formData.name}\n` +
+        `📱 *Telemóvel:* ${formData.phone}\n` +
+        `${formData.email ? `📧 *Email:* ${formData.email}\n` : ''}` +
+        `\n*🍽️ DETALHES DA SOLICITAÇÃO:*\n` +
+        `🗓️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}\n` +
+        `⏰ *Hora:* ${formData.time}h\n` +
+        `👥 *Pessoas:* ${formData.people}\n` +
+        `🥘 *Prato:* ${formData.menu_item || 'Menu Geral'}\n\n` +
         `_Aguardando confirmação..._`;
 
-      const finalUrl = `https://wa.me/351282798417?text=${orderMsg}`;
+      const finalUrl = `https://wa.me/351282798417?text=${encodeURIComponent(orderMsg)}`;
 
+      setGeneratedUrl(finalUrl);
       setSuccess(true);
-      setTimeout(() => {
-        window.open(finalUrl, '_blank');
-        onClose();
-      }, 2000);
+      // Removed automatic window.open
 
     } catch (err) {
       console.error(err);
@@ -1452,17 +1451,25 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
         className="relative bg-deep border border-gold/20 w-full max-w-md rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(245,158,11,0.12)] max-h-[90vh] overflow-y-auto"
       >
         {success ? (
-          <div className="p-10 text-center space-y-4">
+          <div className="p-10 text-center space-y-6">
             <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto border border-green-500/20">
               <CheckCircle2 className="w-8 h-8 text-green-500" />
             </div>
             <div>
-              <h2 className="text-xl font-black text-white mb-1">Muito Obrigado!</h2>
-              <p className="text-sm text-gray-400">Reserva recebida com sucesso!</p>
+              <h2 className="text-xl font-black text-white mb-2 uppercase">SolicitaÃ§Ã£o Enviada!</h2>
+              <p className="text-sm text-gray-400">SÃ³ falta um Ãºltimo passo. Clique abaixo para confirmar no WhatsApp:</p>
             </div>
-            <div className="flex justify-center">
-              <Loader2 className="w-5 h-5 text-gold animate-spin" />
-            </div>
+
+            <a
+              href={generatedUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setTimeout(onClose, 500)}
+              className="w-full py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black text-base transition-all shadow-xl shadow-green-500/20 flex items-center justify-center gap-3 group"
+            >
+              <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              CONFIRMAR NO WHATSAPP
+            </a>
           </div>
         ) : (
           <div className="p-8">
@@ -1490,7 +1497,7 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-gray-500 uppercase tracking-widest pl-1">Telemóvel / WA</label>
+                  <label className="text-[9px] font-bold text-gray-500 uppercase tracking-widest pl-1">TelemÃ³vel / WA</label>
                   <input
                     required
                     type="tel"
@@ -1578,7 +1585,7 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (initialProduct ? 'Fazer Pedido' : 'Confirmar Reserva')}
               </button>
               <p className="text-[8px] text-gray-500 text-center uppercase tracking-tighter opacity-60">
-                A redirecionar para o WhatsApp após confirmar
+                A redirecionar para o WhatsApp apÃ³s confirmar
               </p>
             </form>
           </div>
@@ -1588,9 +1595,9 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
   );
 }
 
-/* ═══════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    APP
-   ═══════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 const getInitialConfig = () => {
   try {
@@ -1662,7 +1669,7 @@ export default function App() {
       metaDesc.setAttribute('name', 'description');
       document.head.appendChild(metaDesc);
     }
-    metaDesc.setAttribute('content', config.hero?.subtitle || 'O autêntico sabor do frango na brasa no Algarve.');
+    metaDesc.setAttribute('content', config.hero?.subtitle || 'O autÃªntico sabor do frango na brasa no Algarve.');
 
     // Set Theme Color for Mobile
     let themeMeta = document.querySelector('meta[name="theme-color"]');
@@ -1692,7 +1699,7 @@ export default function App() {
               {config.introLogoIsImage || (config.introLogo === undefined && config.logoIsImage) ? (
                 <img src={config.introLogo || config.logo} alt="Logo" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-5xl">{config.introLogo || config.logo || '🔥'}</span>
+                <span className="text-5xl">{config.introLogo || config.logo || 'ðŸ”¥'}</span>
               )}
             </motion.div>
             <motion.div
@@ -1767,3 +1774,4 @@ export default function App() {
     </>
   );
 }
+
