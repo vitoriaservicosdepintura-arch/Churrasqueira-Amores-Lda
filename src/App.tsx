@@ -1405,14 +1405,18 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
       const isQuickOrder = !!initialProduct;
       const typeLabel = isQuickOrder ? 'Pedido' : 'Reserva';
 
-      const orderMsg = `*🔥 ${siteTitlePlain.toUpperCase()}* %0A%0A` +
+      const logoEmoji = config.logoIsImage ? '📸' : (config.logo || '🔥');
+      const orderMsg = `*${logoEmoji} ${siteTitlePlain.toUpperCase()}* %0A%0A` +
         `Olá! Gostaria de fazer um *${typeLabel.toUpperCase()}* através do site.%0A%0A` +
-        `👤 *Nome:* ${formData.name}%0A` +
+        `*� DADOS DO CLIENTE:*%0A` +
+        `�👤 *Nome:* ${formData.name}%0A` +
         `📱 *Telemóvel:* ${formData.phone}%0A` +
+        `${formData.email ? `📧 *Email:* ${formData.email}%0A` : ''}` +
+        `%0A*🍽️ DETALHES DA SOLICITAÇÃO:*%0A` +
         `🗓️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}%0A` +
         `⏰ *Hora:* ${formData.time}h%0A` +
         `👥 *Pessoas:* ${formData.people}%0A` +
-        `🍽️ *Prato:* ${formData.menu_item || 'Geral'}%0A%0A` +
+        `� *Prato:* ${formData.menu_item || 'Menu Geral'}%0A%0A` +
         `_Aguardando confirmação..._`;
 
       const finalUrl = `https://wa.me/351282798417?text=${orderMsg}`;

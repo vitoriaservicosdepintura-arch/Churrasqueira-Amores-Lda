@@ -1677,12 +1677,14 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
 
                                                             const msg = `*${logoEmoji} ${siteName.toUpperCase()}*%0A%0A` +
                                                                 `Olá *${selectedReservation.name}*! 👋%0A%0A` +
-                                                                `Entramos em contato referente à sua solicitação no site:%0A%0A` +
+                                                                `*⚠️ POR FAVOR, CONFIRME SEUS DADOS:*%0A%0A` +
                                                                 `🗓️ *Data:* ${dateStr}%0A` +
                                                                 `⏰ *Hora:* ${timeStr}h%0A` +
                                                                 `👥 *Pessoas:* ${peopleStr}%0A` +
-                                                                `🍽️ *Pedido:* ${dishStr}%0A%0A` +
-                                                                `*Podemos confirmar a sua reserva?*`;
+                                                                `🍽️ *Pedido:* ${dishStr}%0A` +
+                                                                `📱 *Telemóvel:* ${selectedReservation.phone}%0A` +
+                                                                `${selectedReservation.email ? `📧 *Email:* ${selectedReservation.email}%0A` : ''}` +
+                                                                `%0A*Podemos confirmar a sua reserva?*`;
                                                             window.open(`https://wa.me/351${selectedReservation.phone.replace(/\D/g, '')}?text=${msg}`, '_blank');
                                                         }}
                                                         className="w-full py-3.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-green-500/20 flex items-center justify-center gap-2"
