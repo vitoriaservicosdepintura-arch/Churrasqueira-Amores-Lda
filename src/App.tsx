@@ -889,9 +889,13 @@ function Menu({ config }: { config: any }) {
                     <p className="text-gray-400 text-sm leading-relaxed flex-1" style={getTextStyle(item.descColor)}>{item.description}</p>
                     <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
-                      <motion.span className="text-gold text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300" whileHover={{ x: 3 }}>
+                      <motion.button
+                        onClick={() => (window as any).openReservationModal(item.name, item.price)}
+                        className="text-gold text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center"
+                        whileHover={{ x: 3 }}
+                      >
                         Pedir →
-                      </motion.span>
+                      </motion.button>
                     </div>
                   </div>
                 </motion.div>
@@ -1367,15 +1371,14 @@ function Footer({ config }: { config: any }) {
    RESERVATION MODAL
    ═══════════════════════════════════════════ */
 
-function ReservationModal({ config, onClose }: { config: any, onClose: () => void }) {
-  const [step, setStep] = useState(1);
+function ReservationModal({ config, onClose, initialProduct }: { config: any, onClose: () => void, initialProduct?: string | null }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
-    menu_item: '',
+    menu_item: initialProduct || '',
     date: '',
     time: '',
     people: 2
@@ -1397,7 +1400,10 @@ function ReservationModal({ config, onClose }: { config: any, onClose: () => voi
       if (error) throw error;
 
       // WhatsApp Logic
-      const message = `Olá! Gostaria de fazer uma reserva na Churrasqueira Amores.%0A%0A*Detalhes da Reserva:*%0A👤 *Nome:* ${formData.name}%0A📱 *Telemóvel:* ${formData.phone}%0A📧 *Email:* ${formData.email}%0A🗓️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}%0A⏰ *Hora:* ${formData.time}%0A👥 *Pessoas:* ${formData.people}%0A🍽️ *Pedido:* ${formData.menu_item || 'Não especificado'}`;
+      const isQuickOrder = !!initialProduct;
+      const typeLabel = isQuickOrder ? 'Pedido' : 'Reserva';
+
+      const message = `Olá! Gostaria de fazer um ${typeLabel} na Churrasqueira Amores.%0A%0A*Detalhes do Pedido:*%0A👤 *Nome:* ${formData.name}%0A📱 *Telemóvel:* ${formData.phone}%0A️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}%0A⏰ *Hora:* ${formData.time}%0A👥 *Pessoas:* ${formData.people}%0A🍽️ *Prato Escolhido:* ${formData.menu_item || 'Não especificado'}`;
 
       const whatsappUrl = `https://wa.me/351282798417?text=${message}`;
 
@@ -1448,7 +1454,7 @@ function ReservationModal({ config, onClose }: { config: any, onClose: () => voi
           <div className="p-8">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-lg font-black text-white leading-tight">Fazer Reserva</h2>
+                <h2 className="text-lg font-black text-white leading-tight">{initialProduct ? 'Fazer Pedido' : 'Fazer Reserva'}</h2>
                 <p className="text-[9px] text-gold font-bold uppercase tracking-widest leading-none">Churrasqueira Amores</p>
               </div>
               <button onClick={onClose} className="p-1 hover:bg-white/5 rounded-lg transition-colors">
@@ -1555,7 +1561,7 @@ function ReservationModal({ config, onClose }: { config: any, onClose: () => voi
                 disabled={loading}
                 className="w-full py-3 bg-gradient-to-r from-gold via-flame to-ember text-white rounded-xl font-black text-sm shadow-lg shadow-flame/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
               >
-                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Confirmar Reserva'}
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (initialProduct ? 'Fazer Pedido' : 'Confirmar Reserva')}
               </button>
               <p className="text-[8px] text-gray-500 text-center uppercase tracking-tighter opacity-60">
                 A redirecionar para o WhatsApp após confirmar
@@ -1589,10 +1595,14 @@ export default function App() {
   const [config, setConfig] = useState<any>(getInitialConfig);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showReservation, setShowReservation] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
   // Global triggers for modal
   useEffect(() => {
-    (window as any).openReservationModal = () => setShowReservation(true);
+    (window as any).openReservationModal = (productName?: string, productPrice?: string) => {
+      setSelectedProduct(productName && productPrice ? `${productName} - ${productPrice}` : null);
+      setShowReservation(true);
+    };
   }, []);
 
   useEffect(() => {
@@ -1732,7 +1742,11 @@ export default function App() {
         {showReservation && (
           <ReservationModal
             config={config}
-            onClose={() => setShowReservation(false)}
+            initialProduct={selectedProduct}
+            onClose={() => {
+              setShowReservation(false);
+              setSelectedProduct(null);
+            }}
           />
         )}
       </AnimatePresence>
