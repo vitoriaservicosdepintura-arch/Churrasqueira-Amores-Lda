@@ -1492,7 +1492,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             </h4>
                                             <div className="space-y-3">
                                                 {localConfig.contact?.hours?.map((h: any, idx: number) => (
-                                                    <div key={idx} className="flex gap-2">
+                                                    <div key={idx} className="flex gap-2 group/hour">
                                                         <input
                                                             value={h.day}
                                                             onChange={(e) => {
@@ -1501,7 +1501,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                 updateField(['contact', 'hours'], hours);
                                                             }}
                                                             className="flex-1 bg-deep border border-white/5 rounded-lg px-3 py-2 text-xs outline-none focus:border-gold"
-                                                            placeholder="Dias"
+                                                            placeholder="Dias ex: Segunda - Sábado"
                                                         />
                                                         <input
                                                             value={h.time}
@@ -1511,10 +1511,29 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                 updateField(['contact', 'hours'], hours);
                                                             }}
                                                             className="flex-1 bg-deep border border-white/5 rounded-lg px-3 py-2 text-xs outline-none focus:border-gold"
-                                                            placeholder="Horas"
+                                                            placeholder="Horas ex: 12:00 - 22:00"
                                                         />
+                                                        <button
+                                                            onClick={() => {
+                                                                const hours = localConfig.contact.hours.filter((_: any, i: number) => i !== idx);
+                                                                updateField(['contact', 'hours'], hours);
+                                                            }}
+                                                            className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors opacity-0 group-hover/hour:opacity-100"
+                                                            title="Eliminar Horário"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
                                                     </div>
                                                 ))}
+                                                <button
+                                                    onClick={() => {
+                                                        const currentHours = localConfig.contact?.hours || [];
+                                                        updateField(['contact', 'hours'], [...currentHours, { day: '', time: '' }]);
+                                                    }}
+                                                    className="w-full py-2 border border-dashed border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-gold hover:border-gold/30 transition-all"
+                                                >
+                                                    + Adicionar Horário
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
