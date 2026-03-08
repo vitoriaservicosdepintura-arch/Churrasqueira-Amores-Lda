@@ -1600,7 +1600,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                 <div className="flex items-center justify-between border-b border-white/5 pb-6">
                                     <div>
                                         <div className="flex items-center gap-3">
-                                            <h3 className="text-xl font-black text-white">Reservas de Clientes</h3>
+                                            <h3 className="text-xl font-black text-white">Reservas em {stripHTML(localConfig.hero?.title || 'Churrasqueira')}</h3>
                                             {unreadCount > 0 && !selectedReservation && (
                                                 <span className="px-2 py-0.5 bg-red-600 text-[10px] font-bold text-white rounded-full animate-pulse shadow-lg shadow-red-600/20">
                                                     {unreadCount} Novas

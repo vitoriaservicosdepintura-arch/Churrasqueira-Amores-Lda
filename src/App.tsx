@@ -1346,7 +1346,7 @@ function Footer({ config }: { config: any }) {
 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500">© {new Date().getFullYear()} Churrasqueira Amores Lda. Todos os direitos reservados.</p>
+          <p className="text-xs text-gray-500">© {new Date().getFullYear()} {siteTitlePlain}. Todos os direitos reservados.</p>
           <div className="flex gap-5">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gold transition-colors text-xs font-medium p-2" aria-label="Visite o nosso Facebook">
               Facebook
@@ -1374,6 +1374,8 @@ function Footer({ config }: { config: any }) {
 function ReservationModal({ config, onClose, initialProduct }: { config: any, onClose: () => void, initialProduct?: string | null }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const siteTitlePlain = stripHTML(config.hero?.title || 'Churrasqueira Amores');
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -1403,7 +1405,7 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
       const isQuickOrder = !!initialProduct;
       const typeLabel = isQuickOrder ? 'Pedido' : 'Reserva';
 
-      const message = `Olá! Gostaria de fazer um ${typeLabel} na Churrasqueira Amores.%0A%0A*Detalhes do Pedido:*%0A👤 *Nome:* ${formData.name}%0A📱 *Telemóvel:* ${formData.phone}%0A️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}%0A⏰ *Hora:* ${formData.time}%0A👥 *Pessoas:* ${formData.people}%0A🍽️ *Prato Escolhido:* ${formData.menu_item || 'Não especificado'}`;
+      const message = `Olá! Gostaria de fazer um ${typeLabel} na ${siteTitlePlain}.%0A%0A*Detalhes do Pedido:*%0A👤 *Nome:* ${formData.name}%0A📱 *Telemóvel:* ${formData.phone}%0A🗓️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}%0A⏰ *Hora:* ${formData.time}%0A👥 *Pessoas:* ${formData.people}%0A🍽️ *Prato Escolhido:* ${formData.menu_item || 'Não especificado'}`;
 
       const whatsappUrl = `https://wa.me/351282798417?text=${message}`;
 
@@ -1455,7 +1457,7 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
             <div className="flex justify-between items-center mb-4">
               <div>
                 <h2 className="text-lg font-black text-white leading-tight">{initialProduct ? 'Fazer Pedido' : 'Fazer Reserva'}</h2>
-                <p className="text-[9px] text-gold font-bold uppercase tracking-widest leading-none">Churrasqueira Amores</p>
+                <p className="text-[9px] text-gold font-bold uppercase tracking-widest leading-none">{siteTitlePlain}</p>
               </div>
               <button onClick={onClose} className="p-1 hover:bg-white/5 rounded-lg transition-colors">
                 <X className="w-5 h-5 text-gray-400" />
