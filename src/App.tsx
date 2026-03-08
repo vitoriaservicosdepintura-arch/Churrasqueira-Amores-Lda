@@ -1098,12 +1098,12 @@ function Reviews() {
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CONTACT
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   —————————————————————————————————————————————————————————————————————— */
 
 function Contact({ config }: { config: any }) {
   const infoCards = [
     {
-      icon: 'ðŸ“',
+      icon: '📍',
       title: 'Localização',
       gradient: 'from-gold via-flame to-ember',
       shadowColor: 'shadow-flame/20',
@@ -1125,7 +1125,7 @@ function Contact({ config }: { config: any }) {
       ),
     },
     {
-      icon: 'ðŸ•',
+      icon: '🕒',
       title: 'Horário',
       gradient: 'from-gold to-gold/60',
       shadowColor: 'shadow-gold/20',
@@ -1140,7 +1140,7 @@ function Contact({ config }: { config: any }) {
             ))}
           </div>
           <div className="px-3 py-2.5 bg-ember/10 border border-ember/20 rounded-xl">
-            <p className="text-ember text-xs font-semibold">âš ï¸ Verificar horário atualizado</p>
+            <p className="text-ember text-xs font-semibold">⚠️ Verificar horário atualizado</p>
           </div>
         </>
       ),
