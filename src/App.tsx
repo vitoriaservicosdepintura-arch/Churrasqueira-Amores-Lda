@@ -19,6 +19,11 @@ import {
 
 
 
+const stripHTML = (html: string) => {
+  if (!html) return '';
+  return html.replace(/<[^>]*>?/gm, '');
+};
+
 const getTextStyle = (color: string) => {
   if (!color) return {};
   if (color.includes('gradient')) {
@@ -339,6 +344,7 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
   }, []);
 
   const siteTitle = config.hero?.title || 'Churrasqueira Amores';
+  const siteTitlePlain = stripHTML(siteTitle);
   const hasHTML = siteTitle.includes('<');
   const siteTitleParts = siteTitle.split(' ');
   const firstPart = siteTitleParts[0];
@@ -358,7 +364,7 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
           <motion.a href="#hero" className="flex items-center gap-3 group" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/30 group-hover:shadow-flame/50 transition-shadow duration-300 overflow-hidden">
               {config.logoIsImage ? (
-                <img src={config.logo} alt={`Logótipo ${config.hero?.title}`} className="w-full h-full object-cover" />
+                <img src={config.logo} alt={`Logótipo ${siteTitlePlain}`} className="w-full h-full object-cover" />
               ) : (
                 <span className="text-2xl" aria-hidden="true">{config.logo || '🔥'}</span>
               )}
@@ -1276,13 +1282,15 @@ function Footer({ config }: { config: any }) {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 overflow-hidden">
-                {config.logoIsImage ? (
-                  <img src={config.logo} alt={`Logótipo ${config.hero?.title}`} className="w-full h-full object-cover" loading="lazy" />
-                ) : (
+              {config.logoIsImage ? (
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 mb-4 overflow-hidden">
+                  <img src={config.logo} alt={`Logótipo ${siteTitlePlain}`} className="w-full h-full object-cover" loading="lazy" />
+                </div>
+              ) : (
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 mb-4 overflow-hidden">
                   <span className="text-xl" aria-hidden="true">{config.logo || '🔥'}</span>
-                )}
-              </div>
+                </div>
+              )}
               <div>
                 <span className="text-sm font-bold">{config.hero?.title?.split(' ')[0]}</span>
                 <span className="text-gold font-extrabold ml-1">{config.hero?.title?.split(' ').slice(1).join(' ')}</span>
@@ -1618,7 +1626,8 @@ export default function App() {
   useEffect(() => {
     // Dynamic SEO & Meta tags
     const siteTitle = config.hero?.title || 'Churrasqueira Amores';
-    document.title = siteTitle;
+    const siteTitlePlain = stripHTML(siteTitle);
+    document.title = siteTitlePlain;
 
     // Update Meta Description
     let metaDesc = document.querySelector('meta[name="description"]');

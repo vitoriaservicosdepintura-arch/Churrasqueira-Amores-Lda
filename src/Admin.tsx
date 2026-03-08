@@ -24,6 +24,11 @@ const ADMIN_COLORS = {
     ]
 };
 
+const stripHTML = (html: string) => {
+    if (!html) return '';
+    return html.replace(/<[^>]*>?/gm, '');
+};
+
 const getTextStyle = (color: string) => {
     if (!color) return {};
     if (color.includes('gradient')) {
@@ -637,7 +642,9 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                         <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center shrink-0">
                             <Settings className="w-4 h-4 text-gold" />
                         </div>
-                        <h2 className="text-lg font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent truncate">Painel Adm</h2>
+                        <h2 className="text-lg font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent truncate">
+                            {stripHTML(localConfig.hero?.title || 'Painel Adm')}
+                        </h2>
                     </div>
 
                     <div className="hidden md:block">
