@@ -24,9 +24,9 @@ const ADMIN_COLORS = {
     ]
 };
 
-const stripHTML = (html: string) => {
-    if (!html) return '';
-    return html.replace(/<[^>]*>?/gm, '');
+const stripHTML = (text: any) => {
+    if (!text || typeof text !== 'string') return '';
+    return text.replace(/<[^>]*>?/gm, '');
 };
 
 const getTextStyle = (color: string) => {

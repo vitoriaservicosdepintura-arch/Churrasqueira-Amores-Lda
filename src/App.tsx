@@ -19,9 +19,9 @@ import {
 
 
 
-const stripHTML = (html: string) => {
-  if (!html) return '';
-  return html.replace(/<[^>]*>?/gm, '');
+const stripHTML = (text: any) => {
+  if (!text || typeof text !== 'string') return '';
+  return text.replace(/<[^>]*>?/gm, '');
 };
 
 const getTextStyle = (color: string) => {
@@ -345,8 +345,8 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
 
   const siteTitle = config.hero?.title || 'Churrasqueira Amores';
   const siteTitlePlain = stripHTML(siteTitle);
-  const hasHTML = siteTitle.includes('<');
-  const siteTitleParts = siteTitle.split(' ');
+  const hasHTML = typeof siteTitle === 'string' && siteTitle.includes('<');
+  const siteTitleParts = siteTitlePlain.split(' ');
   const firstPart = siteTitleParts[0];
   const lastPart = siteTitleParts.slice(1).join(' ');
 
@@ -542,8 +542,9 @@ function Hero({ config }: { config: any }) {
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '60%']);
 
   const siteTitle = config.hero?.title || 'Churrasqueira Amores';
-  const hasHTML = siteTitle.includes('<');
-  const titleParts = siteTitle.split(' ');
+  const siteTitlePlain = stripHTML(siteTitle);
+  const hasHTML = typeof siteTitle === 'string' && siteTitle.includes('<');
+  const titleParts = siteTitlePlain.split(' ');
   const firstPart = titleParts[0];
   const lastPart = titleParts.slice(1).join(' ');
 
@@ -1275,6 +1276,7 @@ function Contact({ config }: { config: any }) {
    ═══════════════════════════════════════════ */
 
 function Footer({ config }: { config: any }) {
+  const siteTitlePlain = stripHTML(config.hero?.title || 'Churrasqueira Amores');
   return (
     <footer className="relative bg-surface/30 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -1292,8 +1294,8 @@ function Footer({ config }: { config: any }) {
                 </div>
               )}
               <div>
-                <span className="text-sm font-bold">{config.hero?.title?.split(' ')[0]}</span>
-                <span className="text-gold font-extrabold ml-1">{config.hero?.title?.split(' ').slice(1).join(' ')}</span>
+                <span className="text-sm font-bold">{siteTitlePlain.split(' ')[0]}</span>
+                <span className="text-gold font-extrabold ml-1">{siteTitlePlain.split(' ').slice(1).join(' ')}</span>
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
@@ -1677,10 +1679,11 @@ export default function App() {
             >
               {(() => {
                 const titleStr = config.introTitle || config.hero?.title || 'Churrasqueira Amores';
-                if (titleStr.includes('<')) {
+                const titlePlain = stripHTML(titleStr);
+                if (typeof titleStr === 'string' && titleStr.includes('<')) {
                   return <span style={getTextStyle(config.introTitleColor || config.hero?.titleColor)} dangerouslySetInnerHTML={{ __html: titleStr }} />;
                 }
-                const parts = titleStr.split(' ');
+                const parts = titlePlain.split(' ');
                 return (
                   <>
                     <span style={getTextStyle(config.introTitleColor || config.hero?.titleColor)}>
