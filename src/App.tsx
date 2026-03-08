@@ -1253,14 +1253,14 @@ function Contact({ config }: { config: any }) {
                   <div className="absolute inset-0 bg-gradient-to-r from-ember via-flame to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </motion.button>
                 <motion.a
-                  href="https://maps.google.com/?q=Cafe+Restaurante+Chave+D-Ouro+Odiaxere"
+                  href={config.contact?.googleMapsUrl || "https://maps.google.com/?q=Cafe+Restaurante+Chave+D-Ouro+Odiaxere"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-8 py-4 glass rounded-full text-base md:text-lg font-semibold hover:bg-white/15 transition-all duration-300 hover:border-gold/20"
+                  className="px-8 py-4 glass rounded-full text-base md:text-lg font-semibold hover:bg-white/15 transition-all duration-300 hover:border-gold/20 flex items-center justify-center gap-2"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  ðŸ“ Como Chegar
+                  📍 Como Chegar
                 </motion.a>
               </div>
             </div>
@@ -1271,9 +1271,9 @@ function Contact({ config }: { config: any }) {
   );
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ══════════════════════════════════════════════════════════════════════════
    FOOTER
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ══════════════════════════════════════════════════════════════════════════ */
 
 function Footer({ config }: { config: any }) {
   const siteTitlePlain = stripHTML(config.hero?.title || "Chave D'Ouro Café");
@@ -1348,7 +1348,7 @@ function Footer({ config }: { config: any }) {
               Facebook
             </a>
             <a
-              href="https://maps.google.com/?q=Cafe+Restaurante+Chave+D-Ouro+Odiaxere"
+              href={config.contact?.googleMapsUrl || "https://maps.google.com/?q=Cafe+Restaurante+Chave+D-Ouro+Odiaxere"}
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gold transition-colors text-xs font-medium p-2"
@@ -1363,9 +1363,9 @@ function Footer({ config }: { config: any }) {
   );
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ══════════════════════════════════════════════════════════════════════════
    RESERVATION MODAL
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ══════════════════════════════════════════════════════════════════════════ */
 
 function ReservationModal({ config, onClose, initialProduct }: { config: any, onClose: () => void, initialProduct?: string | null }) {
   const [loading, setLoading] = useState(false);
