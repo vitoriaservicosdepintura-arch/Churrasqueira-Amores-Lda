@@ -230,10 +230,17 @@ const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange,
         restoreSelection();
         document.execCommand('styleWithCSS', false, 'true');
 
-        // If hexColor is empty (Reset button), we apply the site's default text color (usually white)
-        // or attempt to remove format if we wanted to be more complex, but white is safest here.
-        const colorToApply = hexColor === '' ? '#ffffff' : hexColor;
-        document.execCommand('foreColor', false, colorToApply);
+        if (hexColor === '') {
+            // "Voltar Cor Padrão" with selection: clear formatting or set to base white
+            // removeFormat is best to clear complex styles, then we re-apply font if we have it
+            document.execCommand('removeFormat', false, undefined);
+            // Optionally re-apply the font if one was selected
+            if (currentFont) {
+                document.execCommand('fontName', false, currentFont);
+            }
+        } else {
+            document.execCommand('foreColor', false, hexColor);
+        }
         handleInput();
     };
 
@@ -937,15 +944,26 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             <div className="p-5 glass rounded-2xl border-2 border-gold/20 flex flex-col items-center">
                                                 <span className="text-[10px] uppercase font-black text-gold/60 mb-3 tracking-widest">Prévia da Intro</span>
                                                 <div className="flex items-center gap-2 text-xl font-black">
-                                                    <span style={getTextStyle(localConfig.introTitleColor || localConfig.hero?.titleColor)}>
-                                                        {(localConfig.introTitle || localConfig.hero?.title || 'Churrasqueira Amores').split(' ')[0]}
-                                                    </span>
-                                                    <span
-                                                        className={!localConfig.introTitleColor && !localConfig.hero?.titleColor ? "text-gold" : ""}
-                                                        style={getTextStyle(localConfig.introTitleColor || localConfig.hero?.titleColor)}
-                                                    >
-                                                        {(localConfig.introTitle || localConfig.hero?.title || '').split(' ').slice(1).join(' ')}
-                                                    </span>
+                                                    {(() => {
+                                                        const titleStr = localConfig.introTitle || localConfig.hero?.title || 'Churrasqueira Amores';
+                                                        if (titleStr.includes('<')) {
+                                                            return <span style={getTextStyle(localConfig.introTitleColor || localConfig.hero?.titleColor)} dangerouslySetInnerHTML={{ __html: titleStr }} />;
+                                                        }
+                                                        const parts = titleStr.split(' ');
+                                                        return (
+                                                            <>
+                                                                <span style={getTextStyle(localConfig.introTitleColor || localConfig.hero?.titleColor)}>
+                                                                    {parts[0]}
+                                                                </span>
+                                                                <span
+                                                                    className={!(localConfig.introTitleColor || localConfig.hero?.titleColor) ? "text-gold" : ""}
+                                                                    style={getTextStyle(localConfig.introTitleColor || localConfig.hero?.titleColor)}
+                                                                >
+                                                                    {parts.slice(1).join(' ')}
+                                                                </span>
+                                                            </>
+                                                        );
+                                                    })()}
                                                 </div>
                                             </div>
                                         </div>
