@@ -1405,13 +1405,21 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
       const isQuickOrder = !!initialProduct;
       const typeLabel = isQuickOrder ? 'Pedido' : 'Reserva';
 
-      const message = `Olá! Gostaria de fazer um ${typeLabel} na ${siteTitlePlain}.%0A%0A*Detalhes do Pedido:*%0A👤 *Nome:* ${formData.name}%0A📱 *Telemóvel:* ${formData.phone}%0A🗓️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}%0A⏰ *Hora:* ${formData.time}%0A👥 *Pessoas:* ${formData.people}%0A🍽️ *Prato Escolhido:* ${formData.menu_item || 'Não especificado'}`;
+      const orderMsg = `*🔥 ${siteTitlePlain.toUpperCase()}* %0A%0A` +
+        `Olá! Gostaria de fazer um *${typeLabel.toUpperCase()}* através do site.%0A%0A` +
+        `👤 *Nome:* ${formData.name}%0A` +
+        `📱 *Telemóvel:* ${formData.phone}%0A` +
+        `🗓️ *Data:* ${new Date(formData.date).toLocaleDateString('pt-PT')}%0A` +
+        `⏰ *Hora:* ${formData.time}h%0A` +
+        `👥 *Pessoas:* ${formData.people}%0A` +
+        `🍽️ *Prato:* ${formData.menu_item || 'Geral'}%0A%0A` +
+        `_Aguardando confirmação..._`;
 
-      const whatsappUrl = `https://wa.me/351282798417?text=${message}`;
+      const finalUrl = `https://wa.me/351282798417?text=${orderMsg}`;
 
       setSuccess(true);
       setTimeout(() => {
-        window.open(whatsappUrl, '_blank');
+        window.open(finalUrl, '_blank');
         onClose();
       }, 2000);
 

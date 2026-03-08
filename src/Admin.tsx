@@ -1668,8 +1668,22 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
 
                                                     <button
                                                         onClick={() => {
-                                                            const msg = `Olá ${selectedReservation.name}, entrando em contato referente à sua reserva na Churrasqueira Amores para o dia ${new Date(selectedReservation.date).toLocaleDateString('pt-PT')} às ${selectedReservation.time.slice(0, 5)}.\n\nSE ESTÁ TUDO CERTO COM A RESERVA, SE PODEMOS CONCLUIR A RESERVA SOLICITADA?`;
-                                                            window.open(`https://wa.me/351${selectedReservation.phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`, '_blank');
+                                                            const siteName = stripHTML(localConfig.hero?.title || 'Churrasqueira Amores');
+                                                            const logoEmoji = localConfig.logoIsImage ? '📸' : (localConfig.logo || '🔥');
+                                                            const dateStr = new Date(selectedReservation.date).toLocaleDateString('pt-PT');
+                                                            const timeStr = selectedReservation.time.slice(0, 5);
+                                                            const dishStr = selectedReservation.menu_item || 'Menu Geral';
+                                                            const peopleStr = selectedReservation.people;
+
+                                                            const msg = `*${logoEmoji} ${siteName.toUpperCase()}*%0A%0A` +
+                                                                `Olá *${selectedReservation.name}*! 👋%0A%0A` +
+                                                                `Entramos em contato referente à sua solicitação no site:%0A%0A` +
+                                                                `🗓️ *Data:* ${dateStr}%0A` +
+                                                                `⏰ *Hora:* ${timeStr}h%0A` +
+                                                                `👥 *Pessoas:* ${peopleStr}%0A` +
+                                                                `🍽️ *Pedido:* ${dishStr}%0A%0A` +
+                                                                `*Podemos confirmar a sua reserva?*`;
+                                                            window.open(`https://wa.me/351${selectedReservation.phone.replace(/\D/g, '')}?text=${msg}`, '_blank');
                                                         }}
                                                         className="w-full py-3.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-green-500/20 flex items-center justify-center gap-2"
                                                     >
