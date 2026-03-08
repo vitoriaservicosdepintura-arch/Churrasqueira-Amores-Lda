@@ -77,7 +77,7 @@ const ColorMixer = ({ current, onChange, onOpen }: { current: string, onChange: 
                                 </h4>
                                 <div className="grid grid-cols-4 gap-2">
                                     {ADMIN_COLORS.vivid.map(c => (
-                                        <button key={c} onClick={() => { onChange(c); setIsOpen(false); }} className="w-8 h-8 rounded-lg shadow-inner hover:scale-110 transition-transform" style={{ backgroundColor: c }} />
+                                        <button key={c} onMouseDown={(e) => { e.preventDefault(); onChange(c); setIsOpen(false); }} className="w-8 h-8 rounded-lg shadow-inner hover:scale-110 transition-transform" style={{ backgroundColor: c }} />
                                     ))}
                                 </div>
                             </div>
@@ -88,7 +88,7 @@ const ColorMixer = ({ current, onChange, onOpen }: { current: string, onChange: 
                                 </h4>
                                 <div className="grid grid-cols-4 gap-2">
                                     {ADMIN_COLORS.matte.map(c => (
-                                        <button key={c} onClick={() => { onChange(c); setIsOpen(false); }} className="w-8 h-8 rounded-lg shadow-inner hover:scale-110 transition-transform" style={{ backgroundColor: c }} />
+                                        <button key={c} onMouseDown={(e) => { e.preventDefault(); onChange(c); setIsOpen(false); }} className="w-8 h-8 rounded-lg shadow-inner hover:scale-110 transition-transform" style={{ backgroundColor: c }} />
                                     ))}
                                 </div>
                             </div>
@@ -99,7 +99,7 @@ const ColorMixer = ({ current, onChange, onOpen }: { current: string, onChange: 
                                 </h4>
                                 <div className="grid grid-cols-2 gap-2">
                                     {ADMIN_COLORS.gradients.map(c => (
-                                        <button key={c} onClick={() => { onChange(c); setIsOpen(false); }} className="h-10 rounded-lg shadow-md hover:scale-[1.03] transition-transform border border-white/5" style={{ background: c }} />
+                                        <button key={c} onMouseDown={(e) => { e.preventDefault(); onChange(c); setIsOpen(false); }} className="h-10 rounded-lg shadow-md hover:scale-[1.03] transition-transform border border-white/5" style={{ background: c }} />
                                     ))}
                                 </div>
                             </div>
@@ -215,14 +215,16 @@ const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange,
 
     // Apply color to selection OR reset global field color if no selection
     const applyColorToSelection = (hexColor: string) => {
+        // If the user clicked "Voltar Cor Padrão" (hexColor is empty), we ALWAYS clear the global override color
+        if (hexColor === '') {
+            onColorChange('');
+        }
+
         const saved = savedSelectionRef.current;
 
-        // CASE: No text is selected
+        // CASE: No text is selected (just the caret position)
         if (!saved || saved.collapsed) {
-            // If the user clicked "Voltar Cor Padrão" with zero selection, reset the whole field color
-            if (hexColor === '') {
-                onColorChange('');
-            }
+            // No selection work needed, global color already cleared above
             return;
         }
 
@@ -231,13 +233,10 @@ const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange,
         document.execCommand('styleWithCSS', false, 'true');
 
         if (hexColor === '') {
-            // "Voltar Cor Padrão" with selection: clear formatting or set to base white
-            // removeFormat is best to clear complex styles, then we re-apply font if we have it
-            document.execCommand('removeFormat', false, undefined);
-            // Optionally re-apply the font if one was selected
-            if (currentFont) {
-                document.execCommand('fontName', false, currentFont);
-            }
+            // Apply white as the "default" original color for selected text segments
+            document.execCommand('foreColor', false, '#ffffff');
+            // Also try removeFormat to clear any complex styling if needed
+            // document.execCommand('removeFormat', false, undefined);
         } else {
             document.execCommand('foreColor', false, hexColor);
         }
