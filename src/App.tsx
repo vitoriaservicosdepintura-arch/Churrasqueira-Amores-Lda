@@ -3,7 +3,7 @@ import { supabase } from './supabase';
 import Admin from './Admin';
 import {
   Settings as SettingsIcon,
-  X, Calendar, Clock, Users, Phone, Loader2, CheckCircle2
+  X, Calendar, Clock, Users, Phone, Loader2, CheckCircle2, MessageCircle
 } from 'lucide-react';
 import {
   motion,
@@ -44,21 +44,21 @@ const getTextStyle = (color: string) => {
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 const DEFAULT_CONFIG = {
-  logo: 'ðŸ”¥',
+  logo: '🔥',
   logoIsImage: false,
   hero: {
-    title: 'Churrasqueira Amores',
-    badge: 'Desde 2009 â€¢ OdiÃ¡xere, Algarve',
-    subtitle: 'O autÃªntico sabor do frango na brasa. Uma joia escondida no coraÃ§Ã£o do Algarve, onde a tradiÃ§Ã£o e o sabor se encontram.',
+    title: "Chave D'Ouro Café",
+    badge: 'Desde 2009 • Odiáxere, Algarve',
+    subtitle: 'O autêntico sabor do frango na brasa. Uma joia escondida no coração do Algarve, onde a tradição e o sabor se encontram.',
     bgImage: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&h=1080&fit=crop&q=80',
     ctaText: 'Reservar Mesa'
   },
   about: {
-    badge: 'A Nossa HistÃ³ria',
-    title: 'TradiÃ§Ã£o e Sabor',
+    badge: 'A Nossa História',
+    title: 'Tradição e Sabor',
     subtitle: 'Desde Sempre',
-    text1: 'Na Churrasqueira Amores, cada frango Ã© uma obra de arte. Marinado com temperos tradicionais portugueses e assado lentamente sobre carvÃ£o, o nosso frango tem conquistado coraÃ§Ãµes hÃ¡ mais de 15 anos.',
-    text2: 'Localizada na pacata vila de OdiÃ¡xere, no coraÃ§Ã£o do Algarve, somos um restaurante familiar onde a simplicidade encontra a excelÃªncia. Os nossos clientes voltam sempre â€” pelo frango crocante, pelas batatas fritas caseiras e pelo ambiente acolhedor.',
+    text1: "Na Chave D'Ouro Café, cada frango é uma obra de arte. Marinado com temperos tradicionais portugueses e assado lentamente sobre carvão, o nosso frango tem conquistado corações há mais de 15 anos.",
+    text2: 'Localizada na pacata vila de Odiáxere, no coração do Algarve, somos um restaurante familiar onde a simplicidade encontra a excelência. Os nossos clientes voltam sempre — pelo frango crocante, pelas batatas fritas caseiras e pelo ambiente acolhedor.',
     image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&h=600&fit=crop&q=80'
   },
   menuItems: [
@@ -66,52 +66,52 @@ const DEFAULT_CONFIG = {
       id: 1,
       name: 'Frango Churrasco',
       description: 'O nosso frango assado na brasa, marinado com temperos tradicionais portugueses. Pele crocante e carne suculenta.',
-      price: '8,50â‚¬',
+      price: '8,50€',
       image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&q=80',
-      tag: 'â­ Especialidade',
+      tag: '⭐ Especialidade',
       category: 'Pratos',
     },
     {
       id: 2,
       name: 'Batatas Fritas Caseiras',
-      description: 'Cortadas Ã  mÃ£o e fritas na hora. Simplesmente soberbas, como dizem os nossos clientes.',
-      price: '3,50â‚¬',
+      description: 'Cortadas à mão e fritas na hora. Simplesmente soberbas, como dizem os nossos clientes.',
+      price: '3,50€',
       image: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=600&h=400&fit=crop&q=80',
-      tag: 'â¤ï¸ Favorito',
+      tag: '❤️ Favorito',
       category: 'Acompanhamentos',
     },
     {
       id: 3,
       name: 'Salada Especial da Casa',
       description: 'Salada fresca com o nosso molho fabuloso que tem conquistado todos os visitantes.',
-      price: '4,00â‚¬',
+      price: '4,00€',
       image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&q=80',
-      tag: 'ðŸ¥— SaudÃ¡vel',
+      tag: '🥗 Saudável',
       category: 'Acompanhamentos',
     },
     {
       id: 4,
       name: 'Frango Piri-Piri',
-      description: 'Para os amantes de picante. Grelhado com o nosso molho piri-piri artesanal e irresistÃ­vel.',
-      price: '9,50â‚¬',
+      description: 'Para os amantes de picante. Grelhado com o nosso molho piri-piri artesanal e irresistível.',
+      price: '9,50€',
       image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600&h=400&fit=crop&q=80',
-      tag: 'ðŸŒ¶ï¸ Picante',
+      tag: '🌶️ï¸ Picante',
       category: 'Pratos',
     },
     {
       id: 5,
       name: 'Espetada Mista',
-      description: 'Espetada de carnes mistas grelhadas na perfeiÃ§Ã£o sobre carvÃ£o ardente.',
-      price: '12,00â‚¬',
+      description: 'Espetada de carnes mistas grelhadas na perfeição sobre carvão ardente.',
+      price: '12,00€',
       image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&h=400&fit=crop&q=80',
-      tag: 'ðŸ”¥ Premium',
+      tag: '🔥 Premium',
       category: 'Pratos',
     },
     {
       id: 6,
       name: 'Sangria da Casa',
-      description: 'Sangria artesanal com frutas frescas da Ã©poca e vinho tinto alentejano selecionado.',
-      price: '6,00â‚¬',
+      description: 'Sangria artesanal com frutas frescas da época e vinho tinto alentejano selecionado.',
+      price: '6,00€',
       image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&h=400&fit=crop&q=80',
       tag: 'ðŸ· Bebida',
       category: 'Bebidas',
@@ -127,12 +127,12 @@ const DEFAULT_CONFIG = {
   ],
   contact: {
     title: 'Venha Conhecer-nos',
-    text: 'Estamos Ã  sua espera para lhe oferecer o melhor frango do Algarve',
-    address: '250, N125 nÂ°66c\n8600-250 OdiÃ¡xere\nAlgarve, Portugal',
-    googleMapsUrl: 'https://maps.google.com/?q=Churrasqueira+Amores+Odiaxere',
+    text: 'Estamos à sua espera para lhe oferecer o melhor frango do Algarve',
+    address: '250, N125 n°66c\n8600-250 Odiáxere\nAlgarve, Portugal',
+    googleMapsUrl: 'https://maps.google.com/?q=Cafe+Restaurante+Chave+D-Ouro+Odiaxere',
     hours: [
-      { day: 'Segunda â€“ SÃ¡bado', time: '12:00 â€“ 22:00' },
-      { day: 'Domingo', time: '12:00 â€“ 21:00' }
+      { day: 'Segunda — Sábado', time: '12:00 — 22:00' },
+      { day: 'Domingo', time: '12:00 — 21:00' }
     ],
     phone: '282 798 417',
     facebook: 'https://facebook.com',
@@ -140,16 +140,16 @@ const DEFAULT_CONFIG = {
   },
   footer: {
     info: [
-      'ðŸ“ N125 nÂ°66c, OdiÃ¡xere',
-      'ðŸ“ž 282 798 417',
-      'ðŸ’° 10 â€“ 15â‚¬ por pessoa',
-      'â­ 4.5 / 5 (329 avaliaÃ§Ãµes)'
+      'ðŸ“ N125 n°66c, Odiáxere',
+      '📞 282 798 417',
+      '💰 10 — 15€ por pessoa',
+      '⭐ 4.5 / 5 (329 avaliações)'
     ],
     services: [
       'ðŸ½ï¸ Comer no local',
-      'ðŸ¥¡ Take away',
-      'ðŸ›µ Entrega ao domicÃ­lio',
-      'ðŸ“ž Reservas por telefone'
+      '🥡 Take away',
+      '🛵 Entrega ao domicílio',
+      '📞 Reservas por telefone'
     ]
   }
 };
@@ -159,67 +159,67 @@ const REVIEWS = [
     id: 1,
     name: 'jjc',
     avatar: 'J',
-    text: 'Uma joia escondida do frango assado. A uma curta distÃ¢ncia de carro das multidÃµes de turistas, este restaurante familiar especializado em frango assado Ã© um verdadeiro tesouro. O frango? Perfeito â€” pele crocante, carne suculenta e cheio de sabor.',
+    text: 'Uma joia escondida do frango assado. A uma curta distância de carro das multidões de turistas, este restaurante familiar especializado em frango assado é um verdadeiro tesouro. O frango? Perfeito — pele crocante, carne suculenta e cheio de sabor.',
     rating: 5,
-    date: 'hÃ¡ 7 meses',
-    reviewCount: '11 crÃ­ticas',
+    date: 'há 7 meses',
+    reviewCount: '11 críticas',
     color: '#f59e0b',
   },
   {
     id: 2,
     name: 'Herve Garand',
     avatar: 'H',
-    text: 'NÃ³s adoramos, esse pequeno restaurante nos foi recomendado, nos divertimos muito, Ã© simples, Ã© simpÃ¡tico e Ã© super bom e por 30 euros para dois. Voltaremos com certeza!',
+    text: 'Nós adoramos, esse pequeno restaurante nos foi recomendado, nos divertimos muito, é simples, é simpático e é super bom e por 30 euros para dois. Voltaremos com certeza!',
     rating: 5,
-    date: 'hÃ¡ 5 meses',
-    reviewCount: '186 crÃ­ticas',
+    date: 'há 5 meses',
+    reviewCount: '186 críticas',
     color: '#831df6',
   },
   {
     id: 3,
     name: 'Victoria Hallam',
     avatar: 'V',
-    text: 'NÃ£o sei como OdiÃ¡xere tem duas das melhores churrasqueiras do Algarve, mas tem. A Ãºnica coisa melhor que o frango Ã© a salada com o seu molho fabuloso.',
+    text: 'Não sei como Odiáxere tem duas das melhores churrasqueiras do Algarve, mas tem. A única coisa melhor que o frango é a salada com o seu molho fabuloso.',
     rating: 5,
-    date: 'hÃ¡ 10 meses',
-    reviewCount: '52 crÃ­ticas',
+    date: 'há 10 meses',
+    reviewCount: '52 críticas',
     color: '#f97316',
   },
   {
     id: 4,
     name: 'Marco Silva',
     avatar: 'M',
-    text: 'Muito bons pratos de comida... graÃ§as ao dono/a da churrasqueira. PreÃ§os honestos e qualidade excepcional. O melhor frango assado que jÃ¡ comi!',
+    text: 'Muito bons pratos de comida... graças ao dono/a da churrasqueira. Preços honestos e qualidade excepcional. O melhor frango assado que já comi!',
     rating: 5,
-    date: 'hÃ¡ 3 meses',
-    reviewCount: '8 crÃ­ticas',
+    date: 'há 3 meses',
+    reviewCount: '8 críticas',
     color: '#ef4444',
   },
   {
     id: 5,
     name: 'Ana Costa',
     avatar: 'A',
-    text: 'Muito bom, sÃ³ Ã© pena ter poucas mesas, mas tudo 5 estrelas. O frango Ã© incrÃ­vel e as batatas fritas caseiras sÃ£o as melhores que jÃ¡ comi no Algarve.',
+    text: 'Muito bom, só é pena ter poucas mesas, mas tudo 5 estrelas. O frango é incrível e as batatas fritas caseiras são as melhores que já comi no Algarve.',
     rating: 4,
-    date: 'hÃ¡ 2 meses',
-    reviewCount: '24 crÃ­ticas',
+    date: 'há 2 meses',
+    reviewCount: '24 críticas',
     color: '#b146fe',
   },
 ];
 
 const STATS = [
-  { value: 329, suffix: '+', label: 'AvaliaÃ§Ãµes', decimal: false },
-  { value: 4.5, suffix: 'â˜…', label: 'ClassificaÃ§Ã£o', decimal: true },
-  { value: 15, suffix: '+', label: 'Anos de TradiÃ§Ã£o', decimal: false },
+  { value: 329, suffix: '+', label: 'Avaliações', decimal: false },
+  { value: 4.5, suffix: '★', label: 'Classificação', decimal: true },
+  { value: 15, suffix: '+', label: 'Anos de Tradição', decimal: false },
   { value: 10000, suffix: '+', label: 'Clientes Felizes', decimal: false },
 ];
 
 const NAV_LINKS = [
-  { label: 'InÃ­cio', href: '#hero' },
+  { label: 'Início', href: '#hero' },
   { label: 'Sobre', href: '#about' },
   { label: 'Menu', href: '#menu' },
   { label: 'Galeria', href: '#gallery' },
-  { label: 'CrÃ­ticas', href: '#reviews' },
+  { label: 'Críticas', href: '#reviews' },
   { label: 'Contato', href: '#contact' },
 ];
 
@@ -343,7 +343,7 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const siteTitle = config.hero?.title || 'Churrasqueira Amores';
+  const siteTitle = config.hero?.title || "Chave D'Ouro Café";
   const siteTitlePlain = stripHTML(siteTitle);
   const hasHTML = typeof siteTitle === 'string' && siteTitle.includes('<');
   const siteTitleParts = siteTitlePlain.split(' ');
@@ -364,9 +364,9 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
           <motion.a href="#hero" className="flex items-center gap-3 group" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/30 group-hover:shadow-flame/50 transition-shadow duration-300 overflow-hidden">
               {config.logoIsImage ? (
-                <img src={config.logo} alt={`LogÃ³tipo ${siteTitlePlain}`} className="w-full h-full object-cover" />
+                <img src={config.logo} alt={`Logótipo ${siteTitlePlain}`} className="w-full h-full object-cover" />
               ) : (
-                <span className="text-2xl" aria-hidden="true">{config.logo || 'ðŸ”¥'}</span>
+                <span className="text-2xl" aria-hidden="true">{config.logo || '🔥'}</span>
               )}
             </div>
             <div className="hidden sm:block">
@@ -411,13 +411,11 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Reservar uma mesa"
-            >
-              ðŸ“ž Reservar
-            </motion.button>
+            > 📞 Reservar </motion.button>
           </div>
 
           {/* Mobile hamburger */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-3 -mr-2 text-white relative z-50 rounded-xl hover:bg-white/5 transition-colors" aria-label="Abrir menu de navegaÃ§Ã£o">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-3 -mr-2 text-white relative z-50 rounded-xl hover:bg-white/5 transition-colors" aria-label="Abrir menu de navegação">
             <div className="w-6 h-5 flex flex-col justify-between">
               <span className={`block w-full h-0.5 bg-white rounded transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-[9px]' : ''}`} />
               <span className={`block w-full h-0.5 bg-white rounded transition-all duration-300 ${menuOpen ? 'opacity-0 scale-0' : ''}`} />
@@ -462,7 +460,7 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
                 transition={{ delay: NAV_LINKS.length * 0.06 }}
               >
                 <SettingsIcon className="w-4 h-4" />
-                Ãrea Administrativa
+                Área Administrativa
               </motion.button>
               <button
                 onClick={() => {
@@ -470,10 +468,8 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
                   (window as any).openReservationModal();
                 }}
                 className="block w-full text-center px-6 py-4 bg-gradient-to-r from-gold to-flame rounded-full text-base font-bold text-white shadow-lg mt-4 cursor-pointer active:scale-95 transition-transform"
-                aria-label="Fazer uma reserva rÃ¡pida"
-              >
-                ðŸ“ž Reservar Agora
-              </button>
+                aria-label="Fazer uma reserva rápida"
+              > 📞 Reservar Agora </button>
             </div>
           </motion.div>
         )}
@@ -491,11 +487,11 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] pb-[env(safe-area-inset-bottom,20px)] pt-2 bg-gradient-to-t from-deep via-deep/95 to-transparent">
       <div className="mx-4 mb-2 bg-surface/90 backdrop-blur-3xl border border-white/10 rounded-3xl py-3 px-6 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] flex items-center justify-between gap-1">
         <a href="#hero" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
-          <div className="text-xl">ðŸ </div>
-          <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">InÃ­cio</span>
+          <div className="text-xl">🏠</div>
+          <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
         </a>
         <a href="#menu" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
-          <div className="text-xl">ðŸ´</div>
+          <div className="text-xl">🍽</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Menu</span>
         </a>
 
@@ -505,13 +501,13 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
             onClick={() => (window as any).openReservationModal()}
             className="w-16 h-16 bg-gradient-to-br from-gold via-flame to-ember rounded-full flex flex-col items-center justify-center shadow-[0_10px_30px_rgba(249,115,22,0.4)] border-4 border-deep active:scale-90 transition-transform"
           >
-            <div className="text-2xl mt-1">ðŸ”¥</div>
+            <div className="text-2xl mt-1">🔥</div>
             <div className="bg-gold text-deep text-[8px] font-black px-1.5 py-0.5 rounded-full -mt-1 shadow-sm uppercase">Reserva</div>
           </button>
         </div>
 
         <a href="#contact" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
-          <div className="text-xl">ðŸ“</div>
+          <div className="text-xl">📍</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Local</span>
         </a>
 
@@ -520,7 +516,7 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
           onClick={onOpenAdmin}
           className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1"
         >
-          <div className="text-xl">âš™ï¸</div>
+          <div className="text-xl">⚙️</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Admin</span>
         </button>
       </div>
@@ -541,7 +537,7 @@ function Hero({ config }: { config: any }) {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '60%']);
 
-  const siteTitle = config.hero?.title || 'Churrasqueira Amores';
+  const siteTitle = config.hero?.title || "Chave D'Ouro Café";
   const siteTitlePlain = stripHTML(siteTitle);
   const hasHTML = typeof siteTitle === 'string' && siteTitle.includes('<');
   const titleParts = siteTitlePlain.split(' ');
@@ -608,10 +604,10 @@ function Hero({ config }: { config: any }) {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9 }} className="flex flex-wrap items-center justify-center gap-3 mb-10">
           <StarRating rating={5} size="w-5 h-5" />
           <span className="text-gold font-extrabold text-lg">4.5</span>
-          <span className="text-gray-500">â€¢</span>
-          <span className="text-gray-400 text-sm font-medium">329 avaliaÃ§Ãµes</span>
-          <span className="text-gray-500">â€¢</span>
-          <span className="text-gray-400 text-sm font-medium">10 â€“ 15â‚¬ por pessoa</span>
+          <span className="text-gray-500">•</span>
+          <span className="text-gray-400 text-sm font-medium">329 avaliações</span>
+          <span className="text-gray-500">•</span>
+          <span className="text-gray-400 text-sm font-medium">10 — 15€ por pessoa</span>
         </motion.div>
 
         {/* CTA */}
@@ -623,7 +619,7 @@ function Hero({ config }: { config: any }) {
             whileTap={{ scale: 0.95 }}
           >
             <span className="relative z-10 flex items-center justify-center gap-2" style={getTextStyle(config.hero?.ctaColor)}>
-              <span>ðŸ“ž</span> {config.hero?.ctaText || 'Reservar Mesa'}
+              <span>📞</span> {config.hero?.ctaText || 'Reservar Mesa'}
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-ember via-flame to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </motion.button>
@@ -635,7 +631,7 @@ function Hero({ config }: { config: any }) {
             whileTap={{ scale: 0.95 }}
           >
             Ver Menu
-            <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">â†’</span>
+            <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
           </motion.a>
         </motion.div>
       </motion.div>
@@ -702,13 +698,13 @@ function About({ config }: { config: any }) {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <AnimatedSection>
             <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6" style={getTextStyle(config.about?.badgeColor)}>
-              {config.about?.badge || 'A Nossa HistÃ³ria'}
+              {config.about?.badge || 'A Nossa História'}
             </span>
             <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6" style={getTextStyle(config.about?.titleColor)}>
-              {config.about?.title || 'TradiÃ§Ã£o e Sabor'}
+              {config.about?.title || 'Tradição e Sabor'}
             </h2>
             <p className="text-gray-300 leading-relaxed mb-4 text-base md:text-lg" style={getTextStyle(config.about?.text1Color)}>
-              {config.about?.text1 || 'Na Churrasqueira Amores, cada frango Ã© uma obra de arte.'}
+              {config.about?.text1 || "Na Chave D'Ouro Café, cada frango é uma obra de arte."}
             </p>
             <p className="text-gray-400 leading-relaxed mb-8" style={getTextStyle(config.about?.text2Color)}>
               {config.about?.text2}
@@ -716,10 +712,10 @@ function About({ config }: { config: any }) {
 
             <div className="flex flex-wrap gap-3">
               {[
-                { icon: 'ðŸ—', text: 'Frango na Brasa' },
-                { icon: 'ðŸ¥”', text: 'Batatas Caseiras' },
-                { icon: 'ðŸ”¥', text: 'CarvÃ£o Vegetal' },
-                { icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', text: 'Ambiente Familiar' },
+                { icon: '🍗', text: 'Frango na Brasa' },
+                { icon: '🥔', text: 'Batatas Caseiras' },
+                { icon: '🔥', text: 'Carvão Vegetal' },
+                { icon: '👨‍👩‍👧‍👦', text: 'Ambiente Familiar' },
               ].map((tag) => (
                 <motion.div
                   key={tag.text}
@@ -754,7 +750,7 @@ function About({ config }: { config: any }) {
               transition={{ duration: 0.8, delay: 0.6, type: 'spring', bounce: 0.3 }}
               whileHover={{ rotate: 0, scale: 1.1 }}
             >
-              <div className="text-3xl md:text-4xl font-black text-white">4.5â˜…</div>
+              <div className="text-3xl md:text-4xl font-black text-white">4.5★</div>
               <div className="text-xs md:text-sm font-semibold text-white/80">Google Reviews</div>
             </motion.div>
 
@@ -767,7 +763,7 @@ function About({ config }: { config: any }) {
               transition={{ duration: 0.6, delay: 0.8 }}
               whileHover={{ rotate: 0, scale: 1.05 }}
             >
-              <div className="text-sm font-bold flex items-center gap-1">ðŸ’° 10 â€“ 15â‚¬</div>
+              <div className="text-sm font-bold flex items-center gap-1">💰 10 — 15€</div>
               <div className="text-xs text-gray-400 mt-0.5">por pessoa</div>
             </motion.div>
 
@@ -779,7 +775,7 @@ function About({ config }: { config: any }) {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 1 }}
             >
-              {['ðŸ½ï¸ Local', 'ðŸ¥¡ Takeaway', 'ðŸ›µ Entrega'].map((s) => (
+              {['ðŸ½ï¸ Local', '🥡 Takeaway', '🛵 Entrega'].map((s) => (
                 <span key={s} className="px-2.5 py-1.5 bg-deep/80 backdrop-blur-sm rounded-full text-[10px] md:text-xs font-semibold border border-white/10">
                   {s}
                 </span>
@@ -818,7 +814,7 @@ function Menu({ config }: { config: any }) {
             <span className="text-gradient-fire">Pratos Estrela</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
-            Cada prato Ã© preparado com ingredientes frescos e o amor de uma tradiÃ§Ã£o familiar
+            Cada prato é preparado com ingredientes frescos e o amor de uma tradição familiar
           </p>
         </AnimatedSection>
 
@@ -894,7 +890,7 @@ function Menu({ config }: { config: any }) {
                         className="text-gold text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center"
                         whileHover={{ x: 3 }}
                       >
-                        Pedir â†’
+                        Pedir →
                       </motion.button>
                     </div>
                   </div>
@@ -926,7 +922,7 @@ function Gallery({ config }: { config: any }) {
             Momentos <span className="text-gradient-fire">Deliciosos</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
-            Fotografias dos nossos pratos e do ambiente acolhedor da Churrasqueira Amores
+            Fotografias dos nossos pratos e do ambiente acolhedor da Chave D'Ouro Café
           </p>
         </AnimatedSection>
 
@@ -985,10 +981,10 @@ function Reviews() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <AnimatedSection className="text-center mb-16">
           <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6">
-            CrÃ­ticas dos Clientes
+            Críticas dos Clientes
           </span>
           <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6">
-            O Que <span className="text-gradient-fire">Dizem de NÃ³s</span>
+            O Que <span className="text-gradient-fire">Dizem de Nós</span>
           </h2>
 
           {/* Avatar group */}
@@ -1010,7 +1006,7 @@ function Reviews() {
                 <StarRating rating={5} size="w-3.5 h-3.5" />
                 <span className="text-gold font-extrabold">4.5</span>
               </div>
-              <p className="text-xs text-gray-500">329 avaliaÃ§Ãµes no Google</p>
+              <p className="text-xs text-gray-500">329 avaliações no Google</p>
             </div>
           </div>
         </AnimatedSection>
@@ -1058,7 +1054,7 @@ function Reviews() {
                 <div>
                   <h4 className="font-semibold text-sm">{review.name}</h4>
                   <p className="text-[11px] text-gray-500">
-                    {review.reviewCount} â€¢ {review.date}
+                    {review.reviewCount} • {review.date}
                   </p>
                 </div>
               </div>
@@ -1091,8 +1087,8 @@ function Reviews() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Ver todas as 329 crÃ­ticas
-            <span className="transition-transform duration-300 group-hover:translate-x-1">â†’</span>
+            Ver todas as 329 críticas
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </motion.a>
         </AnimatedSection>
       </div>
@@ -1108,7 +1104,7 @@ function Contact({ config }: { config: any }) {
   const infoCards = [
     {
       icon: 'ðŸ“',
-      title: 'LocalizaÃ§Ã£o',
+      title: 'Localização',
       gradient: 'from-gold via-flame to-ember',
       shadowColor: 'shadow-flame/20',
       content: (
@@ -1123,14 +1119,14 @@ function Contact({ config }: { config: any }) {
             className="text-gold text-sm font-semibold hover:underline inline-flex items-center gap-1 group"
           >
             Ver no Google Maps
-            <span className="transition-transform duration-300 group-hover:translate-x-1">â†’</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </a>
         </>
       ),
     },
     {
       icon: 'ðŸ•',
-      title: 'HorÃ¡rio',
+      title: 'Horário',
       gradient: 'from-gold to-gold/60',
       shadowColor: 'shadow-gold/20',
       content: (
@@ -1144,13 +1140,13 @@ function Contact({ config }: { config: any }) {
             ))}
           </div>
           <div className="px-3 py-2.5 bg-ember/10 border border-ember/20 rounded-xl">
-            <p className="text-ember text-xs font-semibold">âš ï¸ Verificar horÃ¡rio atualizado</p>
+            <p className="text-ember text-xs font-semibold">âš ï¸ Verificar horário atualizado</p>
           </div>
         </>
       ),
     },
     {
-      icon: 'ðŸ“ž',
+      icon: '📞',
       title: 'Contato',
       gradient: 'from-flame to-ember',
       shadowColor: 'shadow-ember/20',
@@ -1158,16 +1154,16 @@ function Contact({ config }: { config: any }) {
         <>
           <div className="space-y-3 mb-5">
             <a href={`tel:${config.contact?.phone?.replace(/\s/g, '')}`} className="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors group">
-              <span className="text-lg">ðŸ“±</span>
+              <span className="text-lg">📱</span>
               <span className="font-semibold group-hover:underline">{config.contact?.phone}</span>
             </a>
             <a href={config.contact?.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors group">
-              <span className="text-lg">ðŸ“˜</span>
+              <span className="text-lg">📘</span>
               <span className="font-semibold group-hover:underline">Facebook</span>
             </a>
             {config.contact?.email && (
               <a href={`mailto:${config.contact.email}`} className="flex items-center gap-3 text-gray-300 hover:text-gold transition-colors group">
-                <span className="text-lg">ðŸ“§</span>
+                <span className="text-lg">📧</span>
                 <span className="font-semibold group-hover:underline">{config.contact.email}</span>
               </a>
             )}
@@ -1253,11 +1249,11 @@ function Contact({ config }: { config: any }) {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span className="relative z-10">ðŸ“ž Reservar Agora</span>
+                  <span className="relative z-10">📞 Reservar Agora</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-ember via-flame to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </motion.button>
                 <motion.a
-                  href="https://maps.google.com/?q=Churrasqueira+Amores+Odiaxere"
+                  href="https://maps.google.com/?q=Cafe+Restaurante+Chave+D-Ouro+Odiaxere"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-8 py-4 glass rounded-full text-base md:text-lg font-semibold hover:bg-white/15 transition-all duration-300 hover:border-gold/20"
@@ -1280,7 +1276,7 @@ function Contact({ config }: { config: any }) {
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Footer({ config }: { config: any }) {
-  const siteTitlePlain = stripHTML(config.hero?.title || 'Churrasqueira Amores');
+  const siteTitlePlain = stripHTML(config.hero?.title || "Chave D'Ouro Café");
   return (
     <footer className="relative bg-surface/30 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -1290,11 +1286,11 @@ function Footer({ config }: { config: any }) {
             <div className="flex items-center gap-3 mb-4">
               {config.logoIsImage ? (
                 <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 mb-4 overflow-hidden">
-                  <img src={config.logo} alt={`LogÃ³tipo ${siteTitlePlain}`} className="w-full h-full object-cover" loading="lazy" />
+                  <img src={config.logo} alt={`Logótipo ${siteTitlePlain}`} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               ) : (
                 <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/20 mb-4 overflow-hidden">
-                  <span className="text-xl" aria-hidden="true">{config.logo || 'ðŸ”¥'}</span>
+                  <span className="text-xl" aria-hidden="true">{config.logo || '🔥'}</span>
                 </div>
               )}
               <div>
@@ -1303,13 +1299,13 @@ function Footer({ config }: { config: any }) {
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
-              O autÃªntico sabor do frango na brasa no coraÃ§Ã£o do Algarve. Uma tradiÃ§Ã£o familiar desde 2009.
+              O autêntico sabor do frango na brasa no coração do Algarve. Uma tradição familiar desde 2009.
             </p>
           </div>
 
           {/* Links */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">ðŸ§­</span> NavegaÃ§Ã£o</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">🧭</span> Navegação</h4>
             <div className="space-y-2.5">
               {NAV_LINKS.map((link) => (
                 <a
@@ -1325,7 +1321,7 @@ function Footer({ config }: { config: any }) {
 
           {/* Info */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">â„¹ï¸</span> InformaÃ§Ãµes</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">ℹ️</span> Informações</h4>
             <div className="space-y-2.5 text-sm text-gray-400">
               {config.footer?.info?.map((info: string) => (
                 <p key={info}>{info}</p>
@@ -1335,7 +1331,7 @@ function Footer({ config }: { config: any }) {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">â­</span> ServiÃ§os</h4>
+            <h4 className="font-semibold text-sm mb-4 text-gray-200 flex items-center gap-2"><span className="text-gold">⭐</span> Serviços</h4>
             <div className="space-y-2.5 text-sm text-gray-400">
               {config.footer?.services?.map((svc: string) => (
                 <p key={svc}>{svc}</p>
@@ -1346,17 +1342,17 @@ function Footer({ config }: { config: any }) {
 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500">Â© {new Date().getFullYear()} {siteTitlePlain}. Todos os direitos reservados.</p>
+          <p className="text-xs text-gray-500">© {new Date().getFullYear()} {siteTitlePlain}. Todos os direitos reservados.</p>
           <div className="flex gap-5">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gold transition-colors text-xs font-medium p-2" aria-label="Visite o nosso Facebook">
               Facebook
             </a>
             <a
-              href="https://maps.google.com/?q=Churrasqueira+Amores+Odiaxere"
+              href="https://maps.google.com/?q=Cafe+Restaurante+Chave+D-Ouro+Odiaxere"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gold transition-colors text-xs font-medium p-2"
-              aria-label="Ver localizaÃ§Ã£o no Google Maps"
+              aria-label="Ver localização no Google Maps"
             >
               Google Maps
             </a>
@@ -1375,7 +1371,7 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState('');
-  const siteTitlePlain = stripHTML(config.hero?.title || 'Churrasqueira Amores');
+  const siteTitlePlain = stripHTML(config.hero?.title || "Chave D'Ouro Café");
 
   const [formData, setFormData] = useState({
     name: '',
@@ -1456,8 +1452,8 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
               <CheckCircle2 className="w-8 h-8 text-green-500" />
             </div>
             <div>
-              <h2 className="text-xl font-black text-white mb-2 uppercase">SolicitaÃ§Ã£o Enviada!</h2>
-              <p className="text-sm text-gray-400">SÃ³ falta um Ãºltimo passo. Clique abaixo para confirmar no WhatsApp:</p>
+              <h2 className="text-xl font-black text-white mb-2 uppercase">Solicitação Enviada!</h2>
+              <p className="text-sm text-gray-400">Só falta um último passo. Clique abaixo para confirmar no WhatsApp:</p>
             </div>
 
             <a
@@ -1497,7 +1493,7 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-gray-500 uppercase tracking-widest pl-1">TelemÃ³vel / WA</label>
+                  <label className="text-[9px] font-bold text-gray-500 uppercase tracking-widest pl-1">Telemóvel / WA</label>
                   <input
                     required
                     type="tel"
@@ -1585,7 +1581,7 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (initialProduct ? 'Fazer Pedido' : 'Confirmar Reserva')}
               </button>
               <p className="text-[8px] text-gray-500 text-center uppercase tracking-tighter opacity-60">
-                A redirecionar para o WhatsApp apÃ³s confirmar
+                A redirecionar para o WhatsApp após confirmar
               </p>
             </form>
           </div>
@@ -1658,7 +1654,7 @@ export default function App() {
 
   useEffect(() => {
     // Dynamic SEO & Meta tags
-    const siteTitle = config.hero?.title || 'Churrasqueira Amores';
+    const siteTitle = config.hero?.title || "Chave D'Ouro Café";
     const siteTitlePlain = stripHTML(siteTitle);
     document.title = siteTitlePlain;
 
@@ -1669,7 +1665,7 @@ export default function App() {
       metaDesc.setAttribute('name', 'description');
       document.head.appendChild(metaDesc);
     }
-    metaDesc.setAttribute('content', config.hero?.subtitle || 'O autÃªntico sabor do frango na brasa no Algarve.');
+    metaDesc.setAttribute('content', config.hero?.subtitle || 'O autêntico sabor do frango na brasa no Algarve.');
 
     // Set Theme Color for Mobile
     let themeMeta = document.querySelector('meta[name="theme-color"]');
@@ -1699,7 +1695,7 @@ export default function App() {
               {config.introLogoIsImage || (config.introLogo === undefined && config.logoIsImage) ? (
                 <img src={config.introLogo || config.logo} alt="Logo" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-5xl">{config.introLogo || config.logo || 'ðŸ”¥'}</span>
+                <span className="text-5xl">{config.introLogo || config.logo || '🔥'}</span>
               )}
             </motion.div>
             <motion.div
@@ -1709,7 +1705,7 @@ export default function App() {
               aria-live="polite"
             >
               {(() => {
-                const titleStr = config.introTitle || config.hero?.title || 'Churrasqueira Amores';
+                const titleStr = config.introTitle || config.hero?.title || "Chave D'Ouro Café";
                 const titlePlain = stripHTML(titleStr);
                 if (typeof titleStr === 'string' && titleStr.includes('<')) {
                   return <span style={getTextStyle(config.introTitleColor || config.hero?.titleColor)} dangerouslySetInnerHTML={{ __html: titleStr }} />;

@@ -316,7 +316,7 @@ const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange,
 
 
 const LogoPreview = ({ config, getTextStyle }: { config: any, getTextStyle: any }) => {
-    const titleRaw = config.hero?.title || 'Churrasqueira Amores';
+    const titleRaw = config.hero?.title || "Chave D'Ouro Café";
     const hasHTML = titleRaw.includes('<');
 
     return (
@@ -951,7 +951,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                 <span className="text-[10px] uppercase font-black text-gold/60 mb-3 tracking-widest">Prévia da Intro</span>
                                                 <div className="flex items-center gap-2 text-xl font-black">
                                                     {(() => {
-                                                        const titleStr = localConfig.introTitle || localConfig.hero?.title || 'Churrasqueira Amores';
+                                                        const titleStr = localConfig.introTitle || localConfig.hero?.title || "Chave D'Ouro Café";
                                                         if (titleStr.includes('<')) {
                                                             return <span style={getTextStyle(localConfig.introTitleColor || localConfig.hero?.titleColor)} dangerouslySetInnerHTML={{ __html: titleStr }} />;
                                                         }
@@ -1667,7 +1667,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                     </div>
 
                                                     {(() => {
-                                                        const siteName = stripHTML(localConfig.hero?.title || 'Churrasqueira Amores');
+                                                        const siteName = stripHTML(localConfig.hero?.title || "Chave D'Ouro Café");
                                                         const logoEmoji = localConfig.logoIsImage ? '🔥' : (localConfig.logo || '🔥');
                                                         const dateStr = new Date(selectedReservation.date).toLocaleDateString('pt-PT');
                                                         const timeStr = selectedReservation.time.slice(0, 5);
@@ -1863,7 +1863,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                             <div className="space-y-1">
                                                                 <span className="block text-[9px] font-bold text-gray-500 uppercase tracking-widest">Ação</span>
                                                                 <div className="text-[11px] font-bold text-gold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                                                                    Ver Detalhes &nbsp;<ChevronLeft className="w-3 h-3 animate-pulse rotate-180" />
+                                                                    Ver Detalhes  <ChevronLeft className="w-3 h-3 animate-pulse rotate-180" />
                                                                 </div>
                                                             </div>
                                                         </div>
