@@ -6,7 +6,7 @@ import {
     Settings, History, Utensils, MapPin,
     AlertCircle, Loader2, Plus, Globe, Sparkles,
     Calendar, CheckCircle, Clock, Users, Phone, Mail, MessageCircle, ChevronLeft, LogOut, Lock,
-    Palette, Droplets, Paintbrush, RotateCcw, Video, Play
+    Palette, Droplets, Paintbrush, RotateCcw, Video, Play, QrCode
 } from 'lucide-react';
 
 const ADMIN_COLORS = {
@@ -1263,6 +1263,49 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                             <option value="Acompanhamentos">Acompanhamentos</option>
                                                             <option value="Bebidas">Bebidas</option>
                                                         </select>
+                                                    </div>
+                                                </div>
+
+                                                {/* QR Code Upload Section */}
+                                                <div className="pt-3 border-t border-white/5 mt-2">
+                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1 mb-2 block flex items-center gap-2">
+                                                        <QrCode className="w-3 h-3 text-gold" /> Upload do QR Code (Substitui o link "Pedir")
+                                                    </label>
+                                                    <div className="flex items-center gap-3">
+                                                        {item.qrCode ? (
+                                                            <div className="w-16 h-16 bg-white rounded-lg p-1 shrink-0 relative group/qr">
+                                                                <img src={item.qrCode} alt="QR Code" className="w-full h-full object-contain" />
+                                                                <button
+                                                                    onClick={() => {
+                                                                        const items = [...localConfig.menuItems];
+                                                                        delete items[idx].qrCode;
+                                                                        updateField(['menuItems'], items);
+                                                                    }}
+                                                                    className="absolute -top-2 -right-2 bg-red-500 rounded-full p-1 opacity-0 group-hover/qr:opacity-100 transition-opacity"
+                                                                >
+                                                                    <X className="w-3 h-3 text-white" />
+                                                                </button>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="w-16 h-16 bg-white/5 border border-dashed border-white/20 rounded-lg flex items-center justify-center shrink-0">
+                                                                <QrCode className="w-6 h-6 text-gray-600" />
+                                                            </div>
+                                                        )}
+                                                        <div className="flex-1">
+                                                            <label className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-2 rounded-xl cursor-pointer text-[10px] font-bold transition-all">
+                                                                <Upload className="w-3 h-3" />
+                                                                {item.qrCode ? 'Trocar QR Code' : 'Subir QR Code'}
+                                                                <input
+                                                                    type="file"
+                                                                    className="hidden"
+                                                                    accept="image/*"
+                                                                    onChange={(e) => handleImageUpload(e, ['menuItems', idx.toString(), 'qrCode'])}
+                                                                />
+                                                            </label>
+                                                            <p className="text-[8px] text-gray-500 mt-1 italic pl-1">
+                                                                {item.qrCode ? 'QR Code carregado e visível no site.' : 'Se vazio, o link "Pedir" continuará ativo.'}
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

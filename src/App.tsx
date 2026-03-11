@@ -898,13 +898,22 @@ function Menu({ config }: { config: any }) {
                     <p className="text-gray-400 text-sm leading-relaxed flex-1" style={getTextStyle(item.descColor)}>{item.description}</p>
                     <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
-                      <motion.button
-                        onClick={() => (window as any).openReservationModal(item.name, item.price)}
-                        className="text-gold text-xs font-semibold lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center"
-                        whileHover={{ x: 3 }}
-                      >
-                        Pedir →
-                      </motion.button>
+                      {item.qrCode ? (
+                        <motion.div
+                          className="w-16 h-16 bg-white rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10"
+                          whileHover={{ scale: 1.2, rotate: 5 }}
+                        >
+                          <img src={item.qrCode} alt={`QR Code ${item.name}`} className="w-full h-full object-contain" />
+                        </motion.div>
+                      ) : (
+                        <motion.button
+                          onClick={() => (window as any).openReservationModal(item.name, item.price)}
+                          className="text-gold text-xs font-semibold lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center"
+                          whileHover={{ x: 3 }}
+                        >
+                          Pedir →
+                        </motion.button>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -960,11 +969,11 @@ function MenuVision({ config }: { config: any }) {
                 <img src={v.image} alt={v.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                   <div className="w-16 h-16 rounded-full bg-deep/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:scale-110 group-hover:bg-flame/80 transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)]">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                         <path d="M8 5v14l11-7z" />
-                      </svg>
-                   </div>
+                  <div className="w-16 h-16 rounded-full bg-deep/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:scale-110 group-hover:bg-flame/80 transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
                 </div>
                 <div className="absolute bottom-4 left-4 right-4 text-center">
                   <h3 className="text-xl font-bold text-white drop-shadow-md">{v.name}</h3>
@@ -999,16 +1008,16 @@ function MenuVision({ config }: { config: any }) {
               </button>
 
               <div className="w-full md:w-3/5 bg-black relative flex items-center justify-center">
-                 {selectedVision.videoUrl ? (
-                    <video src={selectedVision.videoUrl} autoPlay controls className="w-full max-h-[50vh] md:max-h-full" />
-                 ) : (
-                    <div className="text-gray-500">Video Indisponível</div>
-                 )}
+                {selectedVision.videoUrl ? (
+                  <video src={selectedVision.videoUrl} autoPlay controls className="w-full max-h-[50vh] md:max-h-full" />
+                ) : (
+                  <div className="text-gray-500">Video Indisponível</div>
+                )}
               </div>
 
               <div className="w-full md:w-2/5 p-6 md:p-8 overflow-y-auto bg-gradient-to-br from-surface to-deep">
                 <h3 className="text-2xl md:text-3xl font-black mb-6 text-white">{selectedVision.name}</h3>
-                
+
                 <div className="mb-4">
                   <span className="text-xs font-bold uppercase tracking-widest text-gold mb-2 block">Camadas d'Ingredientes</span>
                   <div className="h-px w-12 bg-gold/50 mb-6"></div>
@@ -1016,7 +1025,7 @@ function MenuVision({ config }: { config: any }) {
 
                 <div className="space-y-4">
                   {selectedVision.ingredients?.split('\n').map((ing: string, i: number) => (
-                    <motion.div 
+                    <motion.div
                       key={i}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
