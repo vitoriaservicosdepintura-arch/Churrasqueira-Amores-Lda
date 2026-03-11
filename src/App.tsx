@@ -21,7 +21,9 @@ import {
 
 const stripHTML = (text: any) => {
   if (!text || typeof text !== 'string') return '';
-  return text.replace(/<[^>]*>?/gm, '');
+  const cleanText = text.replace(/<[^>]*>?/gm, '');
+  const doc = new DOMParser().parseFromString(cleanText, "text/html");
+  return doc.documentElement.textContent || '';
 };
 
 const getTextStyle = (color: string) => {
