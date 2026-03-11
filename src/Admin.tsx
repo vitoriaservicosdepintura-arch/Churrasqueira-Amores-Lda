@@ -1271,7 +1271,10 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                     </label>
                                                     <div className="flex items-center gap-3">
                                                         {item.qrCode ? (
-                                                            <div className="w-16 h-16 bg-white rounded-lg p-1 shrink-0 relative group/qr">
+                                                            <div
+                                                                className="w-16 h-16 bg-white rounded-lg p-1 shrink-0 relative group/qr cursor-zoom-in"
+                                                                onClick={() => window.dispatchEvent(new CustomEvent('openQR', { detail: item.qrCode }))}
+                                                            >
                                                                 <img src={item.qrCode} alt="QR Code" className="w-full h-full object-contain" />
                                                                 <button
                                                                     onClick={() => {
@@ -1427,7 +1430,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                         <input
                                                                             type="file"
                                                                             className="hidden"
-                                                                            accept="video/*,.mp4,.mov,.m4v,.webm,.avi,.mkv"
+                                                                            accept="video/*"
                                                                             onChange={(e) => handleFileUpload(e, ['menuVision', idx.toString(), 'videoUrl'])}
                                                                         />
                                                                     </label>

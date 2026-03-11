@@ -805,7 +805,7 @@ function About({ config }: { config: any }) {
    MENU
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-function Menu({ config }: { config: any }) {
+function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => void }) {
   const [activeCategory, setActiveCategory] = useState('Todos');
   const categories = ['Todos', 'Pratos', 'Acompanhamentos', 'Bebidas'];
   const filtered = activeCategory === 'Todos' ? config.menuItems : config.menuItems?.filter((m: any) => m.category === activeCategory);
@@ -900,8 +900,14 @@ function Menu({ config }: { config: any }) {
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
                       {item.qrCode ? (
                         <motion.div
-                          className="w-16 h-16 bg-white rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10"
+                          className="w-16 h-16 bg-white rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 cursor-zoom-in relative z-10"
                           whileHover={{ scale: 1.2, rotate: 5 }}
+                          animate={{ boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 15px rgba(245,158,11,0.3)', '0 0 0px rgba(245,158,11,0)'] }}
+                          transition={{ repeat: Infinity, duration: 2 }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpenQR(item.qrCode);
+                          }}
                         >
                           <img src={item.qrCode} alt={`QR Code ${item.name}`} className="w-full h-full object-contain" />
                         </motion.div>
@@ -1872,6 +1878,13 @@ export default function App() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [showReservation, setShowReservation] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+  const [selectedQR, setSelectedQR] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleOpenQR = (e: any) => setSelectedQR(e.detail);
+    window.addEventListener('openQR', handleOpenQR);
+    return () => window.removeEventListener('openQR', handleOpenQR);
+  }, []);
 
   // Global triggers for modal
   useEffect(() => {
@@ -2003,7 +2016,7 @@ export default function App() {
           <>
             <Hero config={config} />
             <About config={config} />
-            <Menu config={config} />
+            <Menu config={config} onOpenQR={setSelectedQR} />
             <Gallery config={config} />
             <Reviews />
             <Contact config={config} />
@@ -2036,6 +2049,66 @@ export default function App() {
               setSelectedProduct(null);
             }}
           />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {selectedQR && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedQR(null)}
+            className="fixed inset-0 z-[600] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-xl cursor-zoom-out"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, rotate: -5 }}
+              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              exit={{ scale: 0.8, opacity: 0, rotate: 5 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-[420px] bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_0_100px_rgba(255,255,255,0.15)] flex flex-col items-center"
+            >
+              {/* Decorative elements */}
+              <div className="absolute -top-10 -left-10 w-20 h-20 bg-gold/20 rounded-full blur-3xl" />
+              <div className="absolute -bottom-10 -right-10 w-20 h-20 bg-flame/20 rounded-full blur-3xl" />
+
+              <button
+                onClick={() => setSelectedQR(null)}
+                className="absolute -top-14 right-0 md:-right-14 text-white hover:text-gold transition-all duration-300 flex items-center gap-2 font-black text-xs uppercase tracking-widest group"
+              >
+                FECHAR <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gold group-hover:text-deep transition-all"><X className="w-6 h-6" /></div>
+              </button>
+
+              <div className="text-center mb-8 relative">
+                <div className="h-px w-12 bg-gold/30 mx-auto mb-4" />
+                <span className="text-deep font-black text-[10px] md:text-xs uppercase tracking-[0.3em] block mb-1">Menu Digital</span>
+                <h3 className="text-2xl font-black text-deep mb-2">Escaneie o Código</h3>
+                <p className="text-gray-500 text-[10px] md:text-xs font-medium max-w-[200px] mx-auto leading-relaxed">
+                  Aponte a câmera do seu telemóvel para realizar o seu pedido agora.
+                </p>
+              </div>
+
+              <div className="relative p-2 bg-gradient-to-br from-gold/20 via-transparent to-flame/20 rounded-3xl mb-8 group">
+                <div className="absolute inset-0 bg-white/50 blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
+                <div className="relative bg-white p-5 rounded-2xl shadow-xl border border-gray-100">
+                  <img
+                    src={selectedQR}
+                    alt="QR Code Ampliado"
+                    className="w-full h-auto aspect-square object-contain rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <div className="w-full space-y-4 pt-6 border-t border-gray-100">
+                <div className="flex items-center justify-center gap-3 text-deep/60">
+                  <div className="w-8 h-8 rounded-lg bg-deep/5 flex items-center justify-center"><Phone className="w-4 h-4" /></div>
+                  <div className="w-8 h-8 rounded-lg bg-deep/5 flex items-center justify-center"><MessageCircle className="w-4 h-4" /></div>
+                  <div className="w-8 h-8 rounded-lg bg-deep/5 flex items-center justify-center"><Calendar className="w-4 h-4" /></div>
+                </div>
+                <p className="text-[10px] text-gray-400 font-bold text-center uppercase tracking-widest opacity-50">Chave D'Ouro Café • Odiáxere</p>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
