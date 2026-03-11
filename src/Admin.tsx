@@ -463,14 +463,14 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
         }
     };
 
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
         setIsSaving(true);
         try {
-            // Gerar um nome de ficheiro limpo (apenas letras, números e extensão)
-            const fileExt = file.name.split('.').pop()?.toLowerCase() || 'png';
+            const isVideo = file.type.startsWith('video/');
+            const fileExt = file.name.split('.').pop()?.toLowerCase() || (isVideo ? 'mp4' : 'png');
             const cleanFileName = `${Date.now()}-${Math.floor(Math.random() * 1000)}.${fileExt}`;
             const filePath = `uploads/${cleanFileName}`;
 
@@ -487,7 +487,6 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                 .from('site-assets')
                 .getPublicUrl(filePath);
 
-            // Adicionar um timestamp para evitar problemas de cache no navegador
             const newUrl = `${data.publicUrl}?t=${Date.now()}`;
 
             setLocalConfig((prev: any) => {
@@ -507,13 +506,12 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                 return updated;
             });
 
-            setMessage({ type: 'success', text: 'Imagem enviada com sucesso!' });
+            setMessage({ type: 'success', text: `${isVideo ? 'Vídeo' : 'Ficheiro'} enviado com sucesso!` });
         } catch (err: any) {
             console.error(err);
             setMessage({ type: 'error', text: 'Erro no upload: ' + err.message });
         } finally {
             setIsSaving(false);
-            // Limpar o input para permitir subir o mesmo ficheiro novamente se necessário
             e.target.value = '';
         }
     };
@@ -865,7 +863,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                         <label className="flex-1 flex items-center justify-center gap-2 bg-gold text-deep py-2.5 rounded-xl cursor-pointer text-xs font-black transition-all hover:scale-[1.02] shadow-lg shadow-gold/20">
                                                             <Upload className="w-3.5 h-3.5" />
                                                             {localConfig.logoIsImage ? 'Trocar PNG' : 'Subir PNG'}
-                                                            <input type="file" className="hidden" accept="image/png, image/jpeg, image/webp" onChange={(e) => handleImageUpload(e, ['logo'])} />
+                                                            <input type="file" className="hidden" accept="image/png, image/jpeg, image/webp" onChange={(e) => handleFileUpload(e, ['logo'])} />
                                                         </label>
                                                         {localConfig.logoIsImage && (
                                                             <button
@@ -930,7 +928,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                     <label className="flex items-center justify-center gap-2 bg-gradient-to-r from-gold to-flame text-white py-2.5 rounded-xl cursor-pointer text-xs font-black shadow-lg">
                                                         <Upload className="w-3.5 h-3.5" />
                                                         Subir Logo PNG/JPG
-                                                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, ['introLogo'])} />
+                                                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, ['introLogo'])} />
                                                     </label>
                                                 </div>
                                             </div>
@@ -1010,7 +1008,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             <label className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition-transform text-sm font-bold shadow-lg">
                                                 <Upload className="w-4 h-4" />
                                                 Trocar Fundo
-                                                <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, ['hero', 'bgImage'])} />
+                                                <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, ['hero', 'bgImage'])} />
                                             </label>
 
                                             {localConfig.hero?.bgImage !== 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1920&h=1080&fit=crop&q=80' && (
@@ -1073,7 +1071,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                         <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
                                             <Upload className="w-8 h-8 text-white mb-2" />
                                             <span className="text-sm font-bold">Trocar Foto</span>
-                                            <input type="file" className="hidden" onChange={(e) => handleImageUpload(e, ['about', 'image'])} />
+                                            <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, ['about', 'image'])} />
                                         </label>
                                     </div>
                                 </div>
@@ -1121,7 +1119,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                 <label className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 opacity-0 group-hover/item:opacity-100 cursor-pointer transition-opacity z-20">
                                                     <Upload className="w-8 h-8 text-white mb-2" />
                                                     <span className="text-xs font-bold text-white uppercase tracking-wider">Trocar Imagem</span>
-                                                    <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, ['menuItems', idx.toString(), 'image'])} />
+                                                    <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, ['menuItems', idx.toString(), 'image'])} />
                                                 </label>
                                                 <button
                                                     onClick={() => {
@@ -1299,7 +1297,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                     type="file"
                                                                     className="hidden"
                                                                     accept="image/*"
-                                                                    onChange={(e) => handleImageUpload(e, ['menuItems', idx.toString(), 'qrCode'])}
+                                                                    onChange={(e) => handleFileUpload(e, ['menuItems', idx.toString(), 'qrCode'])}
                                                                 />
                                                             </label>
                                                             <p className="text-[8px] text-gray-500 mt-1 italic pl-1">
@@ -1353,7 +1351,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity">
                                                     <label className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-xs font-bold text-white flex items-center gap-2">
                                                         <Upload className="w-4 h-4" /> Trocar Capa
-                                                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, ['menuVision', idx.toString(), 'image'])} />
+                                                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, ['menuVision', idx.toString(), 'image'])} />
                                                     </label>
                                                 </div>
                                                 <button
@@ -1410,13 +1408,14 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                     <Trash2 className="w-3.5 h-3.5 text-red-500 group-hover/delvid:text-white" />
                                                                 </button>
                                                             )}
-                                                            <label className="bg-white/5 hover:bg-white/10 border border-white/10 p-2 rounded-lg cursor-pointer transition-colors flex items-center justify-center group/vid">
-                                                                <Upload className="w-3.5 h-3.5 text-gray-400 group-hover/vid:text-white" />
+                                                            <label className="bg-flame/10 hover:bg-flame/20 border border-flame/30 px-3 py-2 rounded-lg cursor-pointer transition-colors flex items-center gap-2 group/vid whitespace-nowrap">
+                                                                <Upload className="w-3.5 h-3.5 text-flame group-hover/vid:scale-110 transition-transform" />
+                                                                <span className="text-[10px] font-bold text-flame uppercase">Subir Vídeo</span>
                                                                 <input
                                                                     type="file"
                                                                     className="hidden"
                                                                     accept="video/*"
-                                                                    onChange={(e) => handleImageUpload(e, ['menuVision', idx.toString(), 'videoUrl'])}
+                                                                    onChange={(e) => handleFileUpload(e, ['menuVision', idx.toString(), 'videoUrl'])}
                                                                 />
                                                             </label>
                                                         </div>
@@ -1507,7 +1506,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                     <input
                                                         type="file"
                                                         className="hidden"
-                                                        onChange={(e) => handleImageUpload(e, ['gallery', idx.toString(), 'url'])}
+                                                        onChange={(e) => handleFileUpload(e, ['gallery', idx.toString(), 'url'])}
                                                     />
                                                 </label>
                                             </div>
