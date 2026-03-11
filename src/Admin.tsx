@@ -1123,12 +1123,15 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                 </label>
                                                 <button
                                                     onClick={() => {
-                                                        const items = localConfig.menuItems.filter((_: any, i: number) => i !== idx);
-                                                        updateField(['menuItems'], items);
+                                                        if (window.confirm('Tem certeza que deseja remover este item do menu?')) {
+                                                            const items = localConfig.menuItems.filter((_: any, i: number) => i !== idx);
+                                                            updateField(['menuItems'], items);
+                                                        }
                                                     }}
-                                                    className="absolute top-3 right-3 p-2 bg-red-500 rounded-lg opacity-0 group-hover/item:opacity-100 transition-opacity hover:scale-110"
+                                                    className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-xl shadow-lg shadow-red-500/20 transition-all hover:scale-105 active:scale-95 z-30"
                                                 >
-                                                    <Trash2 className="w-4 h-4 text-white" />
+                                                    <Trash2 className="w-3.5 h-3.5" />
+                                                    <span className="text-[10px] font-black uppercase tracking-wider">Remover</span>
                                                 </button>
                                             </div>
                                             <div className="p-5 space-y-4 bg-deep/40 flex-1">
@@ -1292,11 +1295,12 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                 <QrCode className="w-6 h-6 text-gray-600" />
                                                             </div>
                                                         )}
-                                                        <div className="space-y-3">
+                                                        <div className="space-y-4">
                                                             <div className="flex-1">
-                                                                <label className="flex items-center justify-center gap-2 bg-flame/10 hover:bg-flame text-flame hover:text-white border border-flame/20 py-2.5 rounded-xl cursor-pointer text-[10px] font-bold transition-all shadow-sm">
+                                                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">1. Gerador Automático (Vídeo)</label>
+                                                                <label className="flex items-center justify-center gap-2 bg-flame/10 hover:bg-flame text-flame hover:text-white border border-flame/20 py-2 rounded-xl cursor-pointer text-[10px] font-bold transition-all shadow-sm">
                                                                     <Video className="w-3 h-3" />
-                                                                    {item.videoUrl ? 'Trocar Vídeo do Prato' : 'Carregar Vídeo do Prato'}
+                                                                    {item.videoUrl ? 'Trocar Vídeo do Prato' : 'Enviar Vídeo para QR'}
                                                                     <input
                                                                         type="file"
                                                                         className="hidden"
@@ -1304,28 +1308,45 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                         onChange={(e) => handleFileUpload(e, ['menuItems', idx.toString(), 'videoUrl'])}
                                                                     />
                                                                 </label>
-                                                                {item.videoUrl && (
-                                                                    <p className="text-[8px] text-green-500 mt-1 font-bold flex items-center gap-1 pl-1">
-                                                                        <CheckCircle2 className="w-2 h-2" /> QR Code será gerado automaticamente para este vídeo.
-                                                                    </p>
-                                                                )}
                                                             </div>
 
-                                                            <div className="flex items-center gap-3 bg-black/20 p-2 rounded-xl border border-white/5">
-                                                                <div className="w-12 h-12 bg-white/5 border border-dashed border-white/10 rounded-lg flex items-center justify-center shrink-0">
-                                                                    {item.qrCode || item.videoUrl ? (
+                                                            <div className="space-y-1.5">
+                                                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">2. Gerar QR para Link Manual</label>
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="Cole aqui: Instagram, WhatsApp, etc."
+                                                                    value={item.manualLink || ''}
+                                                                    onChange={(e) => {
+                                                                        const items = [...localConfig.menuItems];
+                                                                        items[idx].manualLink = e.target.value;
+                                                                        updateField(['menuItems'], items);
+                                                                    }}
+                                                                    className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 text-[10px] text-white outline-none focus:border-gold"
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="mt-4 pt-4 border-t border-white/5">
+                                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-3 text-center">Pré-visualização do QR Code Gerado</label>
+                                                            <div className="flex flex-col items-center gap-4">
+                                                                <div className="w-24 h-24 bg-white rounded-2xl p-2 shadow-2xl border-4 border-gold/20 relative group/qr-preview pointer-events-none">
+                                                                    {item.qrCode || item.videoUrl || item.manualLink ? (
                                                                         <img
-                                                                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(item.videoUrl || '')}`}
-                                                                            className="w-full h-full object-contain p-1"
+                                                                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(item.manualLink || item.videoUrl || '')}`}
+                                                                            className="w-full h-full object-contain"
                                                                         />
                                                                     ) : (
-                                                                        <QrCode className="w-4 h-4 text-gray-700" />
+                                                                        <div className="w-full h-full flex flex-col items-center justify-center text-gray-300 gap-1">
+                                                                            <QrCode className="w-6 h-6 opacity-20" />
+                                                                            <span className="text-[8px] font-bold uppercase opacity-30">Vazio</span>
+                                                                        </div>
                                                                     )}
                                                                 </div>
-                                                                <div className="flex-1">
-                                                                    <label className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-1.5 rounded-lg cursor-pointer text-[9px] font-bold transition-all">
-                                                                        <Upload className="w-2.5 h-2.5" />
-                                                                        Upload Manual QR
+
+                                                                <div className="w-full">
+                                                                    <label className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-2 rounded-xl cursor-pointer text-[10px] font-bold transition-all w-full">
+                                                                        <Upload className="w-3 h-3" />
+                                                                        Ou Fazer Upload de Imagem QR
                                                                         <input
                                                                             type="file"
                                                                             className="hidden"
