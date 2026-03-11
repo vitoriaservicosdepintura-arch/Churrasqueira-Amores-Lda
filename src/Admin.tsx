@@ -6,7 +6,7 @@ import {
     Settings, History, Utensils, MapPin,
     AlertCircle, Loader2, Plus, Globe, Sparkles,
     Calendar, CheckCircle, Clock, Users, Phone, Mail, MessageCircle, ChevronLeft, LogOut, Lock,
-    Palette, Droplets, Paintbrush, RotateCcw
+    Palette, Droplets, Paintbrush, RotateCcw, Video, Play
 } from 'lucide-react';
 
 const ADMIN_COLORS = {
@@ -554,6 +554,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
         { id: 'hero', label: 'Banner Principal', icon: ImageIcon },
         { id: 'history', label: 'A Nossa História', icon: History },
         { id: 'menu', label: 'Menu & Destaques', icon: Utensils },
+        { id: 'menuvision', label: 'MenuVision (Vídeo)', icon: Video },
         { id: 'gallery', label: 'Galeria', icon: ImageIcon },
         { id: 'contact', label: 'Contato & Local', icon: MapPin },
         { id: 'footer', label: 'Rodapé (Links)', icon: Globe },
@@ -1262,6 +1263,135 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                             <option value="Acompanhamentos">Acompanhamentos</option>
                                                             <option value="Bebidas">Bebidas</option>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'menuvision' && (
+                            <div className="space-y-6">
+                                <div className="flex justify-between items-center bg-flame/10 border border-flame/20 p-5 rounded-2xl shadow-lg shadow-flame/5">
+                                    <div className="flex items-center gap-3 text-flame">
+                                        <Video className="w-6 h-6" />
+                                        <div>
+                                            <span className="block text-sm font-bold">MenuVision (Cardápio Digital)</span>
+                                            <span className="text-[10px] text-gray-400 uppercase tracking-widest font-medium">Gestão de Vídeos e Ingredientes</span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            const currentVisions = localConfig.menuVision || [];
+                                            updateField(['menuVision'], [
+                                                ...currentVisions,
+                                                {
+                                                    id: Date.now(),
+                                                    name: 'Novo Prato',
+                                                    image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&q=80',
+                                                    videoUrl: '',
+                                                    ingredients: '1. Primeiro Passo\n2. Segundo Passo'
+                                                }
+                                            ]);
+                                        }}
+                                        className="flex items-center gap-2 bg-flame text-white font-black px-5 py-2.5 rounded-xl text-xs hover:scale-105 transition-all shadow-lg shadow-flame/20"
+                                    >
+                                        <Plus className="w-4 h-4" /> Novo Vídeo
+                                    </button>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    {(localConfig.menuVision || []).map((item: any, idx: number) => (
+                                        <div key={item.id} className="glass rounded-2xl border border-white/5 flex flex-col group/item relative overflow-hidden">
+                                            <div className="relative h-48 overflow-hidden shrink-0">
+                                                <img src={item.image} className="w-full h-full object-cover" />
+                                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity">
+                                                    <label className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-xs font-bold text-white flex items-center gap-2">
+                                                        <Upload className="w-4 h-4" /> Trocar Capa
+                                                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, ['menuVision', idx.toString(), 'image'])} />
+                                                    </label>
+                                                </div>
+                                                <button
+                                                    onClick={() => {
+                                                        const currentVisions = localConfig.menuVision.filter((_: any, i: number) => i !== idx);
+                                                        updateField(['menuVision'], currentVisions);
+                                                    }}
+                                                    className="absolute top-3 right-3 p-2 bg-red-500 rounded-lg z-10 hover:scale-110 transition-transform"
+                                                >
+                                                    <Trash2 className="w-4 h-4 text-white" />
+                                                </button>
+                                            </div>
+
+                                            <div className="p-5 space-y-4">
+                                                <div className="space-y-4">
+                                                    <div>
+                                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Nome do Prato</label>
+                                                        <input
+                                                            value={item.name}
+                                                            onChange={(e) => {
+                                                                const currentVisions = [...localConfig.menuVision];
+                                                                currentVisions[idx].name = e.target.value;
+                                                                updateField(['menuVision'], currentVisions);
+                                                            }}
+                                                            className="w-full bg-surface border border-white/10 rounded-lg px-4 py-2.5 text-sm font-bold text-white outline-none focus:border-flame"
+                                                        />
+                                                    </div>
+
+                                                    <div className="space-y-1">
+                                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1 flex items-center gap-2">
+                                                            <Play className="w-3 h-3 text-flame" /> Link do Vídeo (MP4)
+                                                        </label>
+                                                        <div className="flex gap-2">
+                                                            <input
+                                                                value={item.videoUrl}
+                                                                onChange={(e) => {
+                                                                    const currentVisions = [...localConfig.menuVision];
+                                                                    currentVisions[idx].videoUrl = e.target.value;
+                                                                    updateField(['menuVision'], currentVisions);
+                                                                }}
+                                                                className="flex-1 bg-surface border border-white/10 rounded-lg px-4 py-2 text-xs text-gray-400 outline-none focus:border-flame font-mono"
+                                                                placeholder="https://suavideo.mp4"
+                                                            />
+                                                            {item.videoUrl && (
+                                                                <button
+                                                                    onClick={() => {
+                                                                        const currentVisions = [...localConfig.menuVision];
+                                                                        currentVisions[idx].videoUrl = '';
+                                                                        updateField(['menuVision'], currentVisions);
+                                                                    }}
+                                                                    className="bg-red-500/10 hover:bg-red-500 border border-red-500/20 p-2 rounded-lg transition-all group/delvid"
+                                                                    title="Remover Vídeo"
+                                                                >
+                                                                    <Trash2 className="w-3.5 h-3.5 text-red-500 group-hover/delvid:text-white" />
+                                                                </button>
+                                                            )}
+                                                            <label className="bg-white/5 hover:bg-white/10 border border-white/10 p-2 rounded-lg cursor-pointer transition-colors flex items-center justify-center group/vid">
+                                                                <Upload className="w-3.5 h-3.5 text-gray-400 group-hover/vid:text-white" />
+                                                                <input
+                                                                    type="file"
+                                                                    className="hidden"
+                                                                    accept="video/*"
+                                                                    onChange={(e) => handleImageUpload(e, ['menuVision', idx.toString(), 'videoUrl'])}
+                                                                />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Ingredientes em Camadas</label>
+                                                        <textarea
+                                                            value={item.ingredients}
+                                                            onChange={(e) => {
+                                                                const currentVisions = [...localConfig.menuVision];
+                                                                currentVisions[idx].ingredients = e.target.value;
+                                                                updateField(['menuVision'], currentVisions);
+                                                            }}
+                                                            rows={4}
+                                                            className="w-full bg-surface border border-white/10 rounded-lg px-4 py-3 text-xs text-gray-300 outline-none focus:border-flame leading-relaxed"
+                                                            placeholder="1. Carne..."
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
