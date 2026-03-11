@@ -1427,7 +1427,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                         <input
                                                                             type="file"
                                                                             className="hidden"
-                                                                            accept="video/mp4,video/x-m4v,video/*"
+                                                                            accept="video/*,.mp4,.mov,.m4v,.webm,.avi,.mkv"
                                                                             onChange={(e) => handleFileUpload(e, ['menuVision', idx.toString(), 'videoUrl'])}
                                                                         />
                                                                     </label>
