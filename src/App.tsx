@@ -217,12 +217,12 @@ const STATS = [
 ];
 
 const NAV_LINKS = [
-  { label: 'Início', href: '#hero' },
-  { label: 'Sobre', href: '#about' },
+  { label: 'Início', href: '#inicio' },
+  { label: 'Sobre', href: '#sobre' },
   { label: 'Menu', href: '#menu' },
-  { label: 'Galeria', href: '#gallery' },
-  { label: 'Críticas', href: '#reviews' },
-  { label: 'Contato', href: '#contact' },
+  { label: 'Galeria', href: '#galeria' },
+  { label: 'Críticas', href: '#criticas' },
+  { label: 'Contato', href: '#contato' },
 ];
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -363,7 +363,7 @@ function Navbar({ config, onOpenAdmin }: { config: any, onOpenAdmin: () => void 
       <div className="w-full mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <motion.a href="#hero" className="flex items-center gap-3 group" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+          <motion.a href="#inicio" className="flex items-center gap-3 group" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold via-flame to-ember flex items-center justify-center shadow-lg shadow-flame/30 group-hover:shadow-flame/50 transition-shadow duration-300 overflow-hidden">
               {config.logoIsImage ? (
                 <img src={config.logo} alt={`Logótipo ${siteTitlePlain}`} className="w-full h-full object-cover" />
@@ -488,7 +488,7 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] pb-[env(safe-area-inset-bottom,20px)] pt-2 bg-gradient-to-t from-deep via-deep/95 to-transparent">
       <div className="mx-4 mb-2 bg-surface/90 backdrop-blur-3xl border border-white/10 rounded-3xl py-3 px-6 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] flex items-center justify-between gap-1">
-        <a href="#hero" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
+        <a href="#inicio" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
           <div className="text-xl">🏠</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
         </a>
@@ -508,7 +508,7 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
           </button>
         </div>
 
-        <a href="#contact" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
+        <a href="#contato" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
           <div className="text-xl">📍</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Local</span>
         </a>
@@ -547,7 +547,7 @@ function Hero({ config }: { config: any }) {
   const lastPart = titleParts.slice(1).join(' ');
 
   return (
-    <section id="hero" ref={ref} className="relative h-screen min-h-[700px] overflow-hidden">
+    <section id="inicio" ref={ref} className="relative h-screen min-h-[700px] overflow-hidden">
       {/* Parallax background */}
       <motion.div className="absolute inset-0 will-change-transform" style={{ y: bgY, scale: bgScale }}>
         <div
@@ -666,7 +666,7 @@ function Hero({ config }: { config: any }) {
 
 function About({ config }: { config: any }) {
   return (
-    <section id="about" className="relative py-20 md:py-32 overflow-hidden">
+    <section id="sobre" className="relative py-20 md:py-32 overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-flame/3 to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-tr from-gold/3 to-transparent pointer-events-none" />
@@ -912,7 +912,7 @@ function Menu({ config }: { config: any }) {
 
 function Gallery({ config }: { config: any }) {
   return (
-    <section id="gallery" className="relative py-20 md:py-32 overflow-hidden">
+    <section id="galeria" className="relative py-20 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-deep via-midnight/20 to-deep pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -974,7 +974,7 @@ function Reviews() {
   const ratingDistribution: Record<number, number> = { 5: 75, 4: 18, 3: 4, 2: 2, 1: 1 };
 
   return (
-    <section id="reviews" className="relative py-20 md:py-32 overflow-hidden">
+    <section id="criticas" className="relative py-20 md:py-32 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-flame/4 rounded-full blur-[140px]" />
         <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] bg-gold/4 rounded-full blur-[120px]" />
@@ -1181,7 +1181,7 @@ function Contact({ config }: { config: any }) {
   ];
 
   return (
-    <section id="contact" className="relative py-20 md:py-32">
+    <section id="contato" className="relative py-20 md:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-deep via-surface/15 to-deep pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -1706,6 +1706,20 @@ const getInitialConfig = () => {
 };
 
 export default function App() {
+
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    const resetScroll = setTimeout(() => {
+      if (window.location.hash) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+      window.scrollTo(0, 0);
+    }, 10);
+    return () => clearTimeout(resetScroll);
+  }, []);
+
   const [loading, setLoading] = useState(true);
   const [config, setConfig] = useState<any>(getInitialConfig);
   const [showAdmin, setShowAdmin] = useState(false);
