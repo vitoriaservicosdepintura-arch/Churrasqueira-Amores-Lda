@@ -1382,42 +1382,75 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
 
                                                     <div className="space-y-1">
                                                         <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1 flex items-center gap-2">
-                                                            <Play className="w-3 h-3 text-flame" /> Link do Vídeo (MP4)
+                                                            <Video className="w-3 h-3 text-flame" /> Vídeo do Prato (MP4)
                                                         </label>
-                                                        <div className="flex gap-2">
-                                                            <input
-                                                                value={item.videoUrl}
-                                                                onChange={(e) => {
-                                                                    const currentVisions = [...localConfig.menuVision];
-                                                                    currentVisions[idx].videoUrl = e.target.value;
-                                                                    updateField(['menuVision'], currentVisions);
-                                                                }}
-                                                                className="flex-1 bg-surface border border-white/10 rounded-lg px-4 py-2 text-xs text-gray-400 outline-none focus:border-flame font-mono"
-                                                                placeholder="https://suavideo.mp4"
-                                                            />
+                                                        <div className="bg-surface/50 border border-white/5 rounded-xl p-4 space-y-3">
+                                                            <div className="flex items-center justify-between gap-4">
+                                                                <div className="flex items-center gap-3 overflow-hidden">
+                                                                    <div className="w-12 h-12 bg-flame/10 rounded-lg flex items-center justify-center shrink-0 border border-flame/20">
+                                                                        {item.videoUrl ? (
+                                                                            <Play className="w-5 h-5 text-flame fill-flame/20" />
+                                                                        ) : (
+                                                                            <Video className="w-5 h-5 text-gray-600" />
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="flex flex-col min-w-0">
+                                                                        <span className="text-[10px] font-black text-white uppercase tracking-wider truncate">
+                                                                            {item.videoUrl ? 'Vídeo Carregado' : 'Sem Vídeo'}
+                                                                        </span>
+                                                                        <span className="text-[9px] text-gray-500 truncate max-w-[150px]">
+                                                                            {item.videoUrl ? item.videoUrl.split('?')[0].split('/').pop() : 'Nenhum ficheiro selecionado'}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="flex items-center gap-2">
+                                                                    {item.videoUrl && (
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                const currentVisions = [...localConfig.menuVision];
+                                                                                currentVisions[idx].videoUrl = '';
+                                                                                updateField(['menuVision'], currentVisions);
+                                                                            }}
+                                                                            className="w-10 h-10 flex items-center justify-center bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-xl border border-red-500/20 transition-all"
+                                                                            title="Eliminar Vídeo"
+                                                                        >
+                                                                            <Trash2 className="w-4 h-4" />
+                                                                        </button>
+                                                                    )}
+
+                                                                    <label className="flex items-center gap-2 bg-flame hover:bg-flame-dark text-white px-4 py-2.5 rounded-xl cursor-pointer transition-all shadow-lg shadow-flame/20 hover:scale-[1.02] active:scale-95">
+                                                                        <Upload className="w-4 h-4" />
+                                                                        <span className="text-[10px] font-black uppercase tracking-widest">
+                                                                            {item.videoUrl ? 'Substituir' : 'Enviar Vídeo'}
+                                                                        </span>
+                                                                        <input
+                                                                            type="file"
+                                                                            className="hidden"
+                                                                            accept="video/mp4,video/x-m4v,video/*"
+                                                                            onChange={(e) => handleFileUpload(e, ['menuVision', idx.toString(), 'videoUrl'])}
+                                                                        />
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
                                                             {item.videoUrl && (
-                                                                <button
-                                                                    onClick={() => {
-                                                                        const currentVisions = [...localConfig.menuVision];
-                                                                        currentVisions[idx].videoUrl = '';
-                                                                        updateField(['menuVision'], currentVisions);
-                                                                    }}
-                                                                    className="bg-red-500/10 hover:bg-red-500 border border-red-500/20 p-2 rounded-lg transition-all group/delvid"
-                                                                    title="Remover Vídeo"
-                                                                >
-                                                                    <Trash2 className="w-3.5 h-3.5 text-red-500 group-hover/delvid:text-white" />
-                                                                </button>
+                                                                <div className="relative aspect-video rounded-lg overflow-hidden border border-white/10 bg-black/40">
+                                                                    <video
+                                                                        src={item.videoUrl}
+                                                                        className="w-full h-full object-contain"
+                                                                        muted
+                                                                        onMouseOver={e => e.currentTarget.play()}
+                                                                        onMouseOut={e => e.currentTarget.pause()}
+                                                                    />
+                                                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/20 opacity-100 group-hover:opacity-0 transition-opacity">
+                                                                        <div className="bg-deep/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
+                                                                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                                                            <span className="text-[8px] font-bold text-white uppercase tracking-tighter">Preview Ativo</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             )}
-                                                            <label className="bg-flame/10 hover:bg-flame/20 border border-flame/30 px-3 py-2 rounded-lg cursor-pointer transition-colors flex items-center gap-2 group/vid whitespace-nowrap">
-                                                                <Upload className="w-3.5 h-3.5 text-flame group-hover/vid:scale-110 transition-transform" />
-                                                                <span className="text-[10px] font-bold text-flame uppercase">Subir Vídeo</span>
-                                                                <input
-                                                                    type="file"
-                                                                    className="hidden"
-                                                                    accept="video/*"
-                                                                    onChange={(e) => handleFileUpload(e, ['menuVision', idx.toString(), 'videoUrl'])}
-                                                                />
-                                                            </label>
                                                         </div>
                                                     </div>
 
