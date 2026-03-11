@@ -5,7 +5,7 @@ import {
     X, Save, Upload, Trash2, Edit3, Image as ImageIcon,
     Settings, History, Utensils, MapPin,
     AlertCircle, Loader2, Plus, Globe, Sparkles,
-    Calendar, CheckCircle, Clock, Users, Phone, Mail, MessageCircle, ChevronLeft, LogOut, Lock,
+    Calendar, CheckCircle, CheckCircle2, Clock, Users, Phone, Mail, MessageCircle, ChevronLeft, LogOut, Lock,
     Palette, Droplets, Paintbrush, RotateCcw, Video, Play, QrCode
 } from 'lucide-react';
 
@@ -1292,20 +1292,49 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                 <QrCode className="w-6 h-6 text-gray-600" />
                                                             </div>
                                                         )}
-                                                        <div className="flex-1">
-                                                            <label className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-2 rounded-xl cursor-pointer text-[10px] font-bold transition-all">
-                                                                <Upload className="w-3 h-3" />
-                                                                {item.qrCode ? 'Trocar QR Code' : 'Subir QR Code'}
-                                                                <input
-                                                                    type="file"
-                                                                    className="hidden"
-                                                                    accept="image/*"
-                                                                    onChange={(e) => handleFileUpload(e, ['menuItems', idx.toString(), 'qrCode'])}
-                                                                />
-                                                            </label>
-                                                            <p className="text-[8px] text-gray-500 mt-1 italic pl-1">
-                                                                {item.qrCode ? 'QR Code carregado e visível no site.' : 'Se vazio, o link "Pedir" continuará ativo.'}
-                                                            </p>
+                                                        <div className="space-y-3">
+                                                            <div className="flex-1">
+                                                                <label className="flex items-center justify-center gap-2 bg-flame/10 hover:bg-flame text-flame hover:text-white border border-flame/20 py-2.5 rounded-xl cursor-pointer text-[10px] font-bold transition-all shadow-sm">
+                                                                    <Video className="w-3 h-3" />
+                                                                    {item.videoUrl ? 'Trocar Vídeo do Prato' : 'Carregar Vídeo do Prato'}
+                                                                    <input
+                                                                        type="file"
+                                                                        className="hidden"
+                                                                        accept="video/*"
+                                                                        onChange={(e) => handleFileUpload(e, ['menuItems', idx.toString(), 'videoUrl'])}
+                                                                    />
+                                                                </label>
+                                                                {item.videoUrl && (
+                                                                    <p className="text-[8px] text-green-500 mt-1 font-bold flex items-center gap-1 pl-1">
+                                                                        <CheckCircle2 className="w-2 h-2" /> QR Code será gerado automaticamente para este vídeo.
+                                                                    </p>
+                                                                )}
+                                                            </div>
+
+                                                            <div className="flex items-center gap-3 bg-black/20 p-2 rounded-xl border border-white/5">
+                                                                <div className="w-12 h-12 bg-white/5 border border-dashed border-white/10 rounded-lg flex items-center justify-center shrink-0">
+                                                                    {item.qrCode || item.videoUrl ? (
+                                                                        <img
+                                                                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(item.videoUrl || '')}`}
+                                                                            className="w-full h-full object-contain p-1"
+                                                                        />
+                                                                    ) : (
+                                                                        <QrCode className="w-4 h-4 text-gray-700" />
+                                                                    )}
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-1.5 rounded-lg cursor-pointer text-[9px] font-bold transition-all">
+                                                                        <Upload className="w-2.5 h-2.5" />
+                                                                        Upload Manual QR
+                                                                        <input
+                                                                            type="file"
+                                                                            className="hidden"
+                                                                            accept="image/*"
+                                                                            onChange={(e) => handleFileUpload(e, ['menuItems', idx.toString(), 'qrCode'])}
+                                                                        />
+                                                                    </label>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

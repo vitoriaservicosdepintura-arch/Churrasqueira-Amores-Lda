@@ -898,7 +898,7 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                     <p className="text-gray-400 text-sm leading-relaxed flex-1" style={getTextStyle(item.descColor)}>{item.description}</p>
                     <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
-                      {item.qrCode ? (
+                      {item.qrCode || item.videoUrl ? (
                         <motion.div
                           className="w-16 h-16 bg-white rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 cursor-zoom-in relative z-10"
                           whileHover={{ scale: 1.2, rotate: 5 }}
@@ -906,10 +906,14 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                           transition={{ repeat: Infinity, duration: 2 }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onOpenQR(item.qrCode);
+                            onOpenQR(item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(item.videoUrl)}`);
                           }}
                         >
-                          <img src={item.qrCode} alt={`QR Code ${item.name}`} className="w-full h-full object-contain" />
+                          <img
+                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(item.videoUrl)}`}
+                            alt={`QR Code ${item.name}`}
+                            className="w-full h-full object-contain"
+                          />
                         </motion.div>
                       ) : (
                         <motion.button
