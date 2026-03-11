@@ -1836,6 +1836,14 @@ const getInitialConfig = () => {
 
 export default function App() {
 
+  const [currentHash, setCurrentHash] = useState(window.location.hash);
+
+  useEffect(() => {
+    const handleHash = () => setCurrentHash(window.location.hash);
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
   useEffect(() => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
@@ -1843,6 +1851,7 @@ export default function App() {
     const resetScroll = setTimeout(() => {
       if (window.location.hash) {
         window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        setCurrentHash('');
       }
       window.scrollTo(0, 0);
     }, 10);
@@ -1974,14 +1983,24 @@ export default function App() {
 
       <div className="bg-deep min-h-screen text-white font-display noise-overlay selection:bg-gold/30">
         <Navbar config={config} onOpenAdmin={() => setShowAdmin(true)} />
-        <Hero config={config} />
-        <About config={config} />
-        <Menu config={config} />
-        <MenuVision config={config} />
-        <Gallery config={config} />
-        <Reviews />
-        <Contact config={config} />
-        <Footer config={config} />
+        {currentHash === '#menuvision' ? (
+          <div className="pt-20 min-h-screen flex flex-col">
+            <div className="flex-grow">
+              <MenuVision config={config} />
+            </div>
+            <Footer config={config} />
+          </div>
+        ) : (
+          <>
+            <Hero config={config} />
+            <About config={config} />
+            <Menu config={config} />
+            <Gallery config={config} />
+            <Reviews />
+            <Contact config={config} />
+            <Footer config={config} />
+          </>
+        )}
         {!showAdmin && !showReservation && <MobileBottomNav onOpenAdmin={() => setShowAdmin(true)} />}
       </div>
 
