@@ -557,6 +557,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
         { id: 'footer', label: 'Rodapé (Links)', icon: Globe },
         { id: 'intro', label: 'Tela de Entrada', icon: Sparkles },
         { id: 'reservations', label: 'Reservas', icon: Calendar },
+        { id: 'menuvision', label: 'MenuVision', icon: Video },
     ];
 
     if (authLoading) {
@@ -892,6 +893,19 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                             onTextChange={(val: string) => updateField(['hero', 'title'], val)}
                                             onColorChange={(col: string) => updateField(['hero', 'titleColor'], col)}
                                         />
+                                        <div className="space-y-1.5">
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">URL Oficial do Site (para QR Codes)</label>
+                                            <input
+                                                type="text"
+                                                value={localConfig.siteUrl || ''}
+                                                onChange={(e) => updateField(['siteUrl'], e.target.value)}
+                                                placeholder="https://exemplo.vercel.app"
+                                                className="w-full bg-deep border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none text-white"
+                                            />
+                                            <p className="text-[10px] text-gray-500 italic pl-1">
+                                                Insira a URL final do site para que os QR Codes funcionem corretamente quando impressos.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1333,7 +1347,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                         <img
                                                                             src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
                                                                                 item.videoUrl
-                                                                                    ? `${window.location.origin}/item/${item.id}`
+                                                                                    ? `${localConfig.siteUrl || window.location.origin}/item/${item.id}`
                                                                                     : (item.manualLink || '')
                                                                             )}`}
                                                                             className="w-full h-full object-contain"
@@ -1993,6 +2007,98 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                         )}
                                     </div>
                                 )}
+                            </div>
+                        )}
+
+                        {activeTab === 'menuvision' && (
+                            <div className="space-y-6">
+                                <div className="bg-gold/10 border border-gold/20 p-6 rounded-3xl mb-8 flex items-center justify-between">
+                                    <div className="space-y-1">
+                                        <h4 className="text-xl font-black text-gold flex items-center gap-2">
+                                            <Video className="w-6 h-6" /> MenuVision Experience
+                                        </h4>
+                                        <p className="text-gray-400 text-xs">Gerencie os pratos que possuem experiência em vídeo interativo.</p>
+                                    </div>
+                                    <div className="flex items-center gap-3 bg-deep p-2 rounded-xl border border-white/5">
+                                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-2">Itens com Vídeo</span>
+                                        <span className="bg-gold text-deep font-black px-3 py-1 rounded-lg text-xs">
+                                            {localConfig.menuItems?.filter((m: any) => m.videoUrl).length || 0}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {localConfig.menuItems?.map((item: any, idx: number) => (
+                                        <div key={item.id} className={`glass rounded-2xl border transition-all overflow-hidden flex flex-col ${item.videoUrl ? 'border-gold/30 shadow-[0_0_30px_rgba(245,158,11,0.1)]' : 'border-white/5 opacity-80'}`}>
+                                            <div className="relative aspect-[9/16] bg-deep/50 overflow-hidden">
+                                                {item.videoUrl ? (
+                                                    <video src={item.videoUrl} muted loop autoPlay playsInline className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 gap-2">
+                                                        <Video className="w-8 h-8 opacity-20" />
+                                                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-30">Sem Vídeo</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
+                                                <div className="absolute bottom-4 left-4">
+                                                    <h5 className="font-black text-white text-lg drop-shadow-lg">{item.name}</h5>
+                                                    <div className="text-gold text-xs font-bold">{item.price}</div>
+                                                </div>
+                                            </div>
+
+                                            <div className="p-5 space-y-4">
+                                                <div className="flex items-center justify-between gap-4">
+                                                    <label className="flex-1 flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl cursor-pointer text-[10px] font-bold transition-all shadow-sm">
+                                                        <Upload className="w-4 h-4 text-gold" />
+                                                        {item.videoUrl ? 'TROCAR VÍDEO' : 'SUBIR VÍDEO'}
+                                                        <input
+                                                            type="file"
+                                                            className="hidden"
+                                                            accept="video/*"
+                                                            onChange={(e) => handleFileUpload(e, ['menuItems', idx.toString(), 'videoUrl'])}
+                                                        />
+                                                    </label>
+                                                    {item.videoUrl && (
+                                                        <button
+                                                            onClick={() => {
+                                                                const items = [...localConfig.menuItems];
+                                                                delete items[idx].videoUrl;
+                                                                updateField(['menuItems'], items);
+                                                            }}
+                                                            className="w-12 h-12 flex items-center justify-center bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 rounded-xl transition-colors"
+                                                            title="Remover Vídeo"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    )}
+                                                </div>
+
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Camadas de Ingredientes (Separar por vírgula)</label>
+                                                    <textarea
+                                                        value={item.description || ''}
+                                                        onChange={(e) => {
+                                                            const items = [...localConfig.menuItems];
+                                                            items[idx].description = e.target.value;
+                                                            updateField(['menuItems'], items);
+                                                        }}
+                                                        placeholder="Ex: Frango, Batata, Molho..."
+                                                        className="w-full bg-deep border border-white/5 rounded-xl px-4 py-3 text-xs focus:ring-1 focus:ring-gold outline-none h-24 custom-scrollbar"
+                                                    />
+                                                </div>
+
+                                                <div className="p-3 bg-deep/50 rounded-xl border border-white/5">
+                                                    <div className="flex items-center justify-between text-[10px]">
+                                                        <span className="text-gray-500 font-bold uppercase tracking-widest">Estado da Experiência</span>
+                                                        <span className={`font-black uppercase tracking-widest ${item.videoUrl ? 'text-green-500' : 'text-gray-600'}`}>
+                                                            {item.videoUrl ? 'Ativa • HD' : 'Inativa'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>

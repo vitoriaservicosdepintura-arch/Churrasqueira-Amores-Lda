@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { supabase } from './supabase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Search, SlidersHorizontal } from 'lucide-react';
+import { ArrowLeft, Search, SlidersHorizontal, X, QrCode } from 'lucide-react';
 
 /* ══════════════════════════════════════════
    UTILS
@@ -98,6 +98,7 @@ export default function MenuPage() {
     const [activeCategory, setActiveCategory] = useState('Todos');
     const [search, setSearch] = useState('');
     const [showFilters, setShowFilters] = useState(false);
+    const [selectedQR, setSelectedQR] = useState<string | null>(null);
 
     // Load config from Supabase
     useEffect(() => {
@@ -439,23 +440,22 @@ export default function MenuPage() {
                                                     transition={{ repeat: Infinity, duration: 2.5 }}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        if (item.videoUrl) {
-                                                            window.location.href = `/item/${item.id}`;
-                                                        } else if (item.manualLink) {
-                                                            window.location.href = item.manualLink;
-                                                        }
+                                                        const qrUrl = item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=${encodeURIComponent(
+                                                            item.videoUrl ? `${config?.siteUrl || window.location.origin}/item/${item.id}` : (item.manualLink || '')
+                                                        )}`;
+                                                        setSelectedQR(qrUrl);
                                                     }}
                                                     title="Escanear para Ver Vídeo"
                                                 >
                                                     <img
                                                         src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
-                                                            item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
+                                                            item.videoUrl ? `${config?.siteUrl || window.location.origin}/item/${item.id}` : (item.manualLink || '')
                                                         )}`}
                                                         alt={`QR Code ${item.name}`}
                                                         className="w-full h-full object-contain"
                                                     />
                                                     <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gold text-deep text-[8px] font-black px-2 py-0.5 rounded-full whitespace-nowrap shadow-lg">
-                                                        ESCANEAR
+                                                        AMPLIAR QR
                                                     </div>
                                                 </motion.div>
                                             ) : (
@@ -501,6 +501,54 @@ export default function MenuPage() {
                     </button>
                 </div>
             </div>
+
+            {/* QR MODAL */}
+            <AnimatePresence>
+                {selectedQR && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl flex items-center justify-center p-6"
+                        onClick={() => setSelectedQR(null)}
+                    >
+                        <motion.button
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute top-6 right-6 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white"
+                        >
+                            <X className="w-6 h-6" />
+                        </motion.button>
+
+                        <motion.div
+                            initial={{ scale: 0.5, y: 100, opacity: 0 }}
+                            animate={{ scale: 1, y: 0, opacity: 1 }}
+                            exit={{ scale: 0.5, y: 100, opacity: 0 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white p-6 rounded-[2rem] shadow-[0_0_100px_rgba(245,158,11,0.3)] max-w-sm w-full relative"
+                        >
+                            <div className="text-center mb-6">
+                                <div className="inline-flex items-center justify-center w-12 h-12 bg-gold/10 rounded-2xl mb-3">
+                                    <QrCode className="w-6 h-6 text-gold" />
+                                </div>
+                                <h3 className="text-deep text-xl font-black uppercase tracking-tight">Escanear Prato</h3>
+                                <p className="text-gray-500 text-xs font-bold mt-1">Aponte a câmera para ver o vídeo</p>
+                            </div>
+
+                            <div className="aspect-square bg-white rounded-2xl p-2 border-4 border-gold/10">
+                                <img src={selectedQR} alt="QR Code" className="w-full h-full object-contain" />
+                            </div>
+
+                            <button
+                                onClick={() => setSelectedQR(null)}
+                                className="w-full mt-8 py-4 bg-deep text-white font-black rounded-2xl shadow-xl active:scale-95 transition-transform"
+                            >
+                                FECHAR
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
