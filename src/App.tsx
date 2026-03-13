@@ -220,7 +220,7 @@ const STATS = [
 const NAV_LINKS = [
   { label: 'Início', href: '#inicio' },
   { label: 'Sobre', href: '#sobre' },
-  { label: 'Menu', href: '#menu' },
+  { label: 'Menu', href: '/menu' },
   { label: 'Galeria', href: '#galeria' },
   { label: 'Críticas', href: '#criticas' },
   { label: 'Contato', href: '#contato' },
@@ -493,7 +493,7 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
           <div className="text-xl">🏠</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
         </a>
-        <a href="#menu" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
+        <a href="/menu" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
           <div className="text-xl">🍽</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Menu</span>
         </a>
