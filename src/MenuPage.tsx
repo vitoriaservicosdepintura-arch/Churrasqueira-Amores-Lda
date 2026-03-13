@@ -396,124 +396,129 @@ export default function MenuPage() {
                                     className="group"
                                 >
                                     <motion.div
-                                        className="glass rounded-2xl overflow-hidden hover:border-gold/20 transition-all duration-500 h-full flex flex-col"
+                                        className="glass rounded-2xl overflow-hidden hover:border-gold/20 transition-all duration-500 h-full flex flex-col cursor-pointer"
                                         whileHover={{ y: -6 }}
+                                        onClick={() => {
+                                            if (item.videoUrl) window.location.href = `/item/${item.id}`;
+                                        }}
                                     >
                                         {/* Image */}
-                                        <div className="relative h-48 md:h-52 overflow-hidden">
+                                        <div className="relative h-56 md:h-64 overflow-hidden">
                                             <motion.img
                                                 src={item.image}
                                                 alt={item.name}
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                                 loading="lazy"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-deep/80 via-deep/10 to-transparent" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-deep/90 via-deep/20 to-transparent" />
+
+                                            {/* Play Hint */}
+                                            {item.videoUrl && (
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <div className="w-16 h-16 rounded-full bg-gold/20 backdrop-blur-md border border-gold/50 flex items-center justify-center">
+                                                        <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-gold border-b-[10px] border-b-transparent ml-1" />
+                                                    </div>
+                                                </div>
+                                            )}
+
                                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
                                             {item.tag && (
-                                                <div className="absolute top-3 left-3 px-2.5 py-1 bg-deep/75 backdrop-blur-sm rounded-full text-[10px] font-bold border border-white/10">
+                                                <div className="absolute top-4 left-4 px-3 py-1 bg-deep/80 backdrop-blur-sm rounded-full text-[10px] font-bold border border-white/10 text-gold uppercase tracking-widest">
                                                     {item.tag}
                                                 </div>
                                             )}
                                             <motion.div
-                                                className="absolute bottom-3 right-3 px-3 py-1.5 bg-gradient-to-r from-gold to-flame rounded-full text-sm font-extrabold shadow-lg shadow-flame/30"
-                                                whileHover={{ scale: 1.1 }}
+                                                className="absolute bottom-4 left-4 px-4 py-2 bg-gradient-to-r from-gold to-flame rounded-full text-lg font-black shadow-lg shadow-flame/30"
                                             >
                                                 {item.price}
                                             </motion.div>
                                         </div>
 
-                                        {/* Content */}
-                                        <div className="p-4 md:p-5 flex-1 flex flex-col">
-                                            <h2
-                                                className="text-base md:text-lg font-bold mb-1.5 group-hover:text-gold transition-colors duration-300"
-                                                style={getTextStyle(item.nameColor)}
-                                            >
-                                                {item.name}
-                                            </h2>
-                                            <p className="text-gray-400 text-xs md:text-sm leading-relaxed flex-1" style={getTextStyle(item.descColor)}>
-                                                {item.description}
-                                            </p>
-
-                                            {/* Footer */}
-                                            <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
-                                                <span className="text-[10px] text-gray-500 font-medium px-2 py-0.5 bg-white/5 rounded-full">
+                                        {/* Footer - Enlarged QR */}
+                                        <div className="mt-auto p-4 md:p-5 pt-0 flex items-center justify-between gap-4">
+                                            <div className="flex-1">
+                                                <span className="text-[10px] text-gray-500 font-bold px-2 py-0.5 bg-white/5 rounded-full uppercase tracking-wider">
                                                     {item.category}
                                                 </span>
-
-                                                {item.qrCode || item.videoUrl || item.manualLink ? (
-                                                    <motion.div
-                                                        className="w-20 h-20 bg-white rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 cursor-pointer relative z-10 shrink-0"
-                                                        whileHover={{ scale: 1.05 }}
-                                                        animate={{ boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 15px rgba(245,158,11,0.3)', '0 0 0px rgba(245,158,11,0)'] }}
-                                                        transition={{ repeat: Infinity, duration: 2 }}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            if (item.videoUrl) {
-                                                                window.location.href = `/item/${item.id}`;
-                                                            } else if (item.manualLink) {
-                                                                window.location.href = item.manualLink;
-                                                            } else if (item.qrCode) {
-                                                                // If it only has a static QR uploaded, let's assume it 
-                                                                // should eventually do something, but for now just navigation is safer.
-                                                                // Reverting to the logic that makes sense for the user.
-                                                            }
-                                                        }}
-                                                        title="Ver Detalhes"
-                                                    >
-                                                        <img
-                                                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-                                                                item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
-                                                            )}`}
-                                                            alt={`QR Code ${item.name}`}
-                                                            className="w-full h-full object-contain"
-                                                        />
-                                                    </motion.div>
-                                                ) : (
-                                                    <motion.a
-                                                        href="/"
-                                                        className="flex items-center gap-1.5 text-[11px] font-bold text-gold border border-gold/30 rounded-full px-3 py-1.5 hover:bg-gold/10 transition-colors shrink-0"
-                                                        whileHover={{ x: 2 }}
-                                                    >
-                                                        Reservar →
-                                                    </motion.a>
-                                                )}
                                             </div>
+
+                                            {item.qrCode || item.videoUrl || item.manualLink ? (
+                                                <motion.div
+                                                    className="w-24 h-24 md:w-28 md:h-28 bg-white rounded-2xl p-2 shadow-[0_0_30px_rgba(255,255,255,0.15)] border-2 border-gold/30 cursor-pointer relative z-10 shrink-0"
+                                                    whileHover={{ scale: 1.1, rotate: 2 }}
+                                                    animate={{
+                                                        boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 20px rgba(245,158,11,0.4)', '0 0 0px rgba(245,158,11,0)'],
+                                                        borderColor: ['rgba(245,158,11,0.2)', 'rgba(245,158,11,0.6)', 'rgba(245,158,11,0.2)']
+                                                    }}
+                                                    transition={{ repeat: Infinity, duration: 2.5 }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        if (item.videoUrl) {
+                                                            window.location.href = `/item/${item.id}`;
+                                                        } else if (item.manualLink) {
+                                                            window.location.href = item.manualLink;
+                                                        }
+                                                    }}
+                                                    title="Escanear para Ver Vídeo"
+                                                >
+                                                    <img
+                                                        src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
+                                                            item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
+                                                        )}`}
+                                                        alt={`QR Code ${item.name}`}
+                                                        className="w-full h-full object-contain"
+                                                    />
+                                                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gold text-deep text-[8px] font-black px-2 py-0.5 rounded-full whitespace-nowrap shadow-lg">
+                                                        ESCANEAR
+                                                    </div>
+                                                </motion.div>
+                                            ) : (
+                                                <motion.a
+                                                    href="/"
+                                                    className="flex items-center gap-1.5 text-[11px] font-bold text-gold border border-gold/30 rounded-full px-3 py-1.5 hover:bg-gold/10 transition-colors shrink-0"
+                                                    whileHover={{ x: 2 }}
+                                                >
+                                                    Reservar →
+                                                </motion.a>
+                                            )}
                                         </div>
-                                    </motion.div>
+                                    </div>
                                 </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </motion.div>
-                )}
-            </main>
+                                </motion.div>
+                ))}
+            </AnimatePresence>
+        </motion.div>
+    )
+}
+            </main >
 
-            {/* ── MOBILE BOTTOM BAR ───────────────── */}
-            <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 pb-[env(safe-area-inset-bottom,16px)] pt-2 bg-gradient-to-t from-deep via-deep/95 to-transparent">
-                <div className="mx-3 mb-2 bg-surface/90 backdrop-blur-3xl border border-white/10 rounded-3xl py-3 px-4 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] flex items-center justify-between gap-2">
-                    <a href="/" className="flex flex-col items-center gap-1 text-gray-400 active:text-gold transition-colors flex-1">
-                        <span className="text-lg">🏠</span>
-                        <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
-                    </a>
-                    <div className="relative flex-none">
-                        <a
-                            href="/"
-                            className="w-14 h-14 bg-gradient-to-br from-gold via-flame to-ember rounded-full flex flex-col items-center justify-center shadow-[0_8px_25px_rgba(249,115,22,0.4)] border-4 border-deep active:scale-90 transition-transform"
-                        >
-                            <span className="text-xl mt-0.5">📞</span>
-                            <span className="bg-deep/30 text-white text-[7px] font-black px-1.5 py-0.5 rounded-full uppercase -mt-0.5">Reservar</span>
-                        </a>
-                    </div>
-                    <button
-                        onClick={() => { setSearch(''); setActiveCategory('Todos'); }}
-                        className="flex flex-col items-center gap-1 text-gray-400 active:text-gold transition-colors flex-1"
-                    >
-                        <span className="text-lg">🍽️</span>
-                        <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Todos</span>
-                    </button>
-                </div>
+    {/* ── MOBILE BOTTOM BAR ───────────────── */ }
+    < div className = "sm:hidden fixed bottom-0 left-0 right-0 z-50 pb-[env(safe-area-inset-bottom,16px)] pt-2 bg-gradient-to-t from-deep via-deep/95 to-transparent" >
+        <div className="mx-3 mb-2 bg-surface/90 backdrop-blur-3xl border border-white/10 rounded-3xl py-3 px-4 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] flex items-center justify-between gap-2">
+            <a href="/" className="flex flex-col items-center gap-1 text-gray-400 active:text-gold transition-colors flex-1">
+                <span className="text-lg">🏠</span>
+                <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
+            </a>
+            <div className="relative flex-none">
+                <a
+                    href="/"
+                    className="w-14 h-14 bg-gradient-to-br from-gold via-flame to-ember rounded-full flex flex-col items-center justify-center shadow-[0_8px_25px_rgba(249,115,22,0.4)] border-4 border-deep active:scale-90 transition-transform"
+                >
+                    <span className="text-xl mt-0.5">📞</span>
+                    <span className="bg-deep/30 text-white text-[7px] font-black px-1.5 py-0.5 rounded-full uppercase -mt-0.5">Reservar</span>
+                </a>
             </div>
-
-            {/* Modal removed as per user request */}
+            <button
+                onClick={() => { setSearch(''); setActiveCategory('Todos'); }}
+                className="flex flex-col items-center gap-1 text-gray-400 active:text-gold transition-colors flex-1"
+            >
+                <span className="text-lg">🍽️</span>
+                <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Todos</span>
+            </button>
         </div>
+            </div >
+
+    {/* Modal removed as per user request */ }
+        </div >
     );
 }

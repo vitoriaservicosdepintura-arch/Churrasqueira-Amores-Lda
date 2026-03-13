@@ -857,7 +857,13 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                   whileHover={{ y: -8 }}
                 >
                   {/* Image */}
-                  <div className="relative h-52 overflow-hidden">
+                  {/* Image clickable for experience */}
+                  <div
+                    className="relative h-56 overflow-hidden cursor-pointer group"
+                    onClick={() => {
+                      if (item.videoUrl) window.location.href = `/item/${item.id}`;
+                    }}
+                  >
                     <motion.img
                       src={item.image}
                       alt={item.name}
@@ -865,18 +871,24 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-deep/80 via-deep/10 to-transparent" />
-                    {/* Shine sweep */}
+
+                    {/* Immersive Experience Hint */}
+                    {item.videoUrl && (
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="w-14 h-14 rounded-full bg-gold/20 backdrop-blur-md border border-gold/40 flex items-center justify-center">
+                          <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-gold border-b-[8px] border-b-transparent ml-1" />
+                        </div>
+                      </div>
+                    )}
+
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-                    {/* Tag */}
                     {item.tag && (
-                      <div className="absolute top-3 left-3 px-3 py-1.5 bg-deep/70 backdrop-blur-sm rounded-full text-xs font-bold border border-white/10">
+                      <div className="absolute top-3 left-3 px-3 py-1.5 bg-deep/70 backdrop-blur-sm rounded-full text-[10px] font-bold border border-white/10 text-gold uppercase tracking-widest">
                         {item.tag}
                       </div>
                     )}
-                    {/* Price */}
                     <motion.div
-                      className="absolute bottom-3 right-3 px-4 py-2 bg-gradient-to-r from-gold to-flame rounded-full text-sm font-extrabold shadow-lg shadow-flame/30"
-                      whileHover={{ scale: 1.1 }}
+                      className="absolute bottom-3 right-3 px-4 py-2 bg-gradient-to-r from-gold to-flame rounded-full text-base font-black shadow-lg shadow-flame/30"
                     >
                       {item.price}
                     </motion.div>
@@ -890,6 +902,12 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
                       {item.qrCode || item.videoUrl || item.manualLink ? (
                         <motion.div
+                          className="w-20 h-20 md:w-24 md:h-24 bg-white rounded-xl p-1.5 shadow-xl border-2 border-gold/20 cursor-pointer relative shrink-0"
+                          whileHover={{ scale: 1.1 }}
+                          animate={{
+                            boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 15px rgba(245,158,11,0.3)', '0 0 0px rgba(245,158,11,0)']
+                          }}
+                          transition={{ repeat: Infinity, duration: 2.5 }}
                           onClick={(e) => {
                             e.stopPropagation();
                             if (item.videoUrl) {
@@ -906,6 +924,9 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                             alt={`QR Code ${item.name}`}
                             className="w-full h-full object-contain"
                           />
+                          <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-gold text-deep text-[7px] font-black px-1.5 py-0.5 rounded-full whitespace-nowrap">
+                            ESCANEAR
+                          </div>
                         </motion.div>
                       ) : (
                         <motion.button
