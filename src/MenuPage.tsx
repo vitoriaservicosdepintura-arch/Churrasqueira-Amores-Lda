@@ -107,7 +107,7 @@ export default function MenuPage() {
                 if (cached) setConfig({ ...DEFAULT_CONFIG, ...JSON.parse(cached) });
 
                 const { data } = await supabase
-                    .from('site_config')
+                    .from('settings')
                     .select('config')
                     .eq('id', 1)
                     .single();
@@ -126,8 +126,8 @@ export default function MenuPage() {
         load();
     }, []);
 
-    const categories = useMemo(() => {
-        const cats = ['Todos', ...new Set((config.menuItems || []).map((m: any) => m.category).filter(Boolean))];
+    const categories = useMemo<string[]>(() => {
+        const cats = ['Todos', ...new Set((config.menuItems || []).map((m: any) => m.category).filter(Boolean) as string[])];
         return cats;
     }, [config.menuItems]);
 

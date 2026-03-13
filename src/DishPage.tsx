@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from './supabase';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowLeft, ChefHat, Info, ShoppingCart, UtensilsCrossed, Volume2, VolumeX } from 'lucide-react';
 
 export default function DishPage() {
@@ -17,7 +17,7 @@ export default function DishPage() {
         const loadItem = async () => {
             try {
                 const { data } = await supabase
-                    .from('site_config')
+                    .from('settings')
                     .select('config')
                     .eq('id', 1)
                     .single();
