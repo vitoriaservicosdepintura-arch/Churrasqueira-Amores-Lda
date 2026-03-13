@@ -69,7 +69,6 @@ export default function DishPage() {
         );
     }
 
-    const [showInfo, setShowInfo] = useState(true);
 
     // Split description into bullets if possible, or just use it as is
     const ingredients = item.description?.split(',').map((i: string) => i.trim()) || [];

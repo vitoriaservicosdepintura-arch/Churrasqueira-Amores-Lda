@@ -3,7 +3,7 @@ import { supabase } from './supabase';
 import Admin from './Admin';
 import {
   Settings as SettingsIcon,
-  X, Calendar, Clock, Users, Phone, Loader2, CheckCircle2, MessageCircle
+  X, Calendar, Phone, Loader2, CheckCircle2, MessageCircle
 } from 'lucide-react';
 import {
   motion,
@@ -795,7 +795,7 @@ function About({ config }: { config: any }) {
    MENU
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => void }) {
+function Menu({ config }: { config: any }) {
   const [activeCategory, setActiveCategory] = useState('Todos');
   const categories = ['Todos', 'Pratos', 'Acompanhamentos', 'Bebidas'];
   const filtered = activeCategory === 'Todos' ? config.menuItems : config.menuItems?.filter((m: any) => m.category === activeCategory);
@@ -842,7 +842,7 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
         {/* Grid */}
         <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <AnimatePresence mode="popLayout">
-            {filtered.map((item, i) => (
+            {filtered.map((item: any, i: number) => (
               <motion.div
                 key={item.id}
                 layout
@@ -1896,7 +1896,7 @@ export default function App() {
         <Navbar config={config} onOpenAdmin={() => setShowAdmin(true)} />
         <Hero config={config} />
         <About config={config} />
-        <Menu config={config} onOpenQR={setSelectedQR} />
+        <Menu config={config} />
         <Gallery config={config} />
         <Reviews />
         <Contact config={config} />

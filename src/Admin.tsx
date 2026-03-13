@@ -5,8 +5,8 @@ import {
     X, Save, Upload, Trash2, Edit3, Image as ImageIcon,
     Settings, History, Utensils, MapPin,
     AlertCircle, Loader2, Plus, Globe, Sparkles,
-    Calendar, CheckCircle, CheckCircle2, Clock, Users, Phone, Mail, MessageCircle, ChevronLeft, LogOut, Lock,
-    Palette, Droplets, Paintbrush, RotateCcw, Video, Play, QrCode
+    Calendar, CheckCircle, Clock, Users, Phone, Mail, MessageCircle, ChevronLeft, LogOut, Lock,
+    Palette, Droplets, Paintbrush, RotateCcw, Video, QrCode
 } from 'lucide-react';
 
 const ADMIN_COLORS = {
@@ -163,11 +163,6 @@ const AVAILABLE_FONTS = [
     { name: 'Pacifico (Descontraída)', value: 'Pacifico' },
 ];
 
-const VIVID_COLORS_QUICK = [
-    '#ffffff', '#f59e0b', '#f97316', '#ef4444',
-    '#ec4899', '#8b5cf6', '#2563eb', '#10b981',
-    '#000000', '#1e1b4b', '#7f1d1d', '#14532d',
-];
 
 const TextEditorWithColor = ({ label, value, color, onTextChange, onColorChange, rows = 1 }: any) => {
     const editorRef = useRef<HTMLDivElement>(null);
