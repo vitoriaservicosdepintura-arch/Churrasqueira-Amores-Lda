@@ -896,13 +896,10 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                           transition={{ repeat: Infinity, duration: 2 }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            if (item.qrCode) {
-                              onOpenQR(item.qrCode);
-                            } else if (item.videoUrl) {
-                              window.location.href = `/item/${item.id}`;
-                            } else if (item.manualLink) {
-                              window.location.href = item.manualLink;
-                            }
+                            const qrLink = item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(
+                              item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
+                            )}`;
+                            onOpenQR(qrLink);
                           }}
                         >
                           <img

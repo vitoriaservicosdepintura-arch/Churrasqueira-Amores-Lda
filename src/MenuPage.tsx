@@ -449,15 +449,12 @@ export default function MenuPage() {
                                                         transition={{ repeat: Infinity, duration: 2 }}
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            if (item.qrCode) {
-                                                                setSelectedQR(item.qrCode);
-                                                            } else if (item.videoUrl) {
-                                                                window.location.href = `/item/${item.id}`;
-                                                            } else if (item.manualLink) {
-                                                                window.location.href = item.manualLink;
-                                                            }
+                                                            const qrLink = item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(
+                                                                item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
+                                                            )}`;
+                                                            setSelectedQR(qrLink);
                                                         }}
-                                                        title="Ver QR Code"
+                                                        title="Ampliar QR Code"
                                                     >
                                                         <img
                                                             src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
