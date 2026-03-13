@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo, type ReactNode } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from './supabase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, X, Search, SlidersHorizontal } from 'lucide-react';
+import { ArrowLeft, Search, SlidersHorizontal } from 'lucide-react';
 
 /* ══════════════════════════════════════════
    UTILS
@@ -39,13 +39,6 @@ const DEFAULT_CONFIG = {
     hero: { title: "Chave D'Ouro Café" },
     menuItems: [] as any[],
 };
-
-/* ══════════════════════════════════════════
-   STAR RATING
-   ══════════════════════════════════════════ */
-
-// StarRating removed as it was unused
-
 
 /* ══════════════════════════════════════════
    EMBER PARTICLES
@@ -94,13 +87,6 @@ function EmberParticles() {
         </div>
     );
 }
-
-/* ══════════════════════════════════════════
-   ANIMATED SECTION
-   ══════════════════════════════════════════ */
-
-// AnimatedSection removed as it was unused
-
 
 /* ══════════════════════════════════════════
    MENU PAGE COMPONENT
@@ -482,43 +468,39 @@ export default function MenuPage() {
                                                 </motion.a>
                                             )}
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 </motion.div>
-                                </motion.div>
-                ))}
-            </AnimatePresence>
-        </motion.div>
-    )
-}
-            </main >
+                            ))}
+                        </AnimatePresence>
+                    </motion.div>
+                )}
+            </main>
 
-    {/* ── MOBILE BOTTOM BAR ───────────────── */ }
-    < div className = "sm:hidden fixed bottom-0 left-0 right-0 z-50 pb-[env(safe-area-inset-bottom,16px)] pt-2 bg-gradient-to-t from-deep via-deep/95 to-transparent" >
-        <div className="mx-3 mb-2 bg-surface/90 backdrop-blur-3xl border border-white/10 rounded-3xl py-3 px-4 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] flex items-center justify-between gap-2">
-            <a href="/" className="flex flex-col items-center gap-1 text-gray-400 active:text-gold transition-colors flex-1">
-                <span className="text-lg">🏠</span>
-                <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
-            </a>
-            <div className="relative flex-none">
-                <a
-                    href="/"
-                    className="w-14 h-14 bg-gradient-to-br from-gold via-flame to-ember rounded-full flex flex-col items-center justify-center shadow-[0_8px_25px_rgba(249,115,22,0.4)] border-4 border-deep active:scale-90 transition-transform"
-                >
-                    <span className="text-xl mt-0.5">📞</span>
-                    <span className="bg-deep/30 text-white text-[7px] font-black px-1.5 py-0.5 rounded-full uppercase -mt-0.5">Reservar</span>
-                </a>
+            {/* ── MOBILE BOTTOM BAR ───────────────── */}
+            <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 pb-[env(safe-area-inset-bottom,16px)] pt-2 bg-gradient-to-t from-deep via-deep/95 to-transparent">
+                <div className="mx-3 mb-2 bg-surface/90 backdrop-blur-3xl border border-white/10 rounded-3xl py-3 px-4 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] flex items-center justify-between gap-2">
+                    <a href="/" className="flex flex-col items-center gap-1 text-gray-400 active:text-gold transition-colors flex-1">
+                        <span className="text-lg">🏠</span>
+                        <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
+                    </a>
+                    <div className="relative flex-none">
+                        <a
+                            href="/"
+                            className="w-14 h-14 bg-gradient-to-br from-gold via-flame to-ember rounded-full flex flex-col items-center justify-center shadow-[0_8px_25px_rgba(249,115,22,0.4)] border-4 border-deep active:scale-90 transition-transform"
+                        >
+                            <span className="text-xl mt-0.5">📞</span>
+                            <span className="bg-deep/30 text-white text-[7px] font-black px-1.5 py-0.5 rounded-full uppercase -mt-0.5">Reservar</span>
+                        </a>
+                    </div>
+                    <button
+                        onClick={() => { setSearch(''); setActiveCategory('Todos'); }}
+                        className="flex flex-col items-center gap-1 text-gray-400 active:text-gold transition-colors flex-1"
+                    >
+                        <span className="text-lg">🍽️</span>
+                        <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Todos</span>
+                    </button>
+                </div>
             </div>
-            <button
-                onClick={() => { setSearch(''); setActiveCategory('Todos'); }}
-                className="flex flex-col items-center gap-1 text-gray-400 active:text-gold transition-colors flex-1"
-            >
-                <span className="text-lg">🍽️</span>
-                <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Todos</span>
-            </button>
         </div>
-            </div >
-
-    {/* Modal removed as per user request */ }
-        </div >
     );
 }
