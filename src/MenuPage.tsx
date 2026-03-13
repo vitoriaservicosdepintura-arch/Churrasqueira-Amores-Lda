@@ -372,14 +372,13 @@ export default function MenuPage() {
                 ) : (
                     <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
                         <AnimatePresence mode="popLayout">
-                            {filtered.map((item: any, i: number) => (
+                            {filtered.map((item: any) => (
                                 <motion.div
                                     key={item.id}
                                     layout
-                                    initial={{ opacity: 0, y: 30, scale: 0.92 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9, y: -10 }}
-                                    transition={{ duration: 0.4, delay: i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9 }}
                                     className="group"
                                 >
                                     <motion.div
