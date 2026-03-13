@@ -890,16 +890,13 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
                       {item.qrCode || item.videoUrl || item.manualLink ? (
                         <motion.div
-                          className="w-16 h-16 bg-white rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 cursor-zoom-in relative z-10"
-                          whileHover={{ scale: 1.2, rotate: 5 }}
-                          animate={{ boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 15px rgba(245,158,11,0.3)', '0 0 0px rgba(245,158,11,0)'] }}
-                          transition={{ repeat: Infinity, duration: 2 }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            const qrLink = item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(
-                              item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
-                            )}`;
-                            onOpenQR(qrLink);
+                            if (item.videoUrl) {
+                              window.location.href = `/item/${item.id}`;
+                            } else if (item.manualLink) {
+                              window.location.href = item.manualLink;
+                            }
                           }}
                         >
                           <img

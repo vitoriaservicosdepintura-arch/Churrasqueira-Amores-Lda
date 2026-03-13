@@ -111,7 +111,6 @@ export default function MenuPage() {
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState('Todos');
     const [search, setSearch] = useState('');
-    const [selectedQR, setSelectedQR] = useState<string | null>(null);
     const [showFilters, setShowFilters] = useState(false);
 
     // Load config from Supabase
@@ -443,21 +442,26 @@ export default function MenuPage() {
 
                                                 {item.qrCode || item.videoUrl || item.manualLink ? (
                                                     <motion.div
-                                                        className="w-14 h-14 bg-white rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 cursor-zoom-in relative z-10 shrink-0"
-                                                        whileHover={{ scale: 1.2, rotate: 5 }}
+                                                        className="w-20 h-20 bg-white rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 cursor-pointer relative z-10 shrink-0"
+                                                        whileHover={{ scale: 1.05 }}
                                                         animate={{ boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 15px rgba(245,158,11,0.3)', '0 0 0px rgba(245,158,11,0)'] }}
                                                         transition={{ repeat: Infinity, duration: 2 }}
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            const qrLink = item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(
-                                                                item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
-                                                            )}`;
-                                                            setSelectedQR(qrLink);
+                                                            if (item.videoUrl) {
+                                                                window.location.href = `/item/${item.id}`;
+                                                            } else if (item.manualLink) {
+                                                                window.location.href = item.manualLink;
+                                                            } else if (item.qrCode) {
+                                                                // If it only has a static QR uploaded, let's assume it 
+                                                                // should eventually do something, but for now just navigation is safer.
+                                                                // Reverting to the logic that makes sense for the user.
+                                                            }
                                                         }}
-                                                        title="Ampliar QR Code"
+                                                        title="Ver Detalhes"
                                                     >
                                                         <img
-                                                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+                                                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
                                                                 item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
                                                             )}`}
                                                             alt={`QR Code ${item.name}`}
@@ -509,65 +513,7 @@ export default function MenuPage() {
                 </div>
             </div>
 
-            {/* ── QR CODE POPUP ───────────────────── */}
-            <AnimatePresence>
-                {selectedQR && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setSelectedQR(null)}
-                        className="fixed inset-0 z-[600] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl cursor-zoom-out"
-                    >
-                        <motion.div
-                            initial={{ scale: 0.8, opacity: 0, y: 20 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.8, opacity: 0, y: 20 }}
-                            onClick={(e) => e.stopPropagation()}
-                            className="relative w-full max-w-[420px] bg-white rounded-3xl p-6 md:p-10 shadow-[0_0_100px_rgba(255,255,255,0.15)] flex flex-col items-center mx-4"
-                        >
-                            <div className="absolute -top-10 -left-10 w-20 h-20 bg-gold/20 rounded-full blur-3xl" />
-                            <div className="absolute -bottom-10 -right-10 w-20 h-20 bg-flame/20 rounded-full blur-3xl" />
-
-                            <button
-                                onClick={() => setSelectedQR(null)}
-                                className="absolute -top-14 right-0 text-white hover:text-gold transition-all duration-300 flex items-center gap-2 font-black text-xs uppercase tracking-widest group"
-                            >
-                                FECHAR{' '}
-                                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gold group-hover:text-deep transition-all">
-                                    <X className="w-6 h-6" />
-                                </div>
-                            </button>
-
-                            <div className="text-center mb-6 relative">
-                                <div className="h-px w-12 bg-gold/30 mx-auto mb-4" />
-                                <span className="text-deep font-black text-[10px] md:text-xs uppercase tracking-[0.3em] block mb-1">Menu Digital</span>
-                                <h3 className="text-2xl font-black text-deep mb-2">Escaneie o Código</h3>
-                                <p className="text-gray-500 text-[10px] md:text-xs font-medium max-w-[200px] mx-auto leading-relaxed">
-                                    Aponte a câmera do seu telemóvel para realizar o seu pedido agora.
-                                </p>
-                            </div>
-
-                            <div className="relative p-2 bg-gradient-to-br from-gold/20 via-transparent to-flame/20 rounded-3xl mb-6 group">
-                                <div className="absolute inset-0 bg-white/50 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                                <div className="relative bg-white p-5 rounded-2xl shadow-xl border border-gray-100">
-                                    <img
-                                        src={selectedQR}
-                                        alt="QR Code Ampliado"
-                                        className="w-full h-auto aspect-square object-contain rounded-lg"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="w-full pt-4 border-t border-gray-100">
-                                <p className="text-[10px] text-gray-400 font-bold text-center uppercase tracking-widest opacity-50">
-                                    {siteName} • Menu Digital
-                                </p>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            {/* Modal removed as per user request */}
         </div>
     );
 }
