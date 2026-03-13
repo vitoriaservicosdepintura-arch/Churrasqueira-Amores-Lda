@@ -120,15 +120,6 @@ const DEFAULT_CONFIG = {
     },
   ],
 
-  menuVision: [
-    {
-      id: 1,
-      name: 'Frango Supremo',
-      image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&q=80',
-      videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      ingredients: '1. Frango marinado na brasa\n2. Molho Secreto da Casa\n3. Ervas finas e Açafrão\n4. Carvão Especial'
-    }
-  ],
   gallery: [
     { url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop&q=80', label: 'Os Nossos Pratos' },
     { url: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&q=80', label: 'Frango na Brasa' },
@@ -230,7 +221,6 @@ const NAV_LINKS = [
   { label: 'Início', href: '#inicio' },
   { label: 'Sobre', href: '#sobre' },
   { label: 'Menu', href: '#menu' },
-  { label: 'MenuVision', href: '#menuvision' },
   { label: 'Galeria', href: '#galeria' },
   { label: 'Críticas', href: '#criticas' },
   { label: 'Contato', href: '#contato' },
@@ -585,23 +575,23 @@ function Hero({ config }: { config: any }) {
       {/* Content */}
       <motion.div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4" style={{ opacity: contentOpacity, y: contentY }}>
         {/* Badge */}
-        <motion.div initial={{ opacity: 0, scale: 0.7, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="mb-8">
-          <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold/10 border border-gold/25 rounded-full text-gold text-sm font-semibold backdrop-blur-sm shadow-lg shadow-gold/5" style={getTextStyle(config.hero?.badgeColor)}>
-            <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+        <motion.div initial={{ opacity: 0, scale: 0.7, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="mb-5 md:mb-8">
+          <span className="inline-flex items-center gap-1.5 md:gap-2 px-3 py-1.5 md:px-5 md:py-2.5 bg-gold/10 border border-gold/25 rounded-full text-gold text-[10px] sm:text-xs md:text-sm font-semibold backdrop-blur-sm shadow-lg shadow-gold/5" style={getTextStyle(config.hero?.badgeColor)}>
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gold animate-pulse" />
             <span dangerouslySetInnerHTML={{ __html: config.hero?.badge || '' }} />
           </span>
         </motion.div>
 
         {/* Title */}
-        <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} className="mb-6 px-2">
+        <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} className="mb-4 md:mb-6 px-1 md:px-2">
           {hasHTML ? (
-            <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tight text-white [&>font]:!leading-normal" style={getTextStyle(config.hero?.titleColor)} dangerouslySetInnerHTML={{ __html: siteTitle }} />
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[1] md:leading-[0.9] tracking-tight text-white [&>font]:!leading-normal" style={getTextStyle(config.hero?.titleColor)} dangerouslySetInnerHTML={{ __html: siteTitle }} />
           ) : (
             <>
-              <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tight text-white" style={getTextStyle(config.hero?.titleColor)}>
+              <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[1] md:leading-[0.9] tracking-tight text-white" style={getTextStyle(config.hero?.titleColor)}>
                 {firstPart}
               </span>
-              <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tight text-gradient-fire mt-2" style={!config.hero?.titleColor ? {} : getTextStyle(config.hero?.titleColor)}>
+              <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[1] md:leading-[0.9] tracking-tight text-gradient-fire mt-1 md:mt-2" style={!config.hero?.titleColor ? {} : getTextStyle(config.hero?.titleColor)}>
                 {lastPart}
               </span>
             </>
@@ -609,7 +599,7 @@ function Hero({ config }: { config: any }) {
         </motion.h1>
 
         {/* Subtitle */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }} className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mb-6 leading-relaxed" style={getTextStyle(config.hero?.subtitleColor)}>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }} className="text-sm border-white/5 sm:text-lg md:text-xl text-gray-300 max-w-2xl mb-6 md:mb-6 leading-relaxed" style={getTextStyle(config.hero?.subtitleColor)}>
           <div dangerouslySetInnerHTML={{ __html: config.hero?.subtitle || '' }} />
         </motion.div>
 
@@ -624,10 +614,10 @@ function Hero({ config }: { config: any }) {
         </motion.div>
 
         {/* CTA */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }} className="flex flex-col sm:flex-row gap-4">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }} className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto px-4 sm:px-0">
           <motion.button
             onClick={() => (window as any).openReservationModal()}
-            className="group relative px-8 py-4 bg-gradient-to-r from-gold via-flame to-ember rounded-full text-lg font-bold text-white shadow-2xl shadow-flame/30 overflow-hidden cursor-pointer"
+            className="group relative px-5 py-3.5 md:px-8 md:py-4 bg-gradient-to-r from-gold via-flame to-ember rounded-full text-sm sm:text-base md:text-lg font-bold text-white shadow-2xl shadow-flame/30 overflow-hidden cursor-pointer"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -639,12 +629,12 @@ function Hero({ config }: { config: any }) {
 
           <motion.a
             href="#menu"
-            className="group px-8 py-4 glass rounded-full text-lg font-semibold text-white hover:bg-white/15 transition-all duration-300"
+            className="group px-5 py-3.5 md:px-8 md:py-4 glass rounded-full text-sm sm:text-base md:text-lg font-semibold text-white hover:bg-white/15 transition-all duration-300 text-center"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
             Ver Menu
-            <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+            <span className="inline-block flex items-center justify-center ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
           </motion.a>
         </motion.div>
       </motion.div>
@@ -677,7 +667,7 @@ function Hero({ config }: { config: any }) {
 
 function About({ config }: { config: any }) {
   return (
-    <section id="sobre" className="relative py-20 md:py-32 overflow-hidden">
+    <section id="sobre" className="relative py-16 md:py-32 overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-flame/3 to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-tr from-gold/3 to-transparent pointer-events-none" />
@@ -694,9 +684,9 @@ function About({ config }: { config: any }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
                 whileHover={{ y: -4, scale: 1.03 }}
-                className="text-center p-5 md:p-8 glass rounded-2xl hover:border-gold/20 transition-all duration-500 group cursor-default"
+                className="text-center p-4 md:p-8 glass rounded-2xl hover:border-gold/20 transition-all duration-500 group cursor-default"
               >
-                <div className="text-3xl md:text-5xl font-black text-gradient-fire mb-2">
+                <div className="text-2xl md:text-5xl font-black text-gradient-fire mb-1 md:mb-2">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} decimal={stat.decimal} />
                 </div>
                 <div className="text-xs md:text-sm text-gray-400 font-medium group-hover:text-gray-300 transition-colors duration-300">
@@ -748,7 +738,7 @@ function About({ config }: { config: any }) {
               <img
                 src={config.about?.image}
                 alt="Churrasqueira"
-                className="w-full h-72 md:h-[480px] object-cover"
+                className="w-full h-64 md:h-[480px] object-cover"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-deep/70 via-transparent to-transparent" />
@@ -811,7 +801,7 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
   const filtered = activeCategory === 'Todos' ? config.menuItems : config.menuItems?.filter((m: any) => m.category === activeCategory);
 
   return (
-    <section id="menu" className="relative py-20 md:py-32">
+    <section id="menu" className="relative py-16 md:py-32">
       {/* Subtle bg */}
       <div className="absolute inset-0 bg-gradient-to-b from-deep via-surface/20 to-deep pointer-events-none" />
       <div className="absolute top-1/4 -left-40 w-80 h-80 bg-gold/4 rounded-full blur-[120px] pointer-events-none" />
@@ -819,14 +809,14 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <AnimatedSection className="text-center mb-14">
-          <span className="inline-block px-4 py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-xs font-bold tracking-wider uppercase mb-6">
+          <span className="inline-block px-3 py-1.5 md:px-4 md:py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-[10px] md:text-xs font-bold tracking-wider uppercase mb-4 md:mb-6">
             Menu & Destaques
           </span>
-          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-4">
+          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-3 md:mb-4">
             Os Nossos{' '}
             <span className="text-gradient-fire">Pratos Estrela</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
+          <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-lg px-4 md:px-0">
             Cada prato é preparado com ingredientes frescos e o amor de uma tradição familiar
           </p>
         </AnimatedSection>
@@ -893,8 +883,8 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                   </div>
 
                   {/* Content */}
-                  <div className="p-5 md:p-6 flex-1 flex flex-col">
-                    <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-gold transition-colors duration-300" style={getTextStyle(item.nameColor)}>{item.name}</h3>
+                  <div className="p-4 md:p-6 flex-1 flex flex-col">
+                    <h3 className="text-lg md:text-xl font-bold mb-1.5 md:mb-2 group-hover:text-gold transition-colors duration-300" style={getTextStyle(item.nameColor)}>{item.name}</h3>
                     <p className="text-gray-400 text-sm leading-relaxed flex-1" style={getTextStyle(item.descColor)}>{item.description}</p>
                     <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
                       <span className="text-xs text-gray-500 font-medium">{item.category}</span>
@@ -906,11 +896,19 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                           transition={{ repeat: Infinity, duration: 2 }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onOpenQR(item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(item.manualLink || item.videoUrl)}`);
+                            if (item.qrCode) {
+                              onOpenQR(item.qrCode);
+                            } else if (item.videoUrl) {
+                              window.location.href = item.videoUrl;
+                            } else if (item.manualLink) {
+                              window.location.href = item.manualLink;
+                            } else {
+                              onOpenQR(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(item.manualLink || item.videoUrl)}`);
+                            }
                           }}
                         >
                           <img
-                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(item.manualLink || item.videoUrl)}`}
+                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(item.videoUrl || item.manualLink || '')}`}
                             alt={`QR Code ${item.name}`}
                             className="w-full h-full object-contain"
                           />
@@ -941,137 +939,20 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 
-/* â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• 
-   MENUVISION
-   â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â• â•  */
-
-function MenuVision({ config }: { config: any }) {
-  const [selectedVision, setSelectedVision] = useState<any>(null);
-
-  const visions = config.menuVision || [];
-
-  if (visions.length === 0) return null;
-
-  return (
-    <section id="menuvision" className="relative py-20 md:py-32 bg-deep/50 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <AnimatedSection className="text-center mb-16 md:mb-20">
-          <span className="inline-block px-4 py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-xs font-bold tracking-wider uppercase mb-6 shadow-lg shadow-flame/10">
-            A Experiência Visual
-          </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
-            Menu<span className="text-gradient-fire">Vision</span>
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Descubra os detalhes dos nossos pratos em formato de vídeo e explore cada camada dos ingredientes selecionados.
-          </p>
-        </AnimatedSection>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {visions.map((v: any, i: number) => (
-            <AnimatedSection key={v.id} delay={i * 0.1}>
-              <motion.div
-                onClick={() => setSelectedVision(v)}
-                className="group relative rounded-2xl overflow-hidden shadow-2xl cursor-pointer aspect-[4/3]"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img src={v.image} alt={v.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-                <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-deep/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:scale-110 group-hover:bg-flame/80 transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)]">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4 text-center">
-                  <h3 className="text-xl font-bold text-white drop-shadow-md">{v.name}</h3>
-                </div>
-              </motion.div>
-            </AnimatedSection>
-          ))}
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {selectedVision && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-deep/95 backdrop-blur-xl"
-            onClick={() => setSelectedVision(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-5xl bg-surface border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
-            >
-              <button
-                onClick={() => setSelectedVision(null)}
-                className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="w-full md:w-3/5 bg-black relative flex items-center justify-center">
-                {selectedVision.videoUrl ? (
-                  <video src={selectedVision.videoUrl} autoPlay controls className="w-full max-h-[50vh] md:max-h-full" />
-                ) : (
-                  <div className="text-gray-500">Video Indisponível</div>
-                )}
-              </div>
-
-              <div className="w-full md:w-2/5 p-6 md:p-8 overflow-y-auto bg-gradient-to-br from-surface to-deep">
-                <h3 className="text-2xl md:text-3xl font-black mb-6 text-white">{selectedVision.name}</h3>
-
-                <div className="mb-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-gold mb-2 block">Camadas d'Ingredientes</span>
-                  <div className="h-px w-12 bg-gold/50 mb-6"></div>
-                </div>
-
-                <div className="space-y-4">
-                  {selectedVision.ingredients?.split('\n').map((ing: string, i: number) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 + (i * 0.1) }}
-                      className="flex items-start gap-3 glass p-3 rounded-lg border border-white/5"
-                    >
-                      <div className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center text-xs font-bold text-flame shrink-0 mt-0.5 border border-white/10">
-                        {i + 1}
-                      </div>
-                      <p className="text-gray-300 text-sm">{ing.replace(/^\d+\.\s*/, '')}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-}
-
 function Gallery({ config }: { config: any }) {
   return (
-    <section id="galeria" className="relative py-20 md:py-32 overflow-hidden">
+    <section id="galeria" className="relative py-16 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-deep via-midnight/20 to-deep pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <AnimatedSection className="text-center mb-14">
-          <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6">
+        <AnimatedSection className="text-center mb-10 md:mb-14">
+          <span className="inline-block px-3 py-1.5 md:px-4 md:py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-[10px] md:text-xs font-bold tracking-wider uppercase mb-4 md:mb-6">
             Galeria
           </span>
-          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-4">
+          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-3 md:mb-4">
             Momentos <span className="text-gradient-fire">Deliciosos</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
+          <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-lg px-4 md:px-0">
             Fotografias dos nossos pratos e do ambiente acolhedor da Chave D'Ouro Café
           </p>
         </AnimatedSection>
@@ -1122,15 +1003,15 @@ function Reviews() {
   const ratingDistribution: Record<number, number> = { 5: 75, 4: 18, 3: 4, 2: 2, 1: 1 };
 
   return (
-    <section id="criticas" className="relative py-20 md:py-32 overflow-hidden">
+    <section id="criticas" className="relative py-16 md:py-32 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-flame/4 rounded-full blur-[140px]" />
         <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] bg-gold/4 rounded-full blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <AnimatedSection className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6">
+        <AnimatedSection className="text-center mb-12 md:mb-16">
+          <span className="inline-block px-3 py-1.5 md:px-4 md:py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-[10px] md:text-xs font-bold tracking-wider uppercase mb-4 md:mb-6">
             Críticas dos Clientes
           </span>
           <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6">
@@ -1329,18 +1210,18 @@ function Contact({ config }: { config: any }) {
   ];
 
   return (
-    <section id="contato" className="relative py-20 md:py-32">
+    <section id="contato" className="relative py-16 md:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-deep via-surface/15 to-deep pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <AnimatedSection className="text-center mb-14">
-          <span className="inline-block px-4 py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-xs font-bold tracking-wider uppercase mb-6" style={getTextStyle(config.contact?.badgeColor)}>
+        <AnimatedSection className="text-center mb-10 md:mb-14">
+          <span className="inline-block px-3 py-1.5 md:px-4 md:py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-[10px] md:text-xs font-bold tracking-wider uppercase mb-4 md:mb-6" style={getTextStyle(config.contact?.badgeColor)}>
             {config.contact?.badge || 'Visite-nos'}
           </span>
-          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-4" style={getTextStyle(config.contact?.titleColor)}>
+          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-3 md:mb-4" style={getTextStyle(config.contact?.titleColor)}>
             {config.contact?.title || 'Venha Conhecer-nos'}
           </h2>
-          <p className="text-gray-400 max-w-lg mx-auto" style={getTextStyle(config.contact?.textColor)}>
+          <p className="text-gray-400 max-w-lg mx-auto text-sm md:text-base px-4 md:px-0" style={getTextStyle(config.contact?.textColor)}>
             {config.contact?.text}
           </p>
         </AnimatedSection>
@@ -1379,9 +1260,9 @@ function Contact({ config }: { config: any }) {
               <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-flame/10 rounded-full blur-[80px]" />
             </div>
 
-            <div className="relative p-8 md:p-16 text-center">
+            <div className="relative p-6 md:p-16 text-center">
               <motion.h3
-                className="text-2xl md:text-4xl lg:text-5xl font-black mb-4"
+                className="text-2xl md:text-4xl lg:text-5xl font-black mb-3 md:mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -1389,10 +1270,10 @@ function Contact({ config }: { config: any }) {
               >
                 Pronto para <span className="text-gradient-fire">Saborear</span>?
               </motion.h3>
-              <p className="text-gray-300 max-w-xl mx-auto mb-8 text-base md:text-lg leading-relaxed">
+              <p className="text-gray-300 max-w-xl mx-auto mb-6 md:mb-8 text-sm md:text-lg leading-relaxed">
                 Reserve a sua mesa e venha descobrir porque somos uma das melhores churrasqueiras do Algarve. O nosso frango espera por si!
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
                 <motion.button
                   onClick={() => (window as any).openReservationModal()}
                   className="group relative px-8 py-4 bg-gradient-to-r from-gold via-flame to-ember rounded-full text-base md:text-lg font-bold text-white shadow-2xl shadow-flame/30 overflow-hidden cursor-pointer"
@@ -1855,23 +1736,12 @@ const getInitialConfig = () => {
 
 export default function App() {
 
-  const [currentHash, setCurrentHash] = useState(window.location.hash);
-
-  useEffect(() => {
-    const handleHash = () => setCurrentHash(window.location.hash);
-    window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
-  }, []);
 
   useEffect(() => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
     const resetScroll = setTimeout(() => {
-      if (window.location.hash) {
-        window.history.replaceState(null, '', window.location.pathname + window.location.search);
-        setCurrentHash('');
-      }
       window.scrollTo(0, 0);
     }, 10);
     return () => clearTimeout(resetScroll);
@@ -2009,24 +1879,13 @@ export default function App() {
 
       <div className="bg-deep min-h-screen text-white font-display noise-overlay selection:bg-gold/30">
         <Navbar config={config} onOpenAdmin={() => setShowAdmin(true)} />
-        {currentHash === '#menuvision' ? (
-          <div className="pt-20 min-h-screen flex flex-col">
-            <div className="flex-grow">
-              <MenuVision config={config} />
-            </div>
-            <Footer config={config} />
-          </div>
-        ) : (
-          <>
-            <Hero config={config} />
-            <About config={config} />
-            <Menu config={config} onOpenQR={setSelectedQR} />
-            <Gallery config={config} />
-            <Reviews />
-            <Contact config={config} />
-            <Footer config={config} />
-          </>
-        )}
+        <Hero config={config} />
+        <About config={config} />
+        <Menu config={config} onOpenQR={setSelectedQR} />
+        <Gallery config={config} />
+        <Reviews />
+        <Contact config={config} />
+        <Footer config={config} />
         {!showAdmin && !showReservation && <MobileBottomNav onOpenAdmin={() => setShowAdmin(true)} />}
       </div>
 
@@ -2066,11 +1925,11 @@ export default function App() {
             className="fixed inset-0 z-[600] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-xl cursor-zoom-out"
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0, rotate: -5 }}
-              animate={{ scale: 1, opacity: 1, rotate: 0 }}
-              exit={{ scale: 0.8, opacity: 0, rotate: 5 }}
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-[420px] bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_0_100px_rgba(255,255,255,0.15)] flex flex-col items-center"
+              className="relative w-full max-w-[420px] bg-white rounded-3xl p-6 md:p-10 shadow-[0_0_100px_rgba(255,255,255,0.15)] flex flex-col items-center mx-4"
             >
               {/* Decorative elements */}
               <div className="absolute -top-10 -left-10 w-20 h-20 bg-gold/20 rounded-full blur-3xl" />

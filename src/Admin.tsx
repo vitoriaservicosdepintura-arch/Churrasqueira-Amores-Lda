@@ -552,7 +552,6 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
         { id: 'hero', label: 'Banner Principal', icon: ImageIcon },
         { id: 'history', label: 'A Nossa História', icon: History },
         { id: 'menu', label: 'Menu & Destaques', icon: Utensils },
-        { id: 'menuvision', label: 'MenuVision (Vídeo)', icon: Video },
         { id: 'gallery', label: 'Galeria', icon: ImageIcon },
         { id: 'contact', label: 'Contato & Local', icon: MapPin },
         { id: 'footer', label: 'Rodapé (Links)', icon: Globe },
@@ -586,7 +585,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                         </div>
                     )}
 
-                    <form onSubmit={handleLogin} className="space-y-4">
+                    <form onSubmit={handleLogin} className="space-y-3 md:space-y-4">
                         <div className="space-y-1">
                             <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">E-mail</label>
                             <input
@@ -594,7 +593,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-deep border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none text-white"
+                                className="w-full bg-deep border border-white/10 rounded-xl px-3 py-2.5 md:px-4 md:py-3 text-[13px] md:text-sm focus:border-gold outline-none text-white"
                                 placeholder="Seu email"
                             />
                         </div>
@@ -605,7 +604,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-deep border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none text-white"
+                                className="w-full bg-deep border border-white/10 rounded-xl px-3 py-2.5 md:px-4 md:py-3 text-[13px] md:text-sm focus:border-gold outline-none text-white"
                                 placeholder="••••••••"
                             />
                         </div>
@@ -630,15 +629,15 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
     }
 
     return (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center md:p-4 bg-deep/90 md:bg-transparent">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-deep/95 md:bg-deep/90">
             {/* Backdrop */}
             <div className="absolute inset-0 bg-black/80 backdrop-blur-md hidden md:block" onClick={onClose} />
 
             {/* Container */}
-            <div className="relative bg-surface w-full h-full md:w-full md:h-full overflow-hidden shadow-none border-0 flex flex-col-reverse md:flex-row">
+            <div className="relative bg-surface w-full h-full md:w-[95vw] md:h-[90vh] md:max-w-6xl md:rounded-3xl overflow-hidden shadow-2xl md:shadow-[0_0_50px_rgba(0,0,0,0.5)] border-0 md:border md:border-white/10 flex flex-col-reverse md:flex-row">
 
                 {/* Sidebar (Bottom Nav on Mobile, Sidebar on Desktop) */}
-                <div className="w-full md:w-64 bg-deep/95 md:bg-deep/50 border-t md:border-t-0 md:border-r border-white/10 p-3 md:p-6 flex flex-col shrink-0 z-50 pb-[env(safe-area-inset-bottom,16px)]">
+                <div className="w-full md:w-64 bg-deep/95 md:bg-deep/50 border-t md:border-t-0 md:border-r border-white/10 p-2 md:p-6 flex flex-col shrink-0 z-50 pb-[env(safe-area-inset-bottom,16px)]">
                     <div className="hidden md:flex items-center gap-3 mb-4 px-2">
                         <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center shrink-0">
                             <Settings className="w-4 h-4 text-gold" />
@@ -662,7 +661,7 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`snap-center flex flex-col md:flex-row items-center justify-center md:justify-start px-3 py-2 md:px-4 md:py-3 rounded-2xl md:rounded-xl text-[10px] md:text-sm font-medium transition-all duration-300 min-w-[72px] md:min-w-0 shrink-0 ${activeTab === tab.id
+                                className={`snap-center flex flex-col md:flex-row items-center justify-center md:justify-start px-3 py-2 md:px-4 md:py-3 rounded-xl md:rounded-xl text-[10px] md:text-sm font-medium transition-all duration-300 min-w-[70px] md:min-w-0 shrink-0 ${activeTab === tab.id
                                     ? 'bg-gradient-to-br from-gold/20 to-flame/20 text-gold md:shadow-[inset_0_0_20px_rgba(245,158,11,0.05)] border border-gold/30 md:border-gold/20'
                                     : 'text-gray-400 hover:text-white md:hover:bg-white/5 border border-transparent'
                                     }`}
@@ -692,10 +691,10 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                         </button>
                     </nav>
 
-                    <div className="hidden md:block mt-auto pt-6 border-t border-white/5 space-y-2">
+                    <div className="hidden md:block mt-auto pt-4 md:pt-6 border-t border-white/5 space-y-2">
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-red-400 hover:bg-red-500/10 transition-colors"
+                            className="w-full flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 rounded-xl text-[13px] md:text-sm font-bold text-red-400 hover:bg-red-500/10 transition-colors"
                         >
                             <LogOut className="w-4 h-4" />
                             Sair da Conta
@@ -727,11 +726,11 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                             <button
                                 onClick={handleSave}
                                 disabled={isSaving}
-                                className="flex items-center justify-center gap-2 bg-gradient-to-r from-gold to-flame text-white px-4 py-2.5 md:px-5 rounded-2xl md:rounded-xl font-black text-sm shadow-lg shadow-flame/20 hover:shadow-flame/40 transition-all disabled:opacity-50 active:scale-95"
+                                className="flex items-center justify-center gap-1.5 md:gap-2 bg-gradient-to-r from-gold to-flame text-white px-3 py-2 md:px-5 md:py-2.5 rounded-xl font-black text-xs md:text-sm shadow-lg shadow-flame/20 hover:shadow-flame/40 transition-all disabled:opacity-50 active:scale-95"
                             >
-                                {isSaving ? <Loader2 className="w-4 h-4 md:w-4 md:h-4 animate-spin" /> : <Save className="w-5 h-5 md:w-4 md:h-4" />}
-                                <span className="hidden md:inline">Salvar Alterações</span>
-                                <span className="inline md:hidden uppercase tracking-widest text-[10px]">Salvar</span>
+                                {isSaving ? <Loader2 className="w-4 h-4 md:w-4 md:h-4 animate-spin" /> : <Save className="w-4 h-4 md:w-5 md:h-5" />}
+                                <span className="hidden sm:inline">Salvar Alterações</span>
+                                <span className="inline sm:hidden uppercase tracking-widest text-[9px]">Salvar</span>
                             </button>
                         </div>
                     </div>
@@ -1366,168 +1365,6 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                             </div>
                         )}
 
-                        {activeTab === 'menuvision' && (
-                            <div className="space-y-6">
-                                <div className="flex justify-between items-center bg-flame/10 border border-flame/20 p-5 rounded-2xl shadow-lg shadow-flame/5">
-                                    <div className="flex items-center gap-3 text-flame">
-                                        <Video className="w-6 h-6" />
-                                        <div>
-                                            <span className="block text-sm font-bold">MenuVision (Cardápio Digital)</span>
-                                            <span className="text-[10px] text-gray-400 uppercase tracking-widest font-medium">Gestão de Vídeos e Ingredientes</span>
-                                        </div>
-                                    </div>
-                                    <button
-                                        onClick={() => {
-                                            const currentVisions = localConfig.menuVision || [];
-                                            updateField(['menuVision'], [
-                                                ...currentVisions,
-                                                {
-                                                    id: Date.now(),
-                                                    name: 'Novo Prato',
-                                                    image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&q=80',
-                                                    videoUrl: '',
-                                                    ingredients: '1. Primeiro Passo\n2. Segundo Passo'
-                                                }
-                                            ]);
-                                        }}
-                                        className="flex items-center gap-2 bg-flame text-white font-black px-5 py-2.5 rounded-xl text-xs hover:scale-105 transition-all shadow-lg shadow-flame/20"
-                                    >
-                                        <Plus className="w-4 h-4" /> Novo Vídeo
-                                    </button>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    {(localConfig.menuVision || []).map((item: any, idx: number) => (
-                                        <div key={item.id} className="glass rounded-2xl border border-white/5 flex flex-col group/item relative overflow-hidden">
-                                            <div className="relative h-48 overflow-hidden shrink-0">
-                                                <img src={item.image} className="w-full h-full object-cover" />
-                                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity">
-                                                    <label className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-xs font-bold text-white flex items-center gap-2">
-                                                        <Upload className="w-4 h-4" /> Trocar Capa
-                                                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, ['menuVision', idx.toString(), 'image'])} />
-                                                    </label>
-                                                </div>
-                                                <button
-                                                    onClick={() => {
-                                                        const currentVisions = localConfig.menuVision.filter((_: any, i: number) => i !== idx);
-                                                        updateField(['menuVision'], currentVisions);
-                                                    }}
-                                                    className="absolute top-3 right-3 p-2 bg-red-500 rounded-lg z-10 hover:scale-110 transition-transform"
-                                                >
-                                                    <Trash2 className="w-4 h-4 text-white" />
-                                                </button>
-                                            </div>
-
-                                            <div className="p-5 space-y-4">
-                                                <div className="space-y-4">
-                                                    <div>
-                                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Nome do Prato</label>
-                                                        <input
-                                                            value={item.name}
-                                                            onChange={(e) => {
-                                                                const currentVisions = [...localConfig.menuVision];
-                                                                currentVisions[idx].name = e.target.value;
-                                                                updateField(['menuVision'], currentVisions);
-                                                            }}
-                                                            className="w-full bg-surface border border-white/10 rounded-lg px-4 py-2.5 text-sm font-bold text-white outline-none focus:border-flame"
-                                                        />
-                                                    </div>
-
-                                                    <div className="space-y-1">
-                                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1 flex items-center gap-2">
-                                                            <Video className="w-3 h-3 text-flame" /> Vídeo do Prato (MP4)
-                                                        </label>
-                                                        <div className="bg-surface/50 border border-white/5 rounded-xl p-4 space-y-3">
-                                                            <div className="flex items-center justify-between gap-4">
-                                                                <div className="flex items-center gap-3 overflow-hidden">
-                                                                    <div className="w-12 h-12 bg-flame/10 rounded-lg flex items-center justify-center shrink-0 border border-flame/20">
-                                                                        {item.videoUrl ? (
-                                                                            <Play className="w-5 h-5 text-flame fill-flame/20" />
-                                                                        ) : (
-                                                                            <Video className="w-5 h-5 text-gray-600" />
-                                                                        )}
-                                                                    </div>
-                                                                    <div className="flex flex-col min-w-0">
-                                                                        <span className="text-[10px] font-black text-white uppercase tracking-wider truncate">
-                                                                            {item.videoUrl ? 'Vídeo Carregado' : 'Sem Vídeo'}
-                                                                        </span>
-                                                                        <span className="text-[9px] text-gray-500 truncate max-w-[150px]">
-                                                                            {item.videoUrl ? item.videoUrl.split('?')[0].split('/').pop() : 'Nenhum ficheiro selecionado'}
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div className="flex items-center gap-2">
-                                                                    {item.videoUrl && (
-                                                                        <button
-                                                                            onClick={() => {
-                                                                                const currentVisions = [...localConfig.menuVision];
-                                                                                currentVisions[idx].videoUrl = '';
-                                                                                updateField(['menuVision'], currentVisions);
-                                                                            }}
-                                                                            className="w-10 h-10 flex items-center justify-center bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-xl border border-red-500/20 transition-all"
-                                                                            title="Eliminar Vídeo"
-                                                                        >
-                                                                            <Trash2 className="w-4 h-4" />
-                                                                        </button>
-                                                                    )}
-
-                                                                    <label className="flex items-center gap-2 bg-flame hover:bg-flame-dark text-white px-4 py-2.5 rounded-xl cursor-pointer transition-all shadow-lg shadow-flame/20 hover:scale-[1.02] active:scale-95">
-                                                                        <Upload className="w-4 h-4" />
-                                                                        <span className="text-[10px] font-black uppercase tracking-widest">
-                                                                            {item.videoUrl ? 'Substituir' : 'Enviar Vídeo'}
-                                                                        </span>
-                                                                        <input
-                                                                            type="file"
-                                                                            className="hidden"
-                                                                            accept="video/*"
-                                                                            onChange={(e) => handleFileUpload(e, ['menuVision', idx.toString(), 'videoUrl'])}
-                                                                        />
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-
-                                                            {item.videoUrl && (
-                                                                <div className="relative aspect-video rounded-lg overflow-hidden border border-white/10 bg-black/40">
-                                                                    <video
-                                                                        src={item.videoUrl}
-                                                                        className="w-full h-full object-contain"
-                                                                        muted
-                                                                        onMouseOver={e => e.currentTarget.play()}
-                                                                        onMouseOut={e => e.currentTarget.pause()}
-                                                                    />
-                                                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/20 opacity-100 group-hover:opacity-0 transition-opacity">
-                                                                        <div className="bg-deep/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
-                                                                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                                                            <span className="text-[8px] font-bold text-white uppercase tracking-tighter">Preview Ativo</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-
-                                                    <div>
-                                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Ingredientes em Camadas</label>
-                                                        <textarea
-                                                            value={item.ingredients}
-                                                            onChange={(e) => {
-                                                                const currentVisions = [...localConfig.menuVision];
-                                                                currentVisions[idx].ingredients = e.target.value;
-                                                                updateField(['menuVision'], currentVisions);
-                                                            }}
-                                                            rows={4}
-                                                            className="w-full bg-surface border border-white/10 rounded-lg px-4 py-3 text-xs text-gray-300 outline-none focus:border-flame leading-relaxed"
-                                                            placeholder="1. Carne..."
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
 
                         {activeTab === 'gallery' && (
                             <div className="space-y-6">
