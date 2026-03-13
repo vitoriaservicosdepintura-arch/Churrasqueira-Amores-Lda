@@ -1331,7 +1331,11 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                                                                 <div className="w-24 h-24 bg-white rounded-2xl p-2 shadow-2xl border-4 border-gold/20 relative group/qr-preview pointer-events-none">
                                                                     {item.qrCode || item.videoUrl || item.manualLink ? (
                                                                         <img
-                                                                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(item.manualLink || item.videoUrl || '')}`}
+                                                                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+                                                                                item.videoUrl
+                                                                                    ? `${window.location.origin}/item/${item.id}`
+                                                                                    : (item.manualLink || '')
+                                                                            )}`}
                                                                             className="w-full h-full object-contain"
                                                                         />
                                                                     ) : (

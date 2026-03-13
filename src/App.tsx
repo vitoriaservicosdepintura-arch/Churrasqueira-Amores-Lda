@@ -899,16 +899,16 @@ function Menu({ config, onOpenQR }: { config: any, onOpenQR: (url: string) => vo
                             if (item.qrCode) {
                               onOpenQR(item.qrCode);
                             } else if (item.videoUrl) {
-                              window.location.href = item.videoUrl;
+                              window.location.href = `/item/${item.id}`;
                             } else if (item.manualLink) {
                               window.location.href = item.manualLink;
-                            } else {
-                              onOpenQR(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(item.manualLink || item.videoUrl)}`);
                             }
                           }}
                         >
                           <img
-                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(item.videoUrl || item.manualLink || '')}`}
+                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
+                              item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
+                            )}`}
                             alt={`QR Code ${item.name}`}
                             className="w-full h-full object-contain"
                           />
