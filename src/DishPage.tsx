@@ -68,13 +68,18 @@ export default function DishPage() {
         );
     }
 
+    const [showInfo, setShowInfo] = useState(true);
+
     // Split description into bullets if possible, or just use it as is
     const ingredients = item.description?.split(',').map((i: string) => i.trim()) || [];
 
     return (
-        <div className="relative min-h-screen bg-black text-white font-sans overflow-hidden">
-            {/* Background Video - Video Hero Experience */}
-            <div className="absolute inset-0 z-0">
+        <div className="relative h-screen w-screen bg-black text-white font-sans overflow-hidden">
+            {/* Background Video - Pure Experience */}
+            <div
+                className="absolute inset-0 z-0 cursor-pointer"
+                onClick={() => setShowInfo(!showInfo)}
+            >
                 {item.videoUrl ? (
                     <video
                         ref={videoRef}
@@ -88,123 +93,131 @@ export default function DishPage() {
                 ) : (
                     <img
                         src={item.image}
-                        className="w-full h-full object-cover blur-sm opacity-50"
+                        className="w-full h-full object-cover"
                         alt={item.name}
                     />
                 )}
-                {/* Immersive Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
+
+                {/* Dynamic Overlays based on UI visibility */}
+                <AnimatePresence>
+                    {showInfo && (
+                        <>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40"
+                            />
+                        </>
+                    )}
+                </AnimatePresence>
             </div>
 
-            {/* Top Navigation */}
-            <div className="absolute top-0 left-0 right-0 z-20 p-6 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent">
+            {/* Top Navigation - Back & Mute */}
+            <div className="absolute top-0 left-0 right-0 z-20 p-6 flex justify-between items-center pointer-events-none">
                 <button
                     onClick={() => navigate(-1)}
-                    className="w-12 h-12 glass rounded-full flex items-center justify-center text-white active:scale-90 transition-transform"
+                    className="w-10 h-10 glass rounded-full flex items-center justify-center text-white active:scale-90 transition-transform pointer-events-auto shadow-lg"
                 >
-                    <ArrowLeft className="w-6 h-6" />
+                    <ArrowLeft className="w-5 h-5" />
                 </button>
 
                 {item.videoUrl && (
                     <button
                         onClick={() => setMuted(!muted)}
-                        className="w-12 h-12 glass rounded-full flex items-center justify-center text-white active:scale-90 transition-transform"
+                        className="w-10 h-10 glass rounded-full flex items-center justify-center text-white active:scale-90 transition-transform pointer-events-auto shadow-lg"
                     >
-                        {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                        {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                     </button>
                 )}
             </div>
 
-            {/* Bottom Content / Dish Info */}
-            <div className="absolute bottom-0 left-0 right-0 z-10 p-6 pb-12 max-w-2xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 100 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                >
-                    {/* Badge */}
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-gold/20 border border-gold/30 rounded-full text-gold text-[10px] font-bold uppercase tracking-widest mb-4">
-                        <UtensilsCrossed className="w-3 h-3" />
-                        Sugestão do Chef
-                    </div>
+            {/* Floating Visual Experience Overlay */}
+            <AnimatePresence>
+                {showInfo && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        className="absolute inset-x-0 bottom-0 z-10 p-6 pb-safe-bottom"
+                    >
+                        <div className="max-w-xl mx-auto">
+                            {/* Short Intro Title & Price */}
+                            <div className="flex justify-between items-end mb-4">
+                                <div>
+                                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gold/20 border border-gold/30 rounded-full text-gold text-[8px] font-black uppercase tracking-widest mb-2 backdrop-blur-sm">
+                                        <UtensilsCrossed className="w-3 h-3" />
+                                        Sugestão
+                                    </div>
+                                    <h1 className="text-4xl md:text-5xl font-black text-white drop-shadow-2xl leading-none">
+                                        {item.name}
+                                    </h1>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-3xl font-black text-gold drop-shadow-[0_4px_10px_rgba(245,158,11,0.5)]">
+                                        {item.price}
+                                    </div>
+                                </div>
+                            </div>
 
-                    {/* Name & Price */}
-                    <div className="flex justify-between items-end mb-4">
-                        <div className="flex-1 mr-4">
-                            <h1 className="text-4xl md:text-5xl font-black leading-tight text-white mb-2 drop-shadow-2xl">
-                                {item.name}
-                            </h1>
-                            <div className="flex items-center gap-2">
-                                <span className="px-2 py-0.5 bg-white/10 rounded text-[10px] font-bold text-gray-300">
-                                    {item.category}
-                                </span>
-                                {item.tag && (
-                                    <span className="text-gold text-xs font-bold drop-shadow-lg">
-                                        {item.tag}
-                                    </span>
-                                )}
+                            {/* Transparent Info Card - Minimal and Bottom-Focused */}
+                            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 mb-6 border border-white/10">
+                                <div className="flex items-center gap-2 text-gold/80 font-bold text-[10px] uppercase tracking-widest mb-3">
+                                    <Info className="w-3.5 h-3.5" />
+                                    Descrição e Ingredientes
+                                </div>
+
+                                <p className="text-sm text-gray-200 mb-3 font-medium leading-relaxed">
+                                    {item.description || "Uma experiência gastronômica única preparada na brasa."}
+                                </p>
+
+                                <div className="flex flex-wrap gap-2">
+                                    {ingredients.slice(0, 4).map((ing: string, i: number) => (
+                                        <span key={i} className="px-2 py-1 bg-white/5 rounded-md text-[10px] text-gray-400 border border-white/5">
+                                            • {ing}
+                                        </span>
+                                    ))}
+                                    {ingredients.length > 4 && (
+                                        <span className="text-[10px] text-gold/60 font-bold self-center">+{ingredients.length - 4} mais</span>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="grid grid-cols-4 gap-3">
+                                <button
+                                    onClick={() => (window as any).openReservationModal?.(item.name, item.price)}
+                                    className="col-span-3 flex items-center justify-center gap-3 bg-gradient-to-r from-gold via-flame to-ember h-14 rounded-2xl text-white font-black text-base shadow-[0_10px_30px_rgba(249,115,22,0.4)] active:scale-95 transition-transform"
+                                >
+                                    <ShoppingCart className="w-5 h-5" />
+                                    FAZER PEDIDO
+                                </button>
+                                <button
+                                    onClick={() => window.open(`https://wa.me/${config?.contact?.phone || ''}?text=${encodeURIComponent(`Olá, estou na mesa e gostaria de chamar um garçom para o prato: ${item.name}`)}`, '_blank')}
+                                    className="col-span-1 flex items-center justify-center bg-white/10 border border-white/20 h-14 rounded-2xl text-white active:scale-95 transition-transform backdrop-blur-md"
+                                    title="Chamar Garçom"
+                                >
+                                    <ChefHat className="w-6 h-6" />
+                                </button>
                             </div>
                         </div>
-                        <div className="text-right shrink-0">
-                            <span className="block text-3xl font-black text-gold drop-shadow-lg">
-                                {item.price}
-                            </span>
-                        </div>
-                    </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-                    {/* Ingredients / Experience */}
-                    <div className="glass-morphism rounded-3xl p-6 mb-8 border border-white/10 backdrop-blur-xl">
-                        <div className="flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-widest mb-4">
-                            <Info className="w-4 h-4" />
-                            Ingredientes Selecionados
-                        </div>
-                        <ul className="grid grid-cols-2 gap-y-3 gap-x-4">
-                            {ingredients.map((ing: string, i: number) => (
-                                <motion.li
-                                    key={i}
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.5 + (i * 0.1) }}
-                                    className="flex items-center gap-2 text-sm text-gray-200"
-                                >
-                                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                                    {ing}
-                                </motion.li>
-                            ))}
-                        </ul>
-
-                        <div className="mt-6 pt-6 border-t border-white/5">
-                            <p className="text-sm text-gray-400 italic leading-relaxed">
-                                "Uma explosão de sabores tradicionais, preparada com maestria em brasa lenta para garantir a textura perfeita."
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-4">
-                        <button
-                            onClick={() => (window as any).openReservationModal?.(item.name, item.price)}
-                            className="flex-[3] flex items-center justify-center gap-3 bg-gradient-to-r from-gold via-flame to-ember h-14 md:h-16 rounded-2xl text-white font-black text-sm md:text-lg shadow-[0_10px_30px_rgba(249,115,22,0.4)] active:scale-95 transition-transform"
-                        >
-                            <ShoppingCart className="w-5 h-5" />
-                            PEDIR
-                        </button>
-                        <button
-                            onClick={() => window.open(`https://wa.me/${config?.contact?.phone || ''}?text=${encodeURIComponent(`Olá, estou na mesa e gostaria de chamar um garçom para o prato: ${item.name}`)}`, '_blank')}
-                            className="flex-1 flex items-center justify-center gap-3 bg-white/10 border border-white/20 h-14 md:h-16 rounded-2xl text-white font-bold text-[10px] md:text-sm active:scale-95 transition-transform backdrop-blur-md"
-                        >
-                            GARÇOM
-                        </button>
-                    </div>
-                </motion.div>
-            </div>
+            {/* Tap Hint */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.4, 0] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none text-white/20 text-xs font-bold uppercase tracking-widest hidden md:block"
+            >
+                Toque no vídeo para ocultar/ver info
+            </motion.div>
 
             <style>{`
-                .glass-morphism {
-                    background: rgba(255, 255, 255, 0.03);
-                    backdrop-filter: blur(20px);
-                    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+                .pb-safe-bottom {
+                    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
                 }
             `}</style>
         </div>
