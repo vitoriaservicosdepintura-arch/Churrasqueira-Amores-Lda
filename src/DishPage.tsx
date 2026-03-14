@@ -231,7 +231,7 @@ export default function DishPage() {
 
                     <button
                         onClick={() => navigate(`/?reserve=${encodeURIComponent(`${item.name} - ${item.price}`)}`)}
-                        className="col-span-3 h-14 bg-gradient-to-r from-gold via-flame to-ember rounded-2xl text-white font-black text-sm tracking-widest shadow-[0_15px_35px_rgba(249,115,22,0.4)] active:scale-95 transition-transform flex items-center justify-center gap-3"
+                        className="col-span-3 md:col-span-4 h-14 bg-gradient-to-r from-gold via-flame to-ember rounded-2xl text-white font-black text-sm tracking-widest shadow-[0_15px_35px_rgba(249,115,22,0.4)] active:scale-95 transition-transform flex items-center justify-center gap-3"
                     >
                         <ShoppingCart className="w-5 h-5" />
                         PEDIR AGORA
@@ -239,7 +239,7 @@ export default function DishPage() {
 
                     <button
                         onClick={() => window.open(`https://wa.me/${config?.contact?.phone || ''}?text=${encodeURIComponent(`Olá, estou na mesa e gostaria de chamar um garçom para o prato: ${item.name}`)}`, '_blank')}
-                        className="col-span-1 flex-col h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-white active:scale-90 transition-transform backdrop-blur-md"
+                        className="col-span-1 md:hidden flex-col h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-white active:scale-90 transition-transform backdrop-blur-md"
                     >
                         <ChefHat className="w-5 h-5 mb-0.5" />
                         <span className="text-[7.5px] font-black uppercase tracking-wider text-gray-400 pointer-events-none leading-none">Garçom</span>

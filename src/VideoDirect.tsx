@@ -7,7 +7,6 @@ import {
     ShoppingCart,
     PhoneCall,
     ArrowLeft,
-    Info,
     ChevronUp
 } from 'lucide-react';
 
@@ -18,7 +17,6 @@ export default function VideoDirect() {
     const [item, setItem] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [muted, setMuted] = useState(true);
-    const [showFullMenu, setShowFullMenu] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -175,7 +173,7 @@ export default function VideoDirect() {
                 </div>
 
                 {/* Fixed Primary Buttons */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
                     <motion.button
                         onClick={() => handleOrder()}
                         className="h-16 bg-gradient-to-r from-gold via-flame to-ember rounded-2xl text-white font-black text-[10px] tracking-[0.2em] flex items-center justify-center gap-3 shadow-2xl shadow-flame/40"
@@ -187,7 +185,7 @@ export default function VideoDirect() {
                     </motion.button>
                     <motion.button
                         onClick={() => handleCallWaiter()}
-                        className="h-16 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white font-black text-[10px] tracking-[0.2em] flex items-center justify-center gap-3"
+                        className="md:hidden h-16 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white font-black text-[10px] tracking-[0.2em] flex items-center justify-center gap-3"
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.95 }}
                     >

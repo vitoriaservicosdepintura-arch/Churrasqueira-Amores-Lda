@@ -250,7 +250,7 @@ export default function MenuVision() {
                                                 {item.description}
                                             </p>
 
-                                            <div className="grid grid-cols-2 gap-3 mt-auto">
+                                            <div className="grid grid-cols-2 md:grid-cols-1 gap-3 mt-auto">
                                                 <motion.button
                                                     onClick={() => handleQuickOrder(item)}
                                                     className="px-4 py-3.5 bg-white text-deep font-black rounded-2xl text-[10px] tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-gold hover:text-white transition-all shadow-lg"
@@ -262,7 +262,7 @@ export default function MenuVision() {
                                                 </motion.button>
                                                 <motion.button
                                                     onClick={() => handleCallWaiter(item.name)}
-                                                    className="px-4 py-3.5 bg-surface/80 border border-white/10 text-white font-black rounded-2xl text-[10px] tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-white/10 transition-all backdrop-blur-md"
+                                                    className="md:hidden px-4 py-3.5 bg-surface/80 border border-white/10 text-white font-black rounded-2xl text-[10px] tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-white/10 transition-all backdrop-blur-md"
                                                     whileHover={{ scale: 1.03 }}
                                                     whileTap={{ scale: 0.97 }}
                                                 >
