@@ -4,16 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Play,
     QrCode,
-    ChefHat,
     Smartphone,
-    Sparkles,
     ShoppingCart,
     PhoneCall,
     ArrowLeft,
     Search,
-    Info,
     X,
-    MessageCircle,
     Calendar,
     Clock,
     Users
@@ -33,7 +29,6 @@ export default function MenuVision() {
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState('Todos');
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedItem, setSelectedItem] = useState<any>(null);
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
     const [orderData, setOrderData] = useState({
         name: '',
@@ -65,12 +60,12 @@ export default function MenuVision() {
         loadData();
     }, []);
 
-    const categories = ['Todos', ...new Set((config.menuItems || []).map((m: any) => m.category || 'Outros'))];
+    const categories: string[] = ['Todos', ...new Set((config.menuItems || []).map((m: any) => m.category || 'Outros'))] as string[];
 
     const filteredItems = (config.menuItems || []).filter((item: any) => {
         const matchesCategory = activeCategory === 'Todos' || item.category === activeCategory;
-        const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.description.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = (item.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (item.description || '').toLowerCase().includes(searchTerm.toLowerCase());
         return matchesCategory && matchesSearch;
     });
 
@@ -90,7 +85,6 @@ export default function MenuVision() {
     };
 
     const submitOrder = async () => {
-        // Simple WhatsApp flow for the "Order"
         const msg = `*NOVO PEDIDO - MENUVISION 360°*\n\n` +
             `👤 *Cliente:* ${orderData.name}\n` +
             `📱 *Telemóvel:* ${orderData.phone}\n` +
@@ -118,14 +112,12 @@ export default function MenuVision() {
 
     return (
         <div className="min-h-screen bg-deep text-white font-sans selection:bg-gold/30">
-            {/* Background elements */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
                 <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-gold/10 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-flame/10 rounded-full blur-[120px]" />
                 <div className="absolute top-[30%] left-[20%] w-[30%] h-[30%] bg-ember/5 rounded-full blur-[100px]" />
             </div>
 
-            {/* Header */}
             <header className="relative z-20 pt-8 pb-32 px-6 overflow-hidden">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <motion.div
@@ -139,12 +131,12 @@ export default function MenuVision() {
                         >
                             <ArrowLeft className="w-4 h-4" /> Voltar ao Início
                         </button>
-                        <h1 className="text-4xl md:text-6xl font-black leading-none">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold via-flame to-ember drop-shadow-sm">MenuVision</span><br />
-                            <span className="text-white">360° Interactive</span>
+                        <h1 className="text-4xl md:text-6xl font-black leading-none text-white uppercase tracking-tighter">
+                            MenuVision<br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold via-flame to-ember drop-shadow-sm italic">360° Interactive</span>
                         </h1>
                         <p className="text-gray-400 max-w-lg text-sm md:text-base font-medium">
-                            Explore os nossos pratos em alta definição. <br className="hidden md:block" />
+                            Explore os nossos pratos em alta definição com QR Codes dedicados. <br className="hidden md:block" />
                             A nova era de escolher o seu prato chegou!
                         </p>
                     </motion.div>
@@ -163,9 +155,8 @@ export default function MenuVision() {
                     </div>
                 </div>
 
-                {/* Categories Scrollable Area */}
                 <div className="max-w-7xl mx-auto mt-12 overflow-x-auto no-scrollbar pb-4 flex gap-3 px-1">
-                    {categories.map((cat) => (
+                    {categories.map((cat: string) => (
                         <motion.button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
@@ -182,7 +173,6 @@ export default function MenuVision() {
                 </div>
             </header>
 
-            {/* Main Menu Grid */}
             <main className="relative z-20 max-w-7xl mx-auto px-6 -mt-20 pb-40">
                 {filteredItems.length > 0 ? (
                     <motion.div
@@ -201,7 +191,6 @@ export default function MenuVision() {
                                     className="group h-full"
                                 >
                                     <div className="glass rounded-[2rem] border border-white/5 hover:border-gold/20 transition-all duration-500 overflow-hidden flex flex-col h-full shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:shadow-gold/5 group-hover:translate-y-[-8px]">
-                                        {/* Media Area */}
                                         <div
                                             className="relative h-64 overflow-hidden cursor-pointer group/media"
                                             onClick={() => navigate(`/item/${item.id}`)}
@@ -212,7 +201,6 @@ export default function MenuVision() {
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-deep via-transparent to-black/20" />
 
-                                            {/* Experience Badge */}
                                             {item.videoUrl && (
                                                 <div className="absolute top-4 right-4 flex items-center justify-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/10">
                                                     <div className="w-2 h-2 rounded-full bg-gold animate-pulse shadow-[0_0_8px_rgba(245,158,11,1)]" />
@@ -220,7 +208,6 @@ export default function MenuVision() {
                                                 </div>
                                             )}
 
-                                            {/* Big Center Play Icon */}
                                             {item.videoUrl && (
                                                 <motion.div
                                                     className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/media:opacity-100 transition-opacity duration-300"
@@ -233,20 +220,28 @@ export default function MenuVision() {
                                                 </motion.div>
                                             )}
 
-                                            {/* Price Badge */}
                                             <div className="absolute bottom-4 right-4 bg-gradient-to-r from-gold to-flame px-4 py-2 rounded-2xl shadow-xl shadow-flame/30">
                                                 <span className="text-lg font-black text-white">{item.price}</span>
                                             </div>
 
-                                            {item.tag && (
-                                                <div className="absolute bottom-4 left-4 flex gap-1 items-center px-3 py-1.5 bg-deep/60 backdrop-blur-xl rounded-full border border-white/10">
-                                                    <Sparkles className="w-3 h-3 text-gold" />
-                                                    <span className="text-[9px] font-bold text-gray-200 uppercase tracking-widest">{item.tag}</span>
+                                            <motion.div
+                                                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/media:opacity-100 transition-all duration-500 bg-black/40 backdrop-blur-sm"
+                                            >
+                                                <div className="flex flex-col items-center gap-3">
+                                                    <div className="w-28 h-28 bg-white rounded-2xl p-2 shadow-2xl border-2 border-gold/30">
+                                                        <img
+                                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`${window.location.origin}/item/${item.id}`)}`}
+                                                            alt="Scan QR"
+                                                            className="w-full h-full object-contain"
+                                                        />
+                                                    </div>
+                                                    <span className="text-[10px] font-black text-white uppercase tracking-widest bg-gold/80 px-3 py-1 rounded-full">
+                                                        Escaneie para Ver 360°
+                                                    </span>
                                                 </div>
-                                            )}
+                                            </motion.div>
                                         </div>
 
-                                        {/* Content Area */}
                                         <div className="p-6 md:p-8 flex-1 flex flex-col">
                                             <h3 className="text-xl md:text-2xl font-black mb-3 text-white group-hover:text-gold transition-colors duration-300">
                                                 {item.name}
@@ -255,7 +250,6 @@ export default function MenuVision() {
                                                 {item.description}
                                             </p>
 
-                                            {/* Actions */}
                                             <div className="grid grid-cols-2 gap-3 mt-auto">
                                                 <motion.button
                                                     onClick={() => handleQuickOrder(item)}
@@ -299,7 +293,6 @@ export default function MenuVision() {
                 )}
             </main>
 
-            {/* Mobile Bottom Navigation Bar (Simplified for Menu page) */}
             <nav className="fixed bottom-0 inset-x-0 h-20 bg-deep/80 backdrop-blur-2xl border-t border-white/5 z-[100] px-6 md:hidden">
                 <div className="h-full max-w-xl mx-auto flex items-center justify-between gap-4">
                     <button onClick={() => navigate('/')} className="flex flex-col items-center gap-1 text-gray-400">
@@ -317,11 +310,9 @@ export default function MenuVision() {
                         <span className="text-[8px] font-black uppercase">Topo</span>
                     </button>
                 </div>
-                {/* Safe area padding */}
                 <div className="h-[env(safe-area-inset-bottom)]" />
             </nav>
 
-            {/* Quick Order Modal */}
             <AnimatePresence>
                 {isOrderModalOpen && (
                     <div className="fixed inset-0 z-[300] flex items-center justify-center p-6">
@@ -357,7 +348,7 @@ export default function MenuVision() {
                                         <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-2">Seu Nome</label>
                                         <input
                                             placeholder="Ex: João Silva"
-                                            className="w-full bg-surface/50 border border-white/5 rounded-2xl px-5 py-4 outline-none focus:border-gold/50 transition-all"
+                                            className="w-full bg-surface/50 border border-white/5 rounded-2xl px-5 py-4 outline-none focus:border-gold/50 transition-all font-sans"
                                             value={orderData.name}
                                             onChange={e => setOrderData({ ...orderData, name: e.target.value })}
                                         />
@@ -367,7 +358,7 @@ export default function MenuVision() {
                                             <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-2">Telemóvel</label>
                                             <input
                                                 placeholder="9xx xxx xxx"
-                                                className="w-full bg-surface/50 border border-white/5 rounded-2xl px-5 py-4 outline-none focus:border-gold/50 transition-all font-mono"
+                                                className="w-full bg-surface/50 border border-white/5 rounded-2xl px-5 py-4 outline-none focus:border-gold/50 transition-all font-mono text-white"
                                                 value={orderData.phone}
                                                 onChange={e => setOrderData({ ...orderData, phone: e.target.value })}
                                             />
@@ -378,9 +369,9 @@ export default function MenuVision() {
                                                 <Users className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
                                                 <input
                                                     type="number"
-                                                    className="w-full bg-surface/50 border border-white/5 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-gold/50 transition-all font-mono"
+                                                    className="w-full bg-surface/50 border border-white/5 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-gold/50 transition-all font-mono text-white"
                                                     value={orderData.people}
-                                                    onChange={e => setOrderData({ ...orderData, people: parseInt(e.target.value) })}
+                                                    onChange={e => setOrderData({ ...orderData, people: parseInt(e.target.value) || 1 })}
                                                 />
                                             </div>
                                         </div>
@@ -393,7 +384,7 @@ export default function MenuVision() {
                                                 <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
                                                 <input
                                                     type="date"
-                                                    className="w-full bg-surface/50 border border-white/5 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-gold/50 transition-all text-xs"
+                                                    className="w-full bg-surface/50 border border-white/5 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-gold/50 transition-all text-sm font-sans text-white placeholder-transparent"
                                                     onChange={e => setOrderData({ ...orderData, date: e.target.value })}
                                                 />
                                             </div>
@@ -404,7 +395,7 @@ export default function MenuVision() {
                                                 <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
                                                 <input
                                                     type="time"
-                                                    className="w-full bg-surface/50 border border-white/5 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-gold/50 transition-all text-xs"
+                                                    className="w-full bg-surface/50 border border-white/5 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-gold/50 transition-all text-sm font-sans text-white placeholder-transparent"
                                                     onChange={e => setOrderData({ ...orderData, time: e.target.value })}
                                                 />
                                             </div>
@@ -415,7 +406,7 @@ export default function MenuVision() {
                                 <motion.button
                                     onClick={submitOrder}
                                     className="w-full mt-10 h-16 bg-gradient-to-r from-gold via-flame to-ember rounded-2xl text-white font-black text-sm tracking-[0.2em] shadow-xl shadow-flame/20 flex items-center justify-center gap-3 active:scale-95 transition-all"
-                                    whileHover={{ y: -4, shadow: "0 20px 40px rgba(245,158,11,0.3)" }}
+                                    whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(245,158,11,0.3)" }}
                                 >
                                     CONFIRMAR VIA WHATSAPP
                                 </motion.button>
@@ -435,7 +426,7 @@ export default function MenuVision() {
                             <Smartphone className="w-6 h-6 text-gold" />
                         </div>
                         <div>
-                            <h4 className="font-black text-xs uppercase tracking-widest">MenuVision 360°</h4>
+                            <h4 className="font-black text-xs uppercase tracking-widest text-white">MenuVision 360°</h4>
                             <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">Powered by Antigravity AI</p>
                         </div>
                     </div>
