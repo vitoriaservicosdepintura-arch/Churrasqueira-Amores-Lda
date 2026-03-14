@@ -8,7 +8,9 @@ import {
     ShoppingCart,
     PhoneCall,
     ArrowLeft,
-    ChevronUp
+    ChevronUp,
+    Info,
+    UtensilsCrossed
 } from 'lucide-react';
 
 export default function VideoDirect() {
@@ -109,8 +111,9 @@ export default function VideoDirect() {
                 >
                     <ArrowLeft className="w-6 h-6" />
                 </button>
-                <div className="bg-gold/20 backdrop-blur-md border border-gold/40 px-4 py-1.5 rounded-full">
-                    <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em]">MenuVision 360°</span>
+                <div className="bg-gold/20 backdrop-blur-md border border-gold/40 px-4 py-1.5 rounded-full flex items-center gap-2">
+                    <Info className="w-3 h-3 text-gold" />
+                    <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em]">Sobre este Prato</span>
                 </div>
                 <div className="w-12" /> {/* Spacer */}
             </div>
@@ -170,6 +173,7 @@ export default function VideoDirect() {
                     className="space-y-2"
                 >
                     <div className="flex items-center gap-3">
+                        <UtensilsCrossed className="w-5 h-5 text-gold" />
                         <h1 className="text-3xl font-black text-white drop-shadow-2xl">{item.name}</h1>
                         <span className="bg-gold px-3 py-1 rounded-lg text-black text-[10px] font-black">{item.price}</span>
                     </div>

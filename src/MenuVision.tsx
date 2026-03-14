@@ -210,7 +210,7 @@ export default function MenuVision() {
                                     <div className="glass rounded-[2rem] border border-white/5 hover:border-gold/20 transition-all duration-500 overflow-hidden flex flex-col h-full shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:shadow-gold/5 group-hover:translate-y-[-8px]">
                                         <div
                                             className="relative h-64 overflow-hidden cursor-pointer group/media"
-                                            onClick={() => navigate(`/item/${item.id}`)}
+                                            onClick={() => navigate(item.videoUrl ? `/v/${item.id}` : `/item/${item.id}`)}
                                         >
                                             <img
                                                 src={item.image}
@@ -252,8 +252,8 @@ export default function MenuVision() {
                                                             className="w-full h-full object-contain"
                                                         />
                                                     </div>
-                                                    <span className="text-[10px] font-black text-white uppercase tracking-widest bg-gold/80 px-3 py-1 rounded-full">
-                                                        Escaneie para Ver 360°
+                                                    <span className="text-[10px] font-black text-white uppercase tracking-widest bg-gold/80 px-3 py-1 rounded-full whitespace-nowrap">
+                                                        Vídeo: Sobre este Prato
                                                     </span>
                                                 </div>
                                             </motion.div>
