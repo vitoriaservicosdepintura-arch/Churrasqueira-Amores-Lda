@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App";
 import DishPage from "./DishPage";
 import MenuVision from "./MenuVision";
+import VideoDirect from "./VideoDirect";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<App />} />
         <Route path="/menuvision" element={<MenuVision />} />
         <Route path="/item/:id" element={<DishPage />} />
+        <Route path="/v/:id" element={<VideoDirect />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

@@ -230,7 +230,7 @@ export default function MenuVision() {
                                                 <div className="flex flex-col items-center gap-3">
                                                     <div className="w-28 h-28 bg-white rounded-2xl p-2 shadow-2xl border-2 border-gold/30">
                                                         <img
-                                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=${encodeURIComponent(item.videoUrl || `${window.location.origin}/item/${item.id}`)}`}
+                                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(`${window.location.origin}/v/${item.id}`)}`}
                                                             alt="Scan QR"
                                                             className="w-full h-full object-contain"
                                                         />
