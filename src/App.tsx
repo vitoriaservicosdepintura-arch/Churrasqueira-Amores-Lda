@@ -645,18 +645,26 @@ function About({ config }: { config: any }) {
         {/* About content */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <AnimatedSection>
-            <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6" style={getTextStyle(config.about?.badgeColor)}>
-              {config.about?.badge || 'A Nossa História'}
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6" style={getTextStyle(config.about?.titleColor)}>
-              {config.about?.title || 'Tradição e Sabor'}
-            </h2>
-            <p className="text-gray-300 leading-relaxed mb-4 text-base md:text-lg" style={getTextStyle(config.about?.text1Color)}>
-              {config.about?.text1 || "Na Chave D'Ouro Café, cada frango é uma obra de arte."}
-            </p>
-            <p className="text-gray-400 leading-relaxed mb-8" style={getTextStyle(config.about?.text2Color)}>
-              {config.about?.text2}
-            </p>
+            <span
+              className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-bold tracking-wider uppercase mb-6"
+              style={getTextStyle(config.about?.badgeColor)}
+              dangerouslySetInnerHTML={{ __html: config.about?.badge || 'A Nossa História' }}
+            />
+            <h2
+              className="text-3xl md:text-5xl font-black leading-tight mb-6"
+              style={getTextStyle(config.about?.titleColor)}
+              dangerouslySetInnerHTML={{ __html: config.about?.title || 'Tradição e Sabor' }}
+            />
+            <p
+              className="text-gray-300 leading-relaxed mb-4 text-base md:text-lg"
+              style={getTextStyle(config.about?.text1Color)}
+              dangerouslySetInnerHTML={{ __html: config.about?.text1 || "Na Chave D'Ouro Café, cada frango é uma obra de arte." }}
+            />
+            <p
+              className="text-gray-400 leading-relaxed mb-8"
+              style={getTextStyle(config.about?.text2Color)}
+              dangerouslySetInnerHTML={{ __html: config.about?.text2 || '' }}
+            />
 
             <div className="flex flex-wrap gap-3">
               {[
@@ -1150,15 +1158,21 @@ function Contact({ config }: { config: any }) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <AnimatedSection className="text-center mb-10 md:mb-14">
-          <span className="inline-block px-3 py-1.5 md:px-4 md:py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-[10px] md:text-xs font-bold tracking-wider uppercase mb-4 md:mb-6" style={getTextStyle(config.contact?.badgeColor)}>
-            {config.contact?.badge || 'Visite-nos'}
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-3 md:mb-4" style={getTextStyle(config.contact?.titleColor)}>
-            {config.contact?.title || 'Venha Conhecer-nos'}
-          </h2>
-          <p className="text-gray-400 max-w-lg mx-auto text-sm md:text-base px-4 md:px-0" style={getTextStyle(config.contact?.textColor)}>
-            {config.contact?.text}
-          </p>
+          <span
+            className="inline-block px-3 py-1.5 md:px-4 md:py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-[10px] md:text-xs font-bold tracking-wider uppercase mb-4 md:mb-6"
+            style={getTextStyle(config.contact?.badgeColor)}
+            dangerouslySetInnerHTML={{ __html: config.contact?.badge || 'Visite-nos' }}
+          />
+          <h2
+            className="text-3xl md:text-5xl font-black leading-tight mb-3 md:mb-4"
+            style={getTextStyle(config.contact?.titleColor)}
+            dangerouslySetInnerHTML={{ __html: config.contact?.title || 'Venha Conhecer-nos' }}
+          />
+          <p
+            className="text-gray-400 max-w-lg mx-auto text-sm md:text-base px-4 md:px-0"
+            style={getTextStyle(config.contact?.textColor)}
+            dangerouslySetInnerHTML={{ __html: config.contact?.text || '' }}
+          />
         </AnimatedSection>
 
         <div className="grid md:grid-cols-3 gap-5 md:gap-7 mb-16">
@@ -1531,8 +1545,8 @@ function ReservationModal({ config, onClose, initialProduct }: { config: any, on
                   >
                     <option value="">Selecione...</option>
                     {config.menuItems?.map((item: any) => (
-                      <option key={item.id} value={`${item.name} - ${item.price}`}>
-                        {item.name} - {item.price}
+                      <option key={item.id} value={`${stripHTML(item.name)} - ${item.price}`}>
+                        {stripHTML(item.name)} - {item.price}
                       </option>
                     ))}
                   </select>

@@ -6,15 +6,11 @@ import {
     VolumeX,
     Volume2,
     ShoppingCart,
-    PhoneCall,
     ArrowLeft,
     ChevronUp,
     Info,
-    UtensilsCrossed,
     X,
-    LayoutGrid,
-    ChevronDown,
-    Play
+    LayoutGrid
 } from 'lucide-react';
 
 export default function VideoDirect() {
@@ -213,8 +209,14 @@ export default function VideoDirect() {
                                 <Info className="w-6 h-6" />
                                 <span className="text-xs font-black uppercase tracking-[0.2em]">Detalhes do Prato</span>
                             </div>
-                            <h2 className="text-3xl font-black text-white">{item.name}</h2>
-                            <p className="text-gray-300 text-lg leading-relaxed italic">{item.description}</p>
+                            <h2
+                                className="text-3xl font-black text-white"
+                                dangerouslySetInnerHTML={{ __html: item.name || '' }}
+                            />
+                            <p
+                                className="text-gray-300 text-lg leading-relaxed italic"
+                                dangerouslySetInnerHTML={{ __html: item.description || '' }}
+                            />
                             <div className="bg-gold/10 p-4 rounded-2xl border border-gold/20">
                                 <span className="text-[10px] font-black text-gold uppercase tracking-widest block mb-1">Preço Sugerido</span>
                                 <span className="text-2xl font-black text-white">{item.price}</span>

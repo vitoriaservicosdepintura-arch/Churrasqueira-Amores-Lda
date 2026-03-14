@@ -260,12 +260,14 @@ export default function MenuVision() {
                                         </div>
 
                                         <div className="p-6 md:p-8 flex-1 flex flex-col">
-                                            <h3 className="text-xl md:text-2xl font-black mb-3 text-white group-hover:text-gold transition-colors duration-300">
-                                                {item.name}
-                                            </h3>
-                                            <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-1 italic">
-                                                {item.description}
-                                            </p>
+                                            <h3
+                                                className="text-xl md:text-2xl font-black mb-3 text-white group-hover:text-gold transition-colors duration-300"
+                                                dangerouslySetInnerHTML={{ __html: item.name || '' }}
+                                            />
+                                            <p
+                                                className="text-gray-400 text-sm leading-relaxed line-clamp-3 mb-6 flex-1 group-hover:text-gray-300 transition-colors"
+                                                dangerouslySetInnerHTML={{ __html: item.description || '' }}
+                                            />
 
                                             <div className="grid grid-cols-2 md:grid-cols-1 gap-3 mt-auto">
                                                 <motion.button

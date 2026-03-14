@@ -160,9 +160,8 @@ export default function DishPage() {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     className="text-4xl md:text-5xl font-black text-white leading-[1.1]"
-                                >
-                                    {item.name}
-                                </motion.h1>
+                                    dangerouslySetInnerHTML={{ __html: item.name || '' }}
+                                />
                             </div>
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.8 }}
@@ -188,9 +187,10 @@ export default function DishPage() {
                                 <h3 className="text-gold text-xs font-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
                                     <Info className="w-4 h-4" /> Sobre este Prato
                                 </h3>
-                                <p className="text-gray-300 text-lg leading-relaxed font-medium mb-6">
-                                    {item.description || "Uma seleção exclusiva de ingredientes frescos preparados com maestria na nossa brasa tradicional."}
-                                </p>
+                                <p
+                                    className="text-gray-300 text-lg leading-relaxed font-medium mb-6"
+                                    dangerouslySetInnerHTML={{ __html: item.description || "Uma seleção exclusiva de ingredientes frescos preparados com maestria na nossa brasa tradicional." }}
+                                />
 
                                 <div className="grid grid-cols-2 gap-3">
                                     {ingredients.map((ing: string, i: number) => (
