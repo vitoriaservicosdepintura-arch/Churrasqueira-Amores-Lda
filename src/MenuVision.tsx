@@ -123,14 +123,22 @@ export default function MenuVision() {
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="space-y-2"
+                        className="space-y-4"
                     >
-                        <button
-                            onClick={() => navigate('/')}
-                            className="flex items-center gap-2 text-gray-400 hover:text-gold transition-colors text-sm font-bold uppercase tracking-widest mb-4"
-                        >
-                            <ArrowLeft className="w-4 h-4" /> Voltar ao Início
-                        </button>
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={() => navigate(-1)}
+                                className="md:hidden w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white active:scale-90 transition-transform"
+                            >
+                                <ArrowLeft className="w-5 h-5" />
+                            </button>
+                            <button
+                                onClick={() => navigate('/')}
+                                className="hidden md:flex items-center gap-2 text-gray-400 hover:text-gold transition-colors text-sm font-bold uppercase tracking-widest"
+                            >
+                                <ArrowLeft className="w-4 h-4" /> Voltar ao Início
+                            </button>
+                        </div>
                         <h1 className="text-4xl md:text-6xl font-black leading-none text-white uppercase tracking-tighter">
                             MenuVision<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold via-flame to-ember drop-shadow-sm italic">360° Interactive</span>
@@ -173,10 +181,12 @@ export default function MenuVision() {
                 </div>
             </header>
 
-            <main className="relative z-20 max-w-7xl mx-auto px-6 -mt-20 pb-40">
+            <main className="relative z-20 max-w-7xl mx-auto px-6 -mt-20 pb-40 scroll-smooth touch-pan-y">
                 {filteredItems.length > 0 ? (
                     <motion.div
                         layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
                     >
                         <AnimatePresence mode="popLayout">

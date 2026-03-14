@@ -106,10 +106,22 @@ export default function VideoDirect() {
                 <div className="w-12" /> {/* Spacer */}
             </div>
 
-            {/* Interaction Layer (Mute toggle) */}
-            <div
+            {/* Interaction Layer (Mute toggle & Swipe) */}
+            <motion.div
                 className="absolute inset-0 z-10"
                 onClick={() => setMuted(!muted)}
+                drag="y"
+                dragConstraints={{ top: 0, bottom: 0 }}
+                onDragEnd={(_, info) => {
+                    if (info.offset.y < -100) {
+                        // Swipe Up - Scroll para os outros pratos
+                        const footer = document.querySelector('.bottom-0');
+                        footer?.scrollIntoView({ behavior: 'smooth' });
+                    } else if (info.offset.y > 100) {
+                        // Swipe Down - Voltar
+                        navigate(-1);
+                    }
+                }}
             >
                 <AnimatePresence>
                     {muted && (
@@ -128,7 +140,7 @@ export default function VideoDirect() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </div>
+            </motion.div>
 
             {/* Details & Menu Section (Floating Bottom) */}
             <div className="absolute bottom-0 inset-x-0 z-40 p-6 space-y-6 pb-12">
@@ -197,6 +209,6 @@ export default function VideoDirect() {
 
             {/* Bottom Safe Area */}
             <div className="h-[env(safe-area-inset-bottom)]" />
-        </div>
+        </div >
     );
 }
