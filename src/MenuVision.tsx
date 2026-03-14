@@ -161,8 +161,8 @@ export default function MenuVision() {
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
                             className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all shrink-0 border ${activeCategory === cat
-                                    ? 'bg-gradient-to-r from-gold to-flame border-transparent text-white shadow-[0_10px_20px_rgba(245,158,11,0.3)]'
-                                    : 'bg-surface/30 border-white/5 text-gray-400 hover:border-gold/20 hover:text-white'
+                                ? 'bg-gradient-to-r from-gold to-flame border-transparent text-white shadow-[0_10px_20px_rgba(245,158,11,0.3)]'
+                                : 'bg-surface/30 border-white/5 text-gray-400 hover:border-gold/20 hover:text-white'
                                 }`}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -230,7 +230,7 @@ export default function MenuVision() {
                                                 <div className="flex flex-col items-center gap-3">
                                                     <div className="w-28 h-28 bg-white rounded-2xl p-2 shadow-2xl border-2 border-gold/30">
                                                         <img
-                                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`${window.location.origin}/item/${item.id}`)}`}
+                                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=${encodeURIComponent(item.videoUrl || `${window.location.origin}/item/${item.id}`)}`}
                                                             alt="Scan QR"
                                                             className="w-full h-full object-contain"
                                                         />
