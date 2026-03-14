@@ -1781,6 +1781,16 @@ export default function App() {
       setSelectedProduct(productName && productPrice ? `${productName} - ${productPrice}` : null);
       setShowReservation(true);
     };
+
+    // Check URL for reservation param
+    const params = new URLSearchParams(window.location.search);
+    const reserveItem = params.get('reserve');
+    if (reserveItem) {
+      setSelectedProduct(reserveItem);
+      setShowReservation(true);
+      // Remove param without triggering refresh
+      window.history.replaceState({}, '', '/');
+    }
   }, []);
 
   useEffect(() => {

@@ -430,7 +430,7 @@ export default function MenuPage() {
 
                                             {item.qrCode || item.videoUrl || item.manualLink ? (
                                                 <motion.div
-                                                    className="w-24 h-24 md:w-28 md:h-28 bg-white rounded-2xl p-2 shadow-[0_0_30px_rgba(255,255,255,0.15)] border-2 border-gold/30 cursor-pointer relative z-10 shrink-0"
+                                                    className="hidden sm:block w-24 h-24 md:w-28 md:h-28 bg-white rounded-2xl p-2 shadow-[0_0_30px_rgba(255,255,255,0.15)] border-2 border-gold/30 cursor-pointer relative z-10 shrink-0"
                                                     whileHover={{ scale: 1.1, rotate: 2 }}
                                                     animate={{
                                                         boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 20px rgba(245,158,11,0.4)', '0 0 0px rgba(245,158,11,0)'],
