@@ -63,62 +63,7 @@ const DEFAULT_CONFIG = {
     text2: 'Localizada na pacata vila de Odiáxere, no coração do Algarve, somos um restaurante familiar onde a simplicidade encontra a excelência. Os nossos clientes voltam sempre — pelo frango crocante, pelas batatas fritas caseiras e pelo ambiente acolhedor.',
     image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&h=600&fit=crop&q=80'
   },
-  menuItems: [
-    {
-      id: 1,
-      name: 'Frango Churrasco',
-      description: 'O nosso frango assado na brasa, marinado com temperos tradicionais portugueses. Pele crocante e carne suculenta.',
-      price: '8,50€',
-      image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&q=80',
-      tag: '⭐ Especialidade',
-      category: 'Pratos',
-    },
-    {
-      id: 2,
-      name: 'Batatas Fritas Caseiras',
-      description: 'Cortadas à mão e fritas na hora. Simplesmente soberbas, como dizem os nossos clientes.',
-      price: '3,50€',
-      image: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=600&h=400&fit=crop&q=80',
-      tag: '❤️ Favorito',
-      category: 'Acompanhamentos',
-    },
-    {
-      id: 3,
-      name: 'Salada Especial da Casa',
-      description: 'Salada fresca com o nosso molho fabuloso que tem conquistado todos os visitantes.',
-      price: '4,00€',
-      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&q=80',
-      tag: '🥗 Saudável',
-      category: 'Acompanhamentos',
-    },
-    {
-      id: 4,
-      name: 'Frango Piri-Piri',
-      description: 'Para os amantes de picante. Grelhado com o nosso molho piri-piri artesanal e irresistível.',
-      price: '9,50€',
-      image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600&h=400&fit=crop&q=80',
-      tag: '🌶️ï¸ Picante',
-      category: 'Pratos',
-    },
-    {
-      id: 5,
-      name: 'Espetada Mista',
-      description: 'Espetada de carnes mistas grelhadas na perfeição sobre carvão ardente.',
-      price: '12,00€',
-      image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&h=400&fit=crop&q=80',
-      tag: '🔥 Premium',
-      category: 'Pratos',
-    },
-    {
-      id: 6,
-      name: 'Sangria da Casa',
-      description: 'Sangria artesanal com frutas frescas da época e vinho tinto alentejano selecionado.',
-      price: '6,00€',
-      image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&h=400&fit=crop&q=80',
-      tag: '🍷 Bebida',
-      category: 'Bebidas',
-    },
-  ],
+  menuItems: [],
 
   gallery: [
     { url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop&q=80', label: 'Os Nossos Pratos' },
@@ -220,7 +165,6 @@ const STATS = [
 const NAV_LINKS = [
   { label: 'Início', href: '#inicio' },
   { label: 'Sobre', href: '#sobre' },
-  { label: 'Menu', href: '/menu' },
   { label: 'Galeria', href: '#galeria' },
   { label: 'Críticas', href: '#criticas' },
   { label: 'Contato', href: '#contato' },
@@ -493,9 +437,9 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
           <div className="text-xl">🏠</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
         </a>
-        <a href="/menu" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
-          <div className="text-xl">🍽</div>
-          <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Menu</span>
+        <a href="#sobre" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
+          <div className="text-xl">✨</div>
+          <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Sobre</span>
         </a>
 
         {/* Central Prominent Button */}
@@ -633,7 +577,7 @@ function Hero({ config }: { config: any }) {
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            Ver Menu
+            Descobrir MenuVision
             <span className="inline-block flex items-center justify-center ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
           </motion.a>
         </motion.div>
@@ -796,10 +740,6 @@ function About({ config }: { config: any }) {
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 function Menu({ config }: { config: any }) {
-  const [activeCategory, setActiveCategory] = useState('Todos');
-  const categories = ['Todos', 'Pratos', 'Acompanhamentos', 'Bebidas'];
-  const filtered = activeCategory === 'Todos' ? config.menuItems : config.menuItems?.filter((m: any) => m.category === activeCategory);
-
   return (
     <section id="menu" className="relative py-16 md:py-32">
       {/* Subtle bg */}
@@ -808,21 +748,8 @@ function Menu({ config }: { config: any }) {
       <div className="absolute bottom-1/4 -right-40 w-80 h-80 bg-flame/4 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <AnimatedSection className="text-center mb-14">
-          <span className="inline-block px-3 py-1.5 md:px-4 md:py-1.5 bg-flame/10 border border-flame/20 rounded-full text-flame text-[10px] md:text-xs font-bold tracking-wider uppercase mb-4 md:mb-6">
-            Menu & Destaques
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-3 md:mb-4">
-            Os Nossos{' '}
-            <span className="text-gradient-fire">Pratos Estrela</span>
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-lg px-4 md:px-0">
-            Cada prato é preparado com ingredientes frescos e o amor de uma tradição familiar
-          </p>
-        </AnimatedSection>
-
         {/* NEW MENUVISION FEATURE HIGHLIGHT */}
-        <AnimatedSection className="max-w-5xl mx-auto mb-20 relative z-10 px-4 md:px-0">
+        <AnimatedSection className="max-w-5xl mx-auto relative z-10 px-4 md:px-0">
           <div className="relative glass rounded-[2.5rem] border border-gold/20 overflow-hidden shadow-[0_0_50px_rgba(245,158,11,0.15)] flex flex-col md:flex-row items-center">
             {/* Glow Background inside */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-gold/10 rounded-full blur-[80px] pointer-events-none" />
@@ -852,7 +779,7 @@ function Menu({ config }: { config: any }) {
                   </div>
                   <div>
                     <h4 className="font-bold text-white text-sm">Escaneie & Descubra</h4>
-                    <p className="text-xs text-gray-400">Aponte a incrível câmera para o QR Code de qualquer prato Estrela.</p>
+                    <p className="text-xs text-gray-400">Aponte a incredibly câmera para o QR Code de qualquer prato Estrela.</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -877,12 +804,12 @@ function Menu({ config }: { config: any }) {
 
               <div className="mt-10">
                 <motion.button
-                  onClick={() => { document.getElementById('menu-grid')?.scrollIntoView({ behavior: 'smooth' }) }}
+                  onClick={() => { (window as any).openReservationModal() }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="px-6 py-3 bg-gradient-to-r from-gold to-flame text-white font-black rounded-xl text-sm shadow-[0_10px_30px_rgba(245,158,11,0.3)] transition-all flex items-center justify-center gap-2 w-full md:w-auto"
                 >
-                  <QrCode className="w-4 h-4" /> EXPLORAR PRATOS
+                  <QrCode className="w-4 h-4" /> EXPERIMENTAR AGORA
                 </motion.button>
               </div>
             </div>
@@ -936,130 +863,6 @@ function Menu({ config }: { config: any }) {
             </div>
           </div>
         </AnimatedSection>
-
-        {/* Category filter */}
-        <AnimatedSection className="flex justify-center gap-2 mb-12 flex-wrap" id="menu-grid">
-          {categories.map((cat) => (
-            <motion.button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${activeCategory === cat
-                ? 'bg-gradient-to-r from-gold via-flame to-ember text-white shadow-lg shadow-flame/25'
-                : 'glass text-gray-400 hover:text-white hover:border-gold/20'
-                }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {cat}
-            </motion.button>
-          ))}
-        </AnimatedSection>
-
-        {/* Grid */}
-        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((item: any, i: number) => (
-              <motion.div
-                key={item.id}
-                layout
-                initial={{ opacity: 0, y: 30, scale: 0.92 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9, y: -10 }}
-                transition={{ duration: 0.45, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="group"
-              >
-                <motion.div
-                  className="glass rounded-2xl overflow-hidden hover:border-gold/20 transition-all duration-500 h-full flex flex-col"
-                  whileHover={{ y: -8 }}
-                >
-                  {/* Image */}
-                  {/* Image clickable for experience */}
-                  <div
-                    className="relative h-56 overflow-hidden cursor-pointer group"
-                    onClick={() => {
-                      if (item.videoUrl) window.location.href = `/item/${item.id}`;
-                    }}
-                  >
-                    <motion.img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-deep/80 via-deep/10 to-transparent" />
-
-                    {/* Immersive Experience Hint */}
-                    {item.videoUrl && (
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="w-14 h-14 rounded-full bg-gold/20 backdrop-blur-md border border-gold/40 flex items-center justify-center">
-                          <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-gold border-b-[8px] border-b-transparent ml-1" />
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-                    {item.tag && (
-                      <div className="absolute top-3 left-3 px-3 py-1.5 bg-deep/70 backdrop-blur-sm rounded-full text-[10px] font-bold border border-white/10 text-gold uppercase tracking-widest">
-                        {item.tag}
-                      </div>
-                    )}
-                    <motion.div
-                      className="absolute bottom-3 right-3 px-4 py-2 bg-gradient-to-r from-gold to-flame rounded-full text-base font-black shadow-lg shadow-flame/30"
-                    >
-                      {item.price}
-                    </motion.div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4 md:p-6 flex-1 flex flex-col">
-                    <h3 className="text-lg md:text-xl font-bold mb-1.5 md:mb-2 group-hover:text-gold transition-colors duration-300" style={getTextStyle(item.nameColor)}>{item.name}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed flex-1" style={getTextStyle(item.descColor)}>{item.description}</p>
-                    <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
-                      <span className="text-xs text-gray-500 font-medium">{item.category}</span>
-                      {item.qrCode || item.videoUrl || item.manualLink ? (
-                        <motion.div
-                          className="w-20 h-20 md:w-24 md:h-24 bg-white rounded-xl p-1.5 shadow-xl border-2 border-gold/20 cursor-pointer relative shrink-0"
-                          whileHover={{ scale: 1.1 }}
-                          animate={{
-                            boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 15px rgba(245,158,11,0.3)', '0 0 0px rgba(245,158,11,0)']
-                          }}
-                          transition={{ repeat: Infinity, duration: 2.5 }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (item.videoUrl) {
-                              window.location.href = `/item/${item.id}`;
-                            } else if (item.manualLink) {
-                              window.location.href = item.manualLink;
-                            }
-                          }}
-                        >
-                          <img
-                            src={item.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-                              item.videoUrl ? `${window.location.origin}/item/${item.id}` : (item.manualLink || '')
-                            )}`}
-                            alt={`QR Code ${item.name}`}
-                            className="w-full h-full object-contain"
-                          />
-                          <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-gold text-deep text-[7px] font-black px-1.5 py-0.5 rounded-full whitespace-nowrap">
-                            ESCANEAR
-                          </div>
-                        </motion.div>
-                      ) : (
-                        <motion.button
-                          onClick={() => (window as any).openReservationModal(item.name, item.price)}
-                          className="text-gold text-xs font-semibold lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center"
-                          whileHover={{ x: 3 }}
-                        >
-                          Pedir →
-                        </motion.button>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
       </div>
     </section>
   );
