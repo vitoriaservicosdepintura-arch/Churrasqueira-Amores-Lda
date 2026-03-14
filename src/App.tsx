@@ -3,7 +3,7 @@ import { supabase } from './supabase';
 import Admin from './Admin';
 import {
   Settings as SettingsIcon,
-  X, Calendar, Phone, Loader2, CheckCircle2, MessageCircle
+  X, Calendar, Phone, Loader2, CheckCircle2, MessageCircle, Sparkles, QrCode, Play, Smartphone
 } from 'lucide-react';
 import {
   motion,
@@ -821,8 +821,124 @@ function Menu({ config }: { config: any }) {
           </p>
         </AnimatedSection>
 
+        {/* NEW MENUVISION FEATURE HIGHLIGHT */}
+        <AnimatedSection className="max-w-5xl mx-auto mb-20 relative z-10 px-4 md:px-0">
+          <div className="relative glass rounded-[2.5rem] border border-gold/20 overflow-hidden shadow-[0_0_50px_rgba(245,158,11,0.15)] flex flex-col md:flex-row items-center">
+            {/* Glow Background inside */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gold/10 rounded-full blur-[80px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-flame/10 rounded-full blur-[80px] pointer-events-none" />
+
+            <div className="flex-1 p-8 md:p-12 z-10 w-full text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-gold/20 to-flame/20 border border-gold/30 rounded-full mb-6 shadow-lg shadow-gold/10">
+                <Sparkles className="w-4 h-4 text-gold" />
+                <span className="text-[10px] md:text-xs font-black text-gold uppercase tracking-widest shadow-black drop-shadow-md">
+                  Novidade Incrível
+                </span>
+              </div>
+
+              <h3 className="text-3xl md:text-5xl font-black mb-4 leading-[1.1]">
+                A Experiência <br className="hidden md:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold via-flame to-ember drop-shadow-sm">MenuVision 360°</span>
+              </h3>
+
+              <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-8 max-w-md">
+                Veja o seu prato ganhar vida antes de pedir! Escaneie o QR Code dos nossos pratos especiais e assista a vídeos imersivos em alta resolução. A nova era de escolher o seu prato chegou.
+              </p>
+
+              <div className="space-y-5">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 shadow-inner border border-white/10 flex items-center justify-center shrink-0">
+                    <QrCode className="w-5 h-5 text-gold" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Escaneie & Descubra</h4>
+                    <p className="text-xs text-gray-400">Aponte a incrível câmera para o QR Code de qualquer prato Estrela.</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 shadow-inner border border-white/10 flex items-center justify-center shrink-0">
+                    <Play className="w-5 h-5 text-flame" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Pratos em Movimento</h4>
+                    <p className="text-xs text-gray-400">Vídeos curtos mostram texturas, suculência e o preparo realçado.</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 shadow-inner border border-white/10 flex items-center justify-center shrink-0">
+                    <Smartphone className="w-5 h-5 text-ember" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Totalmente Interativo</h4>
+                    <p className="text-xs text-gray-400">Faça o seu pedido e chame o garçom com 1 clique direto na tela.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-10">
+                <motion.button
+                  onClick={() => { document.getElementById('menu-grid')?.scrollIntoView({ behavior: 'smooth' }) }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-3 bg-gradient-to-r from-gold to-flame text-white font-black rounded-xl text-sm shadow-[0_10px_30px_rgba(245,158,11,0.3)] transition-all flex items-center justify-center gap-2 w-full md:w-auto"
+                >
+                  <QrCode className="w-4 h-4" /> EXPLORAR PRATOS
+                </motion.button>
+              </div>
+            </div>
+
+            {/* Visual Phone Element */}
+            <div className="flex-1 w-full flex justify-center items-center py-8 z-10 md:justify-end md:pr-12 md:py-12">
+              <motion.div
+                className="relative w-[240px] md:w-[280px] aspect-[9/19] bg-deep border-[6px] md:border-[8px] border-deep rounded-[2.5rem] md:rounded-[3rem] shadow-[0_20px_60px_rgba(0,0,0,0.8),_inset_0_0_0_1px_rgba(255,255,255,0.1)] overflow-hidden"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                {/* Simulated Screen */}
+                <div className="w-full h-full bg-black relative">
+                  <video
+                    src={config.menuItems?.find((i: any) => i.videoUrl)?.videoUrl || ''}
+                    className="w-full h-full object-cover opacity-80"
+                    muted loop autoPlay playsInline
+                    poster="https://images.unsplash.com/photo-1544025162-8360dbcbd127?w=600&h=800&fit=crop"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50" />
+
+                  {/* Dynamic UI Overlay in mockup */}
+                  <div className="absolute top-4 left-4 right-4 flex justify-between">
+                    <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur" />
+                    <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur" />
+                  </div>
+
+                  <div className="absolute bottom-6 left-4 right-4">
+                    <div className="w-16 h-4 bg-gold/50 rounded-full mb-2" />
+                    <div className="w-32 h-6 bg-white/90 shadow-lg rounded-full mb-4" />
+                    <div className="w-full h-12 bg-gradient-to-r from-gold to-flame shadow-[0_0_15px_rgba(245,158,11,0.5)] rounded-xl" />
+                  </div>
+
+                  {/* Play Button Mockup */}
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                    animate={{ scale: [1, 1.1, 1], opacity: [0.8, 1, 0.8] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <div className="w-16 h-16 bg-gold/20 backdrop-blur-md rounded-full border border-gold/50 flex items-center justify-center">
+                      <Play className="w-6 h-6 text-gold ml-1" />
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* iPhone Notch effect */}
+                <div className="absolute top-0 inset-x-0 h-6 flex justify-center">
+                  <div className="w-32 h-full bg-deep rounded-b-2xl" />
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </AnimatedSection>
+
         {/* Category filter */}
-        <AnimatedSection className="flex justify-center gap-2 mb-12 flex-wrap">
+        <AnimatedSection className="flex justify-center gap-2 mb-12 flex-wrap" id="menu-grid">
           {categories.map((cat) => (
             <motion.button
               key={cat}
