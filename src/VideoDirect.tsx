@@ -4,6 +4,7 @@ import { supabase } from './supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     VolumeX,
+    Play,
     ShoppingCart,
     PhoneCall,
     ArrowLeft,
@@ -20,7 +21,7 @@ export default function VideoDirect() {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
-        const loadData = async () => {
+        const loadItem = async () => {
             try {
                 const { data } = await supabase
                     .from('settings')
@@ -32,7 +33,9 @@ export default function VideoDirect() {
                     setConfig(data.config);
                     if (data.config.menuItems) {
                         const found = data.config.menuItems.find((m: any) => m.id.toString() === id);
-                        if (found) setItem(found);
+                        if (found) {
+                            setItem(found);
+                        }
                     }
                 }
             } catch (err) {
@@ -41,42 +44,42 @@ export default function VideoDirect() {
                 setLoading(false);
             }
         };
-        loadData();
+        loadItem();
     }, [id]);
 
     const handleCallWaiter = (dishName?: string) => {
-        const phone = config?.contact?.phone || '351282798417';
-        const msg = `Olá! Estou vendo o vídeo do prato *${dishName || item?.name}* e gostaria de assistência na mesa.`;
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        const msg = dishName
+            ? `Olá! Estou na mesa e preciso de assistência para o prato: *${dishName}*`
+            : `Olá! Estou na mesa e gostaria de chamar um garçom.`;
+        window.open(`https://wa.me/${config?.contact?.phone || ''}?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
-    const handleOrder = (dishName?: string) => {
-        const phone = config?.contact?.phone || '351282798417';
-        const msg = `Olá! Acabei de ver o vídeo imersivo do prato *${dishName || item?.name}* e quero fazer um pedido agora!`;
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    const handleAction = (type: 'order' | 'waiter') => {
+        if (!item) return;
+        if (type === 'order') {
+            const msg = `Olá! Gostaria de pedir o prato: *${item.name}* (Via MenuVision 360°)`;
+            window.open(`https://wa.me/${config?.contact?.phone || ''}?text=${encodeURIComponent(msg)}`, '_blank');
+        } else {
+            handleCallWaiter(item.name);
+        }
     };
 
     if (loading) {
         return (
-            <div className="fixed inset-0 bg-black flex items-center justify-center">
-                <div className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin" />
+            <div className="fixed inset-0 bg-deep flex items-center justify-center">
+                <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full"
+                />
             </div>
         );
     }
 
-    if (!item || !item.videoUrl) {
-        return (
-            <div className="fixed inset-0 bg-black flex flex-col items-center justify-center p-8 text-center">
-                <h1 className="text-white text-xl font-bold mb-4">Vídeo não disponível</h1>
-                <button onClick={() => navigate('/menuvision')} className="px-6 py-3 bg-gold text-black rounded-full font-bold uppercase tracking-widest text-xs">Voltar ao Menu</button>
-            </div>
-        );
-    }
-
-    const otherItems = (config?.menuItems || []).filter((m: any) => m.id.toString() !== id).slice(0, 10);
+    if (!item) return null;
 
     return (
-        <div className="fixed inset-0 bg-black h-screen w-screen overflow-hidden font-sans select-none">
+        <div className="fixed inset-0 bg-black overflow-hidden touch-none">
             {/* Fullscreen Video Background */}
             <video
                 ref={videoRef}
@@ -120,11 +123,9 @@ export default function VideoDirect() {
                 dragConstraints={{ top: 0, bottom: 0 }}
                 onDragEnd={(_, info) => {
                     if (info.offset.y < -100) {
-                        // Swipe Up - Scroll para os outros pratos
                         const footer = document.querySelector('.bottom-0');
                         footer?.scrollIntoView({ behavior: 'smooth' });
                     } else if (info.offset.y > 100) {
-                        // Swipe Down - Voltar
                         navigate(-1);
                     }
                 }}
@@ -132,20 +133,32 @@ export default function VideoDirect() {
                 <AnimatePresence>
                     {muted && (
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="absolute top-24 inset-x-0 flex justify-center pointer-events-none z-[60]"
                         >
-                            <div className="bg-black/40 backdrop-blur-xl border border-white/20 p-8 rounded-[2rem] flex flex-col items-center gap-4">
-                                <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center border border-gold/30">
-                                    <VolumeX className="w-8 h-8 text-gold" />
-                                </div>
-                                <span className="text-white text-[10px] font-black uppercase tracking-[0.2em]">Toque para Ativar Som</span>
+                            <div className="bg-gold/20 backdrop-blur-xl border border-gold/40 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl shadow-gold/10">
+                                <div className="w-2 h-2 rounded-full bg-gold animate-pulse shadow-[0_0_100px_rgba(245,158,11,1)]" />
+                                <span className="text-white text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Cliquem para Ativar o Som</span>
                             </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Vertical Side Controls */}
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
+                    <motion.button
+                        onClick={(e) => { e.stopPropagation(); setMuted(!muted); }}
+                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 shadow-2xl ${muted ? 'bg-white/10 border border-white/20' : 'bg-gold border border-gold shadow-gold/30'}`}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        animate={muted ? { scale: [1, 1.05, 1] } : {}}
+                        transition={muted ? { repeat: Infinity, duration: 2 } : {}}
+                    >
+                        {muted ? <VolumeX className="w-6 h-6 text-white" /> : <Play className="w-6 h-6 text-black fill-black" />}
+                    </motion.button>
+                </div>
             </motion.div>
 
             {/* Details & Menu Section (Floating Bottom) */}
@@ -165,56 +178,46 @@ export default function VideoDirect() {
                     </p>
                 </motion.div>
 
-                {/* Quick Action Menus Below */}
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between text-white mb-2">
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gold">Veja Outros Pratos</span>
-                        <ChevronUp className="w-4 h-4 animate-bounce text-gray-500" />
-                    </div>
+                {/* Action Grid */}
+                <div className="grid grid-cols-2 gap-3">
+                    <motion.button
+                        onClick={() => handleAction('order')}
+                        className="bg-white text-black h-14 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 shadow-2xl active:scale-95 transition-all"
+                    >
+                        <ShoppingCart className="w-4 h-4" /> Pedir Agora
+                    </motion.button>
+                    <motion.button
+                        onClick={() => handleAction('waiter')}
+                        className="md:hidden glass border border-white/10 text-white h-14 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 shadow-2xl active:scale-95 transition-all"
+                    >
+                        <PhoneCall className="w-4 h-4 text-gold" /> Garçom
+                    </motion.button>
+                </div>
 
-                    {/* Horizontal Scroll Menu */}
-                    <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 mask-linear-right">
-                        {otherItems.map((other: any) => (
-                            <motion.button
+                {/* Other Dishes (Snap Carousel) */}
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between px-1">
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Outras Sugestões</span>
+                        <ChevronUp className="w-4 h-4 text-gray-600 animate-bounce" />
+                    </div>
+                    <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2 snap-x">
+                        {config?.menuItems?.filter((m: any) => m.id.toString() !== id && m.videoUrl).map((other: any) => (
+                            <motion.div
                                 key={other.id}
                                 onClick={() => navigate(`/v/${other.id}`)}
-                                className="flex-shrink-0 w-32 h-20 relative rounded-xl overflow-hidden border border-white/10"
+                                className="min-w-[120px] h-40 rounded-2xl overflow-hidden glass border border-white/5 snap-center relative group"
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <img src={other.image} className="w-full h-full object-cover opacity-60" />
-                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-2 text-center">
-                                    <span className="text-[8px] font-black text-white uppercase leading-tight line-clamp-2">{other.name}</span>
+                                <img src={other.image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                                <div className="absolute bottom-3 left-3 right-3 text-[8px] font-black uppercase text-white truncate leading-tight">
+                                    {other.name}
                                 </div>
-                            </motion.button>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
-
-                {/* Fixed Primary Buttons */}
-                <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
-                    <motion.button
-                        onClick={() => handleOrder()}
-                        className="h-16 bg-gradient-to-r from-gold via-flame to-ember rounded-2xl text-white font-black text-[10px] tracking-[0.2em] flex items-center justify-center gap-3 shadow-2xl shadow-flame/40"
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <ShoppingCart className="w-5 h-5 text-white" />
-                        PEDIR AGORA
-                    </motion.button>
-                    <motion.button
-                        onClick={() => handleCallWaiter()}
-                        className="md:hidden h-16 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white font-black text-[10px] tracking-[0.2em] flex items-center justify-center gap-3"
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <PhoneCall className="w-5 h-5 text-gold" />
-                        GARÇOM
-                    </motion.button>
-                </div>
             </div>
-
-            {/* Bottom Safe Area */}
-            <div className="h-[env(safe-area-inset-bottom)]" />
-        </div >
+        </div>
     );
 }

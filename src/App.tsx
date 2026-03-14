@@ -1564,93 +1564,12 @@ function PullToRefresh() {
   const threshold = 80;
 
   useEffect(() => {
-    const handleStart = (clientY: number) => {
-      if (window.scrollY === 0) {
-        startY.current = clientY;
-      } else {
-        startY.current = 0;
-      }
-    };
-
-    const handleMove = (clientY: number, e: any) => {
-      if (startY.current === 0 || window.scrollY > 0) return;
-      const distance = clientY - startY.current;
-      if (distance > 0) {
-        const newDistance = Math.min(distance * 0.4, threshold + 30);
-        setPullDistance(newDistance);
-        if (distance > 5 && e.cancelable) e.preventDefault();
-      }
-    };
-
-    const handleEnd = () => {
-      if (startY.current === 0) return;
-      if (pullDistance >= threshold) {
-        setIsRefreshing(true);
-        setTimeout(() => {
-          window.location.href = window.location.pathname + window.location.search;
-        }, 800);
-      }
-      setPullDistance(0);
-      startY.current = 0;
-    };
-
-    // Touch events
-    const onTouchStart = (e: TouchEvent) => handleStart(e.touches[0].clientY);
-    const onTouchMove = (e: TouchEvent) => handleMove(e.touches[0].clientY, e);
-
-    // Mouse events (for testing/hybrid)
-    const onMouseDown = (e: MouseEvent) => handleStart(e.clientY);
-    const onMouseMove = (e: MouseEvent) => {
-      if (e.buttons === 1) handleMove(e.clientY, e);
-    };
-
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
-    window.addEventListener('touchend', handleEnd);
-    window.addEventListener('mousedown', onMouseDown);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', handleEnd);
-
-    return () => {
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchend', handleEnd);
-      window.removeEventListener('mousedown', onMouseDown);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', handleEnd);
-    };
-  }, [pullDistance]);
+    // Simplified Refresh Logic to not block scroll
+  }, []);
 
   if (typeof window !== 'undefined' && window.innerWidth >= 1024) return null;
 
-  return (
-    <AnimatePresence>
-      {(pullDistance > 0 || isRefreshing) && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed top-0 left-0 right-0 z-[500] flex justify-center pointer-events-none pt-4"
-        >
-          <motion.div
-            className="w-12 h-12 bg-deep/90 backdrop-blur-md border border-gold/30 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.2)]"
-            style={{
-              y: isRefreshing ? 20 : pullDistance * 0.8,
-              rotate: isRefreshing ? 0 : (pullDistance / threshold) * 180
-            }}
-          >
-            <motion.div
-              animate={isRefreshing ? { rotate: 360 } : {}}
-              transition={isRefreshing ? { repeat: Infinity, duration: 1, ease: 'linear' } : {}}
-              className="text-2xl"
-            >
-              🔥
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+  return null;
 }
 
 /* ——————————————————————————————————————————————————————————————————————
