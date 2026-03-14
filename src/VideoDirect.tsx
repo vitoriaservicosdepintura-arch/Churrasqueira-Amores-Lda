@@ -10,7 +10,9 @@ import {
     ArrowLeft,
     ChevronUp,
     Info,
-    UtensilsCrossed
+    UtensilsCrossed,
+    X,
+    MessageSquare
 } from 'lucide-react';
 
 export default function VideoDirect() {
@@ -20,6 +22,8 @@ export default function VideoDirect() {
     const [item, setItem] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [muted, setMuted] = useState(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showFullInfo, setShowFullInfo] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -93,129 +97,157 @@ export default function VideoDirect() {
                 className="absolute inset-0 w-full h-full object-cover"
             />
 
-            {/* Overlays */}
-            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
+            {/* Subtle Gradient Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
 
-            {/* Top Control Bar */}
-            <div className="absolute top-0 inset-x-0 z-50 p-6 flex items-center justify-between">
+            {/* Top Bar: Back Button & Price Tag */}
+            <div className="absolute top-0 inset-x-0 z-[100] p-6 flex items-center justify-between pointer-events-none">
                 <button
-                    onClick={() => {
-                        if (window.history.length > 1) {
-                            navigate(-1);
-                        } else {
-                            navigate('/menuvision');
-                        }
-                    }}
-                    className="w-12 h-12 glass rounded-full flex items-center justify-center text-white border border-white/10 active:scale-90 active:bg-white/20 transition-all z-[100]"
+                    onClick={() => navigate(-1)}
+                    className="w-12 h-12 glass rounded-full flex items-center justify-center text-white border border-white/10 active:scale-90 pointer-events-auto backdrop-blur-xl"
                 >
                     <ArrowLeft className="w-6 h-6" />
                 </button>
-                <div className="bg-gold/20 backdrop-blur-md border border-gold/40 px-4 py-1.5 rounded-full flex items-center gap-2">
-                    <Info className="w-3 h-3 text-gold" />
-                    <span className="text-[10px] font-black text-gold uppercase tracking-[0.3em]">Sobre este Prato</span>
-                </div>
-                <div className="w-12" /> {/* Spacer */}
+
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="glass border border-gold/30 px-5 py-2.5 rounded-full flex items-center gap-3 backdrop-blur-2xl pointer-events-auto shadow-2xl"
+                >
+                    <div className="flex flex-col items-end">
+                        <span className="text-white text-[10px] font-black uppercase tracking-[0.2em] leading-none mb-1">{item.name}</span>
+                        <span className="text-gold text-lg font-black leading-none">{item.price}</span>
+                    </div>
+                </motion.div>
             </div>
 
-            {/* Interaction Layer (Mute toggle & Swipe) */}
-            <motion.div
-                className="absolute inset-0 z-10"
-                onClick={() => setMuted(!muted)}
-                drag="y"
-                dragConstraints={{ top: 0, bottom: 0 }}
-                onDragEnd={(_, info) => {
-                    if (info.offset.y < -100) {
-                        const footer = document.querySelector('.bottom-0');
-                        footer?.scrollIntoView({ behavior: 'smooth' });
-                    } else if (info.offset.y > 100) {
-                        navigate(-1);
-                    }
-                }}
-            >
+            {/* Interaction Layer */}
+            <div className="absolute inset-0 z-10" onClick={() => { if (isMenuOpen || showFullInfo) { setIsMenuOpen(false); setShowFullInfo(false); } else setMuted(!muted); }}>
                 <AnimatePresence>
-                    {muted && (
+                    {muted && !isMenuOpen && !showFullInfo && (
                         <motion.div
-                            initial={{ opacity: 0, y: -20 }}
+                            initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            className="absolute top-24 inset-x-0 flex justify-center pointer-events-none z-[60]"
+                            exit={{ opacity: 0 }}
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-4 pointer-events-none"
                         >
-                            <div className="bg-gold/20 backdrop-blur-xl border border-gold/40 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl shadow-gold/10">
-                                <div className="w-2 h-2 rounded-full bg-gold animate-pulse shadow-[0_0_100px_rgba(245,158,11,1)]" />
-                                <span className="text-white text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Cliquem para Ativar o Som</span>
+                            <div className="w-20 h-20 rounded-full bg-gold/10 backdrop-blur-md border border-gold/20 flex items-center justify-center animate-pulse">
+                                <VolumeX className="w-8 h-8 text-gold" />
                             </div>
+                            <span className="text-white/40 text-[9px] font-black uppercase tracking-[0.4em]">Toque para Som</span>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
+            {/* ℹ️ Full Description Overlay (Non-intrusive) */}
+            <AnimatePresence>
+                {showFullInfo && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        className="absolute inset-0 z-[300] flex items-center justify-center p-8 bg-black/60 backdrop-blur-xl"
+                        onClick={() => setShowFullInfo(false)}
+                    >
+                        <div className="max-w-md w-full glass p-10 rounded-[3rem] border border-white/10 shadow-2xl space-y-4" onClick={e => e.stopPropagation()}>
+                            <div className="flex items-center gap-3 text-gold mb-2">
+                                <UtensilsCrossed className="w-6 h-6" />
+                                <span className="text-xs font-black uppercase tracking-widest">Detalhes do Prato</span>
+                            </div>
+                            <h2 className="text-3xl font-black text-white">{item.name}</h2>
+                            <p className="text-gray-300 text-lg italic leading-relaxed">{item.description}</p>
+                            <button
+                                onClick={() => setShowFullInfo(false)}
+                                className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl text-white font-black text-xs uppercase tracking-widest mt-4"
+                            >
+                                Fechar
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* 🔥 Floating Animated Menu (FAB) */}
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-[400] flex flex-col items-center">
+                <AnimatePresence>
+                    {isMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 30, scale: 0.5 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 30, scale: 0.5 }}
+                            className="flex flex-col gap-4 mb-6 items-center"
+                        >
+                            {/* Info Button */}
+                            <motion.button
+                                whileTap={{ scale: 0.9 }}
+                                onClick={(e) => { e.stopPropagation(); setShowFullInfo(true); setIsMenuOpen(false); }}
+                                className="w-14 h-14 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-full flex flex-col items-center justify-center text-white"
+                            >
+                                <Info className="w-5 h-5 text-gray-400" />
+                                <span className="text-[7px] font-black uppercase mt-1">Info</span>
+                            </motion.button>
+
+                            {/* Waiter Button */}
+                            <motion.button
+                                whileTap={{ scale: 0.9 }}
+                                onClick={(e) => { e.stopPropagation(); handleAction('waiter'); }}
+                                className="w-16 h-16 bg-white/10 backdrop-blur-3xl border border-white/20 rounded-full flex flex-col items-center justify-center text-white shadow-xl"
+                            >
+                                <PhoneCall className="w-6 h-6 text-gold" />
+                                <span className="text-[8px] font-black uppercase mt-1 tracking-widest">Garçom</span>
+                            </motion.button>
+
+                            {/* Order Button - Large & Glowing */}
+                            <motion.button
+                                whileTap={{ scale: 0.95 }}
+                                onClick={(e) => { e.stopPropagation(); handleAction('order'); }}
+                                className="w-24 h-24 bg-gradient-to-br from-gold via-flame to-ember rounded-full flex flex-col items-center justify-center text-white shadow-[0_0_50px_rgba(245,158,11,0.5)] border border-white/30"
+                            >
+                                <ShoppingCart className="w-10 h-10 mb-1" />
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em]">Pedir</span>
+                            </motion.button>
                         </motion.div>
                     )}
                 </AnimatePresence>
 
-                {/* Vertical Side Controls */}
-                <div className="absolute right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
-                    <motion.button
-                        onClick={(e) => { e.stopPropagation(); setMuted(!muted); }}
-                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 shadow-2xl ${muted ? 'bg-white/10 border border-white/20' : 'bg-gold border border-gold shadow-gold/30'}`}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        animate={muted ? { scale: [1, 1.05, 1] } : {}}
-                        transition={muted ? { repeat: Infinity, duration: 2 } : {}}
-                    >
-                        {muted ? <VolumeX className="w-6 h-6 text-white" /> : <Play className="w-6 h-6 text-black fill-black" />}
-                    </motion.button>
-                </div>
-            </motion.div>
-
-            {/* Details & Menu Section (Floating Bottom) */}
-            <div className="absolute bottom-0 inset-x-0 z-40 p-6 space-y-6 pb-12">
-                {/* Product Bio */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="space-y-2"
+                {/* The Central Animated Switch */}
+                <motion.button
+                    onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
+                    animate={{
+                        scale: isMenuOpen ? 1 : [1, 1.08, 1],
+                        rotate: isMenuOpen ? 45 : 0,
+                        backgroundColor: isMenuOpen ? "#ffffff" : "#F59E0B"
+                    }}
+                    transition={{
+                        scale: { repeat: isMenuOpen ? 0 : Infinity, duration: 2.5, ease: "easeInOut" },
+                        default: { type: "spring", stiffness: 400, damping: 25 }
+                    }}
+                    className="w-20 h-20 rounded-full flex items-center justify-center shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-[410]"
                 >
-                    <div className="flex items-center gap-3">
-                        <UtensilsCrossed className="w-5 h-5 text-gold" />
-                        <h1 className="text-3xl font-black text-white drop-shadow-2xl">{item.name}</h1>
-                        <span className="bg-gold px-3 py-1 rounded-lg text-black text-[10px] font-black">{item.price}</span>
-                    </div>
-                    <p className="text-gray-300 text-sm leading-relaxed max-w-md line-clamp-2 drop-shadow-lg italic">
-                        {item.description}
-                    </p>
-                </motion.div>
+                    {isMenuOpen ? <X className="w-10 h-10 text-black" /> : <Play className="w-10 h-10 text-black fill-current ml-1" />}
+                </motion.button>
+            </div>
 
-                {/* Action Grid */}
-                <div className="grid grid-cols-2 gap-3">
-                    <motion.button
-                        onClick={() => handleAction('order')}
-                        className="bg-white text-black h-14 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 shadow-2xl active:scale-95 transition-all"
-                    >
-                        <ShoppingCart className="w-4 h-4" /> Pedir Agora
-                    </motion.button>
-                    <motion.button
-                        onClick={() => handleAction('waiter')}
-                        className="md:hidden glass border border-white/10 text-white h-14 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 shadow-2xl active:scale-95 transition-all"
-                    >
-                        <PhoneCall className="w-4 h-4 text-gold" /> Garçom
-                    </motion.button>
+            {/* ↔️ Suggestions Peek (Swipeable drawer at the very bottom) */}
+            <div className="absolute bottom-0 inset-x-0 z-[500] group pointer-events-auto">
+                <div className="flex flex-col items-center pointer-events-none pb-4">
+                    <ChevronUp className="w-5 h-5 text-white/30 animate-bounce" />
+                    <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.5em]">Mais Sugestões</span>
                 </div>
 
-                {/* Other Dishes (Snap Carousel) */}
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between px-1">
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Outras Sugestões</span>
-                        <ChevronUp className="w-4 h-4 text-gray-600 animate-bounce" />
-                    </div>
-                    <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2 snap-x">
+                <div className="h-[120px] bg-black/80 backdrop-blur-3xl border-t border-white/5 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                    <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x">
                         {config?.menuItems?.filter((m: any) => m.id.toString() !== id && m.videoUrl).map((other: any) => (
                             <motion.div
                                 key={other.id}
                                 onClick={() => navigate(`/v/${other.id}`)}
-                                className="min-w-[120px] h-40 rounded-2xl overflow-hidden glass border border-white/5 snap-center relative group"
+                                className="min-w-[120px] h-20 rounded-2xl overflow-hidden glass border border-white/5 snap-center relative"
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <img src={other.image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                                <div className="absolute bottom-3 left-3 right-3 text-[8px] font-black uppercase text-white truncate leading-tight">
-                                    {other.name}
+                                <img src={other.image} className="w-full h-full object-cover opacity-50" />
+                                <div className="absolute inset-0 flex flex-col justify-end p-3 bg-gradient-to-t from-black to-transparent">
+                                    <span className="text-[7px] font-black text-white uppercase truncate">{other.name}</span>
                                 </div>
                             </motion.div>
                         ))}
