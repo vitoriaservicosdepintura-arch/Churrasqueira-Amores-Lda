@@ -12,7 +12,8 @@ import {
     X,
     Calendar,
     Clock,
-    Users
+    Users,
+    UtensilsCrossed
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -127,16 +128,22 @@ export default function MenuVision() {
                     >
                         <div className="flex items-center gap-4">
                             <button
-                                onClick={() => navigate(-1)}
-                                className="md:hidden w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white active:scale-90 transition-transform"
+                                onClick={() => {
+                                    if (window.history.length > 1) {
+                                        navigate(-1);
+                                    } else {
+                                        navigate('/');
+                                    }
+                                }}
+                                className="md:hidden w-12 h-12 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-white active:scale-90 transition-all shadow-lg shadow-gold/5"
                             >
-                                <ArrowLeft className="w-5 h-5" />
+                                <ArrowLeft className="w-6 h-6 text-gold" />
                             </button>
                             <button
                                 onClick={() => navigate('/')}
                                 className="hidden md:flex items-center gap-2 text-gray-400 hover:text-gold transition-colors text-sm font-bold uppercase tracking-widest"
                             >
-                                <ArrowLeft className="w-4 h-4" /> Voltar ao Início
+                                <UtensilsCrossed className="w-4 h-4" /> Voltar ao Cardápio
                             </button>
                         </div>
                         <h1 className="text-4xl md:text-6xl font-black leading-none text-white uppercase tracking-tighter">

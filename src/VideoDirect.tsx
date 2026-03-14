@@ -95,8 +95,14 @@ export default function VideoDirect() {
             {/* Top Control Bar */}
             <div className="absolute top-0 inset-x-0 z-50 p-6 flex items-center justify-between">
                 <button
-                    onClick={() => navigate(-1)}
-                    className="w-12 h-12 glass rounded-full flex items-center justify-center text-white border border-white/10 active:scale-90 transition-transform"
+                    onClick={() => {
+                        if (window.history.length > 1) {
+                            navigate(-1);
+                        } else {
+                            navigate('/menuvision');
+                        }
+                    }}
+                    className="w-12 h-12 glass rounded-full flex items-center justify-center text-white border border-white/10 active:scale-90 active:bg-white/20 transition-all z-[100]"
                 >
                     <ArrowLeft className="w-6 h-6" />
                 </button>
