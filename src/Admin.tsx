@@ -1090,8 +1090,8 @@ export default function Admin({ onClose, config, onUpdate }: AdminProps) {
                             <div className="space-y-6">
                                 <div className="flex justify-between items-center bg-gold/10 border border-gold/20 p-4 rounded-2xl">
                                     <div className="flex items-center gap-3 text-gold">
-                                        <Utensils className="w-5 h-5" />
-                                        <span className="text-sm font-bold">Gestão de Menu</span>
+                                        <QrCode className="w-5 h-5" />
+                                        <span className="text-sm font-bold uppercase tracking-widest">Gestão MenuVision 360°</span>
                                     </div>
                                     <button
                                         onClick={() => {

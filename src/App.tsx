@@ -165,6 +165,7 @@ const STATS = [
 const NAV_LINKS = [
   { label: 'Início', href: '#inicio' },
   { label: 'Sobre', href: '#sobre' },
+  { label: 'MenuVision', href: '/menuvision' },
   { label: 'Galeria', href: '#galeria' },
   { label: 'Críticas', href: '#criticas' },
   { label: 'Contato', href: '#contato' },
@@ -437,9 +438,9 @@ function MobileBottomNav({ onOpenAdmin }: { onOpenAdmin: () => void }) {
           <div className="text-xl">🏠</div>
           <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Início</span>
         </a>
-        <a href="#sobre" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
-          <div className="text-xl">✨</div>
-          <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">Sobre</span>
+        <a href="/menuvision" className="flex flex-col items-center gap-1.5 text-gray-400 active:text-gold transition-colors flex-1">
+          <div className="text-xl">🍽️</div>
+          <span className="text-[9px] font-black uppercase tracking-tighter opacity-80">MenuVision</span>
         </a>
 
         {/* Central Prominent Button */}
@@ -572,12 +573,12 @@ function Hero({ config }: { config: any }) {
           </motion.button>
 
           <motion.a
-            href="#menu"
+            href="/menuvision"
             className="group px-5 py-3.5 md:px-8 md:py-4 glass rounded-full text-sm sm:text-base md:text-lg font-semibold text-white hover:bg-white/15 transition-all duration-300 text-center"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            Descobrir MenuVision
+            Abrir MenuVision
             <span className="inline-block flex items-center justify-center ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
           </motion.a>
         </motion.div>
@@ -804,7 +805,7 @@ function Menu({ config }: { config: any }) {
 
               <div className="mt-10">
                 <motion.button
-                  onClick={() => { (window as any).openReservationModal() }}
+                  onClick={() => { window.location.href = '/menuvision' }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="px-6 py-3 bg-gradient-to-r from-gold to-flame text-white font-black rounded-xl text-sm shadow-[0_10px_30px_rgba(245,158,11,0.3)] transition-all flex items-center justify-center gap-2 w-full md:w-auto"
