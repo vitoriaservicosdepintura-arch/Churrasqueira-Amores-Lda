@@ -87,7 +87,13 @@ export default function VideoDirect() {
 
     return (
         <div className="fixed inset-0 bg-black overflow-hidden touch-none select-none">
-            {/* Fullscreen Video Background */}
+            {/* Blurred Background to fill the screen */}
+            <div
+                className="absolute inset-0 w-full h-full bg-cover bg-center blur-[80px] opacity-60 scale-125"
+                style={{ backgroundImage: `url(${item.image})` }}
+            />
+
+            {/* Fullscreen Video Foreground */}
             <video
                 ref={videoRef}
                 src={item.videoUrl}
@@ -95,7 +101,7 @@ export default function VideoDirect() {
                 loop
                 muted={muted}
                 playsInline
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-contain z-0"
             />
 
             {/* Subtle Gradient Overlays */}

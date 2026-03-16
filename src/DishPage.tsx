@@ -87,6 +87,12 @@ export default function DishPage() {
 
                 {/* Visual Area - Fixed or Top Scrolled */}
                 <div className="relative w-full aspect-[9/16] md:aspect-video bg-black overflow-hidden shadow-2xl">
+                    {/* Blurred background wrapper */}
+                    <div
+                        className="absolute inset-0 w-full h-full bg-cover bg-center blur-[80px] opacity-60 scale-125"
+                        style={{ backgroundImage: `url(${item.image})` }}
+                    />
+
                     {item.videoUrl ? (
                         <video
                             ref={videoRef}
@@ -95,12 +101,12 @@ export default function DishPage() {
                             loop
                             muted={muted}
                             playsInline
-                            className="w-full h-full object-contain"
+                            className="relative z-0 w-full h-full object-contain"
                         />
                     ) : (
                         <img
                             src={item.image}
-                            className="w-full h-full object-cover"
+                            className="relative z-0 w-full h-full object-cover"
                             alt={stripHTML(item.name)}
                         />
                     )}
