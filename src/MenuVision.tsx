@@ -17,6 +17,13 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+const stripHTML = (text: any) => {
+    if (!text || typeof text !== 'string') return '';
+    const cleanText = text.replace(/<[^>]*>?/gm, '');
+    const doc = new DOMParser().parseFromString(cleanText, "text/html");
+    return doc.documentElement.textContent || '';
+};
+
 const DEFAULT_CONFIG = {
     menuItems: [],
     contact: {
@@ -65,8 +72,8 @@ export default function MenuVision() {
 
     const filteredItems = (config.menuItems || []).filter((item: any) => {
         const matchesCategory = activeCategory === 'Todos' || item.category === activeCategory;
-        const matchesSearch = (item.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (item.description || '').toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = (stripHTML(item.name)).toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (stripHTML(item.description)).toLowerCase().includes(searchTerm.toLowerCase());
         return matchesCategory && matchesSearch;
     });
 
@@ -80,7 +87,7 @@ export default function MenuVision() {
     const handleQuickOrder = (item: any) => {
         setOrderData({
             ...orderData,
-            dishName: item.name
+            dishName: stripHTML(item.name)
         });
         setIsOrderModalOpen(true);
     };
@@ -280,7 +287,7 @@ export default function MenuVision() {
                                                     Pedir Prato
                                                 </motion.button>
                                                 <motion.button
-                                                    onClick={() => handleCallWaiter(item.name)}
+                                                    onClick={() => handleCallWaiter(stripHTML(item.name))}
                                                     className="md:hidden px-4 py-3.5 bg-surface/80 border border-white/10 text-white font-black rounded-2xl text-[10px] tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-white/10 transition-all backdrop-blur-md"
                                                     whileHover={{ scale: 1.03 }}
                                                     whileTap={{ scale: 0.97 }}

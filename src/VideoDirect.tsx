@@ -13,6 +13,13 @@ import {
     LayoutGrid
 } from 'lucide-react';
 
+const stripHTML = (text: any) => {
+    if (!text || typeof text !== 'string') return '';
+    const cleanText = text.replace(/<[^>]*>?/gm, '');
+    const doc = new DOMParser().parseFromString(cleanText, "text/html");
+    return doc.documentElement.textContent || '';
+};
+
 export default function VideoDirect() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -60,7 +67,7 @@ export default function VideoDirect() {
 
     const handleOrder = () => {
         if (!item) return;
-        const msg = `Olá! Gostaria de pedir o prato: *${item.name}* (Via MenuVision 360°)`;
+        const msg = `Olá! Gostaria de pedir o prato: *${stripHTML(item.name)}* (Via MenuVision 360°)`;
         window.open(`https://wa.me/${config?.contact?.phone || ''}?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
@@ -88,7 +95,7 @@ export default function VideoDirect() {
                 loop
                 muted={muted}
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-contain"
             />
 
             {/* Subtle Gradient Overlays */}
@@ -109,7 +116,7 @@ export default function VideoDirect() {
             {/* --- NAME & PRICE PILL (Top Right) --- */}
             <div className="absolute top-6 right-6 z-[100]">
                 <div className="glass border border-gold/30 px-5 py-2.5 rounded-2xl flex flex-col items-end backdrop-blur-3xl shadow-2xl">
-                    <span className="text-white text-[10px] font-black uppercase tracking-[0.2em]">{item.name}</span>
+                    <span className="text-white text-[10px] font-black uppercase tracking-[0.2em]">{stripHTML(item.name)}</span>
                     <span className="text-gold text-lg font-black">{item.price}</span>
                 </div>
             </div>
@@ -182,7 +189,7 @@ export default function VideoDirect() {
 
                 {/* CALL WAITER (Small link below everything) */}
                 <button
-                    onClick={() => handleCallWaiter(item.name)}
+                    onClick={() => handleCallWaiter(stripHTML(item.name))}
                     className="w-full text-center py-2 text-[8px] font-black text-white/30 uppercase tracking-[0.4em] active:text-gold"
                 >
                     Chamar Garçom
@@ -261,7 +268,7 @@ export default function VideoDirect() {
                                 >
                                     <img src={other.image} className="w-full h-full object-cover opacity-50" />
                                     <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black to-transparent">
-                                        <div className="text-[9px] font-black uppercase text-white truncate">{other.name}</div>
+                                        <div className="text-[9px] font-black uppercase text-white truncate">{stripHTML(other.name)}</div>
                                         <div className="text-[8px] font-bold text-gold">{other.price}</div>
                                     </div>
                                 </motion.div>

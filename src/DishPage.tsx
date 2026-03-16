@@ -4,6 +4,13 @@ import { supabase } from './supabase';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ChefHat, Info, ShoppingCart, UtensilsCrossed, Volume2, VolumeX } from 'lucide-react';
 
+const stripHTML = (text: any) => {
+    if (!text || typeof text !== 'string') return '';
+    const cleanText = text.replace(/<[^>]*>?/gm, '');
+    const doc = new DOMParser().parseFromString(cleanText, "text/html");
+    return doc.documentElement.textContent || '';
+};
+
 export default function DishPage() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -88,13 +95,13 @@ export default function DishPage() {
                             loop
                             muted={muted}
                             playsInline
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                         />
                     ) : (
                         <img
                             src={item.image}
                             className="w-full h-full object-cover"
-                            alt={item.name}
+                            alt={stripHTML(item.name)}
                         />
                     )}
 
@@ -230,7 +237,7 @@ export default function DishPage() {
                     </button>
 
                     <button
-                        onClick={() => navigate(`/?reserve=${encodeURIComponent(`${item.name} - ${item.price}`)}`)}
+                        onClick={() => navigate(`/?reserve=${encodeURIComponent(`${stripHTML(item.name)} - ${item.price}`)}`)}
                         className="col-span-3 md:col-span-4 h-14 bg-gradient-to-r from-gold via-flame to-ember rounded-2xl text-white font-black text-sm tracking-widest shadow-[0_15px_35px_rgba(249,115,22,0.4)] active:scale-95 transition-transform flex items-center justify-center gap-3"
                     >
                         <ShoppingCart className="w-5 h-5" />
@@ -238,7 +245,7 @@ export default function DishPage() {
                     </button>
 
                     <button
-                        onClick={() => window.open(`https://wa.me/${config?.contact?.phone || ''}?text=${encodeURIComponent(`Olá, estou na mesa e gostaria de chamar um garçom para o prato: ${item.name}`)}`, '_blank')}
+                        onClick={() => window.open(`https://wa.me/${config?.contact?.phone || ''}?text=${encodeURIComponent(`Olá, estou na mesa e gostaria de chamar um garçom para o prato: ${stripHTML(item.name)}`)}`, '_blank')}
                         className="col-span-1 md:hidden flex-col h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-white active:scale-90 transition-transform backdrop-blur-md"
                     >
                         <ChefHat className="w-5 h-5 mb-0.5" />
